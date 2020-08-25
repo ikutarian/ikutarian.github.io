@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="重新系统地学习一遍 MySQL 的基础知识">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《MySQL必知必会》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2018/12/03/《MySQL必知必会》读书笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="重新系统地学习一遍 MySQL 的基础知识">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《MySQL必知必会》读书笔记">
+<meta name="twitter:description" content="重新系统地学习一遍 MySQL 的基础知识">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/03/《MySQL必知必会》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《MySQL必知必会》读书笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/03/《MySQL必知必会》读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《MySQL必知必会》读书笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-03 15:28:46" itemprop="dateCreated datePublished" datetime="2018-12-03T15:28:46+08:00">2018-12-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>重新系统地学习一遍 MySQL 的基础知识</p>
+<a id="more"></a>
+<h1 id="第-19-章-插入数据"><a href="#第-19-章-插入数据" class="headerlink" title="第 19 章 插入数据"></a>第 19 章 插入数据</h1><ul>
+<li>插入完整的行</li>
+<li>插入行的一部分</li>
+<li>插入多行</li>
+<li>插入某些查询的结果</li>
+</ul>
+<h1 id="第-20-章-更新和删除数据"><a href="#第-20-章-更新和删除数据" class="headerlink" title="第 20 章 更新和删除数据"></a>第 20 章 更新和删除数据</h1><h2 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h2><ol>
+<li>如果不是打算更新或者删除全表的话，不要忘了 <code>WHERE</code> 子句</li>
+<li>保证每个表都有主键</li>
+<li>在执行 <code>UPDATE</code> 或者 <code>DELETE</code> 之前，先用 <code>SELECT</code> 进行测试</li>
+</ol>
+<h1 id="第-21-章-创建和操纵表"><a href="#第-21-章-创建和操纵表" class="headerlink" title="第 21 章 创建和操纵表"></a>第 21 章 创建和操纵表</h1><h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><h3 id="NULL-值"><a href="#NULL-值" class="headerlink" title="NULL 值"></a>NULL 值</h3><p>在创建表时，可以指定列是否可以为空。比如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    address <span class="built_in">varchar</span>(<span class="number">50</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><code>NOT NULL</code> 说明改列不能为空，如果没有写 <code>NOT NULL</code>，默认就是 <code>NULL</code>，表示可以为空</p>
+<h3 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h3><p>主键可以使用单主键和联合主键</p>
+<p>以供应商 id 为主键</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> vendors</span><br><span class="line">(</span><br><span class="line">  vend_id      <span class="built_in">int</span>      <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  vend_name    <span class="built_in">char</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  vend_address <span class="built_in">char</span>(<span class="number">50</span>) <span class="literal">NULL</span></span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (vend_id)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+<p>订单详情表，订单号（<code>order_num</code>）和订单项 id（<code>order_item</code>）一起为联合主键</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orderitems</span><br><span class="line">(</span><br><span class="line">  order_num  <span class="built_in">int</span>          <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  order_item <span class="built_in">int</span>          <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  prod_id    <span class="built_in">char</span>(<span class="number">10</span>)     <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  quantity   <span class="built_in">int</span>          <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  item_price <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (order_num, order_item)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="AUTO-INCREMENT"><a href="#AUTO-INCREMENT" class="headerlink" title="AUTO_INCREMENT"></a>AUTO_INCREMENT</h3><p>一张表只能有一个 <code>AUTO_INCREMENT</code>，并且它必须被索引（比如成为主键）</p>
+<h3 id="指定默认值"><a href="#指定默认值" class="headerlink" title="指定默认值"></a>指定默认值</h3><p>使用 <code>DEFAULT</code>，并且只支持常量不支持函数</p>
+<h3 id="引擎类型"><a href="#引擎类型" class="headerlink" title="引擎类型"></a>引擎类型</h3><p>使用 <code>ENGINE</code> 指定。几个常见的引擎：</p>
+<ul>
+<li>InnoDB 是一个可靠的事务处理引擎，不支持全文搜索</li>
+<li>MEMORY 在功能上等同于 MyISAM。但由于数据存储在内存中，速度很快（特别适合于临时表）</li>
+<li>MyISAM 是一个性能极高的引擎，支持全文搜索，但不支持事务处理</li>
+</ul>
+<p>注意：</p>
+<ol>
+<li>引擎类型可以混用。比如这张表用 InnoDB 引擎，另外一张表用 MyISAM 引擎</li>
+<li>外键不能跨引擎</li>
+</ol>
+<h2 id="更新表"><a href="#更新表" class="headerlink" title="更新表"></a>更新表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span></span><br></pre></td></tr></table></figure>
+<h2 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span></span><br></pre></td></tr></table></figure>
+<h2 id="重命名表"><a href="#重命名表" class="headerlink" title="重命名表"></a>重命名表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RENAME</span> <span class="keyword">TABLE</span> ... <span class="keyword">TO</span> ...</span><br></pre></td></tr></table></figure>
+<h1 id="第-26-章-管理事务处理"><a href="#第-26-章-管理事务处理" class="headerlink" title="第 26 章 管理事务处理"></a>第 26 章 管理事务处理</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>维护数据库的完整性</p>
+<h2 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h2><p>并非所有的数据库引擎都支持事务</p>
+<ul>
+<li>MyISAM 不支持事务</li>
+<li>InnoDB 支持事务</li>
+</ul>
+<h2 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h2><ul>
+<li>事务 transation</li>
+<li>提交 commit</li>
+<li>回滚 rollback</li>
+<li>保存点 savepoint</li>
+</ul>
+<h2 id="哪些语句可以-rollback？"><a href="#哪些语句可以-rollback？" class="headerlink" title="哪些语句可以 rollback？"></a>哪些语句可以 rollback？</h2><p>只有这三种语句可以回滚</p>
+<ul>
+<li>INSERT</li>
+<li>UPDATE</li>
+<li>DELETE</li>
+</ul>
+<p><code>CREATE</code> 和 <code>DROP</code> 没办法回滚</p>
+<h1 id="第-27-章-全球化和本地化"><a href="#第-27-章-全球化和本地化" class="headerlink" title="第 27 章 全球化和本地化"></a>第 27 章 全球化和本地化</h1><h2 id="专有名词-1"><a href="#专有名词-1" class="headerlink" title="专有名词"></a>专有名词</h2><ul>
+<li>字符集：CHARACTER SET</li>
+<li>校对：COLLATION</li>
+</ul>
+<h2 id="为什么需要-COLLATION"><a href="#为什么需要-COLLATION" class="headerlink" title="为什么需要 COLLATION"></a>为什么需要 COLLATION</h2><p>进行排序的时候需要用到 COLLATION。比如按照字母顺序、大小写敏感等进行排序</p>
+<h2 id="查看支持的字符集和校对"><a href="#查看支持的字符集和校对" class="headerlink" title="查看支持的字符集和校对"></a>查看支持的字符集和校对</h2><p>查看支持的字符集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span>;</span><br></pre></td></tr></table></figure>
+<p>查看支持的校对</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">COLLATION</span>;</span><br></pre></td></tr></table></figure>
+<p>有的字符集有多种校对，比如 <code>latin1</code> 就有很多种校对（<code>_cs</code> 表示区分大小写，<code>_ci</code> 表示不区分大小写）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+--------------------------+----------+-----+---------+----------+---------+</span><br><span class="line">| Collation                | Charset  | Id  | Default | Compiled | Sortlen |</span><br><span class="line">+--------------------------+----------+-----+---------+----------+---------+</span><br><span class="line">| latin1_german1_ci        | latin1   |   5 |         | Yes      |       1 |</span><br><span class="line">| latin1_swedish_ci        | latin1   |   8 | Yes     | Yes      |       1 |</span><br><span class="line">| latin1_danish_ci         | latin1   |  15 |         | Yes      |       1 |</span><br><span class="line">| latin1_german2_ci        | latin1   |  31 |         | Yes      |       2 |</span><br><span class="line">| latin1_bin               | latin1   |  47 |         | Yes      |       1 |</span><br><span class="line">| latin1_general_ci        | latin1   |  48 |         | Yes      |       1 |</span><br><span class="line">| latin1_general_cs        | latin1   |  49 |         | Yes      |       1 |</span><br><span class="line">| latin1_spanish_ci        | latin1   |  94 |         | Yes      |       1 |</span><br></pre></td></tr></table></figure>
+<h2 id="查看默认的字符集和校对"><a href="#查看默认的字符集和校对" class="headerlink" title="查看默认的字符集和校对"></a>查看默认的字符集和校对</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'character%'</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">VARIABLES</span> <span class="keyword">LIKE</span> <span class="string">'collation%'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="指定字符集和校对"><a href="#指定字符集和校对" class="headerlink" title="指定字符集和校对"></a>指定字符集和校对</h2><ol start="0">
+<li>建数据库时指定</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> mmall <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>建表时指定</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable (</span><br><span class="line">  column1 <span class="built_in">INT</span>,</span><br><span class="line">  column2 <span class="built_in">VARCHAR</span>(<span class="number">10</span>)</span><br><span class="line">) <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>对列指定</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> mytable (</span><br><span class="line">  column1 <span class="built_in">INT</span>,</span><br><span class="line">  column2 <span class="built_in">VARCHAR</span>(<span class="number">10</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> latin1 <span class="keyword">COLLATE</span> latin1_general_ci</span><br><span class="line">) <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>在 SELECT 语句中某一列指定一个备用的 <code>COLLATE</code></li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> customers</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> lastname, firstname <span class="keyword">COLLATE</span> latin1_general_cs;</span><br></pre></td></tr></table></figure>
+<p>对于 <code>CHARACTER SET</code> 和 <code>COLLATE</code> 有以下规则：</p>
+<ul>
+<li>如果同时指定了 <code>CHARACTER SET</code> 和 <code>COLLATE</code>，就用这两者</li>
+<li>如果只指定 <code>CHARACTER SET</code>，就使用 <code>CHARACTER SET</code> 默认的 <code>COLLATE</code></li>
+<li>如果 <code>CHARACTER SET</code> 和 <code>COLLATE</code> 都没有指定，就使用数据库默认的 <code>CHARACTER SET</code> 和 <code>COLLATE</code></li>
+</ul>
+<h1 id="第-28-章-安全管理"><a href="#第-28-章-安全管理" class="headerlink" title="第 28 章 安全管理"></a>第 28 章 安全管理</h1><h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p>在开发环境和测试环境可以使用 root 用户，但是在生产环境绝对不能使用 root 用户</p>
+<h2 id="管理用户"><a href="#管理用户" class="headerlink" title="管理用户"></a>管理用户</h2><h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> 用户名 <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="string">'密码'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="重命名用户"><a href="#重命名用户" class="headerlink" title="重命名用户"></a>重命名用户</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RENAME</span> <span class="keyword">USER</span> 旧用户名 <span class="keyword">TO</span> 新用户名;</span><br></pre></td></tr></table></figure>
+<h2 id="删除用户和关联的权限"><a href="#删除用户和关联的权限" class="headerlink" title="删除用户和关联的权限"></a>删除用户和关联的权限</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">USER</span> 用户名;</span><br></pre></td></tr></table></figure>
+<h2 id="查看分配的权限"><a href="#查看分配的权限" class="headerlink" title="查看分配的权限"></a>查看分配的权限</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GRANTS</span> <span class="keyword">FOR</span> 用户名;</span><br></pre></td></tr></table></figure>
+<p>一个刚创建好的用户只能连接 MySQL，但是没有访问权限，因此看不到数据，也不能做任何操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW GRANTS FOR ben;</span><br><span class="line">+---------------------------------+</span><br><span class="line">| Grants for ben@%                |</span><br><span class="line">+---------------------------------+</span><br><span class="line">| GRANT USAGE ON *.* TO &apos;ben&apos;@&apos;%&apos; |</span><br><span class="line">+---------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p><code>USAGE</code> 关键字表示没有权限，后面的 <code>*.*</code> 是按照 <code>database.table</code> 格式写的，<code>*</code> 是通配符。<code>USAGE ON *.*</code> 表示对于任意的数据库和表都没有权限</p>
+<p><code>&#39;ben&#39;@&#39;%&#39;</code> 是按照 <code>user@host</code> 格式写的。如果 <code>host</code> 不指定就默认是 <code>%</code>，表示任意的 host</p>
+<h2 id="设置访问权限"><a href="#设置访问权限" class="headerlink" title="设置访问权限"></a>设置访问权限</h2><p>要设置权限，至少要给出三个信息：</p>
+<ol>
+<li>要授予的权限</li>
+<li>被授予访问权限的数据库或表</li>
+<li>用户名</li>
+</ol>
+<p>比如，给名叫 ben 的用户查询 crashcourse 数据的权限</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> crashcourse.* <span class="keyword">TO</span> ben;</span><br></pre></td></tr></table></figure>
+<h2 id="撤销权限"><a href="#撤销权限" class="headerlink" title="撤销权限"></a>撤销权限</h2><p>写法和设置访问权限一样，只需要把 <code>GRANT</code> 换成 <code>REVOKE</code>，<code>TO</code> 换成 <code>FROM</code> 即可</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REVOKE</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> crashcourse.* <span class="keyword">FROM</span> ben;</span><br></pre></td></tr></table></figure>
+<h2 id="更改密码"><a href="#更改密码" class="headerlink" title="更改密码"></a>更改密码</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> 用户名 = <span class="keyword">Password</span>(<span class="string">'新密码'</span>);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/29/《正则表达式必知必会》读书笔记/" rel="next" title="《正则表达式必知必会》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《正则表达式必知必会》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/12/无线电知识和UV-5R的使用/" rel="prev" title="无线电知识和UV-5R的使用">
+                无线电知识和UV-5R的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第-19-章-插入数据"><span class="nav-number">1.</span> <span class="nav-text">第 19 章 插入数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第-20-章-更新和删除数据"><span class="nav-number">2.</span> <span class="nav-text">第 20 章 更新和删除数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原则"><span class="nav-number">2.1.</span> <span class="nav-text">原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第-21-章-创建和操纵表"><span class="nav-number">3.</span> <span class="nav-text">第 21 章 创建和操纵表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建表"><span class="nav-number">3.1.</span> <span class="nav-text">创建表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NULL-值"><span class="nav-number">3.1.1.</span> <span class="nav-text">NULL 值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主键"><span class="nav-number">3.1.2.</span> <span class="nav-text">主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AUTO-INCREMENT"><span class="nav-number">3.1.3.</span> <span class="nav-text">AUTO_INCREMENT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定默认值"><span class="nav-number">3.1.4.</span> <span class="nav-text">指定默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引擎类型"><span class="nav-number">3.1.5.</span> <span class="nav-text">引擎类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新表"><span class="nav-number">3.2.</span> <span class="nav-text">更新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除表"><span class="nav-number">3.3.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重命名表"><span class="nav-number">3.4.</span> <span class="nav-text">重命名表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第-26-章-管理事务处理"><span class="nav-number">4.</span> <span class="nav-text">第 26 章 管理事务处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用"><span class="nav-number">4.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引擎"><span class="nav-number">4.2.</span> <span class="nav-text">引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专有名词"><span class="nav-number">4.3.</span> <span class="nav-text">专有名词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些语句可以-rollback？"><span class="nav-number">4.4.</span> <span class="nav-text">哪些语句可以 rollback？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第-27-章-全球化和本地化"><span class="nav-number">5.</span> <span class="nav-text">第 27 章 全球化和本地化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#专有名词-1"><span class="nav-number">5.1.</span> <span class="nav-text">专有名词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要-COLLATION"><span class="nav-number">5.2.</span> <span class="nav-text">为什么需要 COLLATION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看支持的字符集和校对"><span class="nav-number">5.3.</span> <span class="nav-text">查看支持的字符集和校对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看默认的字符集和校对"><span class="nav-number">5.4.</span> <span class="nav-text">查看默认的字符集和校对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定字符集和校对"><span class="nav-number">5.5.</span> <span class="nav-text">指定字符集和校对</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第-28-章-安全管理"><span class="nav-number">6.</span> <span class="nav-text">第 28 章 安全管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制"><span class="nav-number">6.1.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理用户"><span class="nav-number">6.2.</span> <span class="nav-text">管理用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用户"><span class="nav-number">6.3.</span> <span class="nav-text">创建用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重命名用户"><span class="nav-number">6.4.</span> <span class="nav-text">重命名用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户和关联的权限"><span class="nav-number">6.5.</span> <span class="nav-text">删除用户和关联的权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看分配的权限"><span class="nav-number">6.6.</span> <span class="nav-text">查看分配的权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置访问权限"><span class="nav-number">6.7.</span> <span class="nav-text">设置访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销权限"><span class="nav-number">6.8.</span> <span class="nav-text">撤销权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改密码"><span class="nav-number">6.9.</span> <span class="nav-text">更改密码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

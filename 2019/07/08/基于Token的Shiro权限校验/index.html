@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="如何用 Shiro 搭建一个基于 Token 的权限校验系统？">
+<meta name="keywords" content="SpringBoot,前后端分离,Token,Shiro,权限校验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Token的Shiro权限校验">
+<meta property="og:url" content="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="如何用 Shiro 搭建一个基于 Token 的权限校验系统？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/5bf540925c29b.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.905Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Token的Shiro权限校验">
+<meta name="twitter:description" content="如何用 Shiro 搭建一个基于 Token 的权限校验系统？">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>基于Token的Shiro权限校验 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/基于Token的Shiro权限校验/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Token的Shiro权限校验
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-08 09:49:52" itemprop="dateCreated datePublished" datetime="2019-07-08T09:49:52+08:00">2019-07-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Shiro/" itemprop="url" rel="index"><span itemprop="name">Shiro</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如何用 Shiro 搭建一个基于 Token 的权限校验系统？</p>
+<a id="more"></a>
+<h1 id="Shiro的架构"><a href="#Shiro的架构" class="headerlink" title="Shiro的架构"></a>Shiro的架构</h1><img src="/2019/07/08/基于Token的Shiro权限校验/1.png">
+<ul>
+<li><code>Authentication</code>：身份验证，检测用户的账号密码是否正确</li>
+<li><code>Authorization</code>：权限验证，验证用户是否有某一个角色/权限</li>
+</ul>
+<h1 id="Shiro的组件"><a href="#Shiro的组件" class="headerlink" title="Shiro的组件"></a>Shiro的组件</h1><img src="/2019/07/08/基于Token的Shiro权限校验/5bf540925c29b.png">
+<ul>
+<li><code>SecurityManager</code>：安全管理器，即所有跟安全有关的操作都会与 <code>SecurityManager</code> 交互。且它管理者所有 <code>Subject</code>。它是 Shiro 的核心</li>
+<li><code>Subject</code>：主体，代表了当前的“用户”，所有 <code>Subject</code> 都绑定到 <code>SecurityManager</code></li>
+<li><code>Realm</code>：Shiro 从 <code>Realm</code> 中获取安全数据（如用户、角色、权限），就是说 <code>SecurityManager</code> 如果要验证用户的身份或者角色/权限，那么它需要从 <code>Realm</code> 中获取相应用户进行校验。可以把 <code>Realm</code> 看成是 DataSource。<code>Reaml</code> 需要由用户自己实现</li>
+</ul>
+<h1 id="用-Shiro-搭建一个基于-Token-的权限校验系统"><a href="#用-Shiro-搭建一个基于-Token-的权限校验系统" class="headerlink" title="用 Shiro 搭建一个基于 Token 的权限校验系统"></a>用 Shiro 搭建一个基于 Token 的权限校验系统</h1><h2 id="身份令牌"><a href="#身份令牌" class="headerlink" title="身份令牌"></a>身份令牌</h2><p>身份验证，即在应用中谁能证明他就是他的本人。在我们搭建的基于 Token 的认证系统当中，身份验证标识当然是根据一定规则生成的 Token 了。我们定义 <code>OAuth2Token</code>，让它实现 <code>org.apache.shiro.authc.AuthenticationToken</code> 接口</p>
+<p>接口提供了两个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AuthenticationToken</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用于获得主体的标识属性，可以是用户名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Object <span class="title">getPrincipal</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用于获得证明/凭证，如密码、证书等</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Object <span class="title">getCredentials</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Shiro 有一个默认的接口实现 <code>UsernamePasswordToken</code>，它将用户名当做是标识属性，密码当做是凭证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UsernamePasswordToken</span> <span class="keyword">implements</span> <span class="title">HostAuthenticationToken</span>, <span class="title">RememberMeAuthenticationToken</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getPrincipal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getUsername();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getCredentials</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getPassword();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 省略...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们要实现的是基于 Token 的校验，自定义的 <code>AuthenticationToken</code> 实现如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.modules.sys.oauth2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OAuth2Token</span> <span class="keyword">implements</span> <span class="title">AuthenticationToken</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String token;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">OAuth2Token</span><span class="params">(String token)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.token = token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPrincipal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getCredentials</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自定义-Reaml"><a href="#自定义-Reaml" class="headerlink" title="自定义 Reaml"></a>自定义 Reaml</h2><p><code>Realm</code> 用来提供安全数据源，即校验用户身份验证是否通过，以及提供该用户相应的角色和权限的数据。注意，校验用户是否有正确的权限不是有 <code>Realm</code> 来处理，<code>Realm</code> 是负责提供数据，而交给 <code>SecurityManager</code> 来处理</p>
+<p>自定义一个继承 <code>org.apache.shiro.realm.AuthorizingRealm</code> 的类，并重写 <code>doGetAuthorizationInfo</code> 和 <code>doGetAuthenticationInfo</code> 方法。还要重写 <code>supports</code> 方法，该方法的返回值（True、False）表明是否支持处理传入的 <code>AuthenticationToken</code> 类型的令牌</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.modules.sys.oauth2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.entity.SysUserEntity;</span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.entity.SysUserTokenEntity;</span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.service.ShiroService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.SimpleAuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OAuth2Realm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ShiroService shiroService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">supports</span><span class="params">(AuthenticationToken token)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 只支持OAuth2Token令牌类型</span></span><br><span class="line">        <span class="keyword">return</span> token <span class="keyword">instanceof</span> OAuth2Token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 授权(验证权限时调用)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principals)</span> </span>&#123;</span><br><span class="line">        SysUserEntity user = (SysUserEntity)principals.getPrimaryPrincipal();</span><br><span class="line">        Long userId = user.getUserId();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//用户权限列表</span></span><br><span class="line">        Set&lt;String&gt; permsSet = shiroService.getUserPermissions(userId);</span><br><span class="line"></span><br><span class="line">        SimpleAuthorizationInfo info = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">        info.setStringPermissions(permsSet);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 认证(登录时调用)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        String accessToken = (String) token.getPrincipal();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据accessToken，从数据库查询用户信息</span></span><br><span class="line">        SysUserTokenEntity tokenEntity = shiroService.queryByToken(accessToken);</span><br><span class="line">        <span class="comment">// token失效</span></span><br><span class="line">        <span class="keyword">if</span>(tokenEntity == <span class="keyword">null</span> || tokenEntity.getExpireTime().getTime() &lt; System.currentTimeMillis())&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IncorrectCredentialsException(<span class="string">"token失效，请重新登录"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 查询用户信息</span></span><br><span class="line">        SysUserEntity user = shiroService.queryUser(tokenEntity.getUserId());</span><br><span class="line">        <span class="comment">// 账号锁定</span></span><br><span class="line">        <span class="keyword">if</span>(user.getStatus() == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> LockedAccountException(<span class="string">"账号已被锁定,请联系管理员"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        SimpleAuthenticationInfo info = <span class="keyword">new</span> SimpleAuthenticationInfo(user, accessToken, getName());</span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="自定义-Filter"><a href="#自定义-Filter" class="headerlink" title="自定义 Filter"></a>自定义 Filter</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.modules.sys.oauth2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.gson.Gson;</span><br><span class="line"><span class="keyword">import</span> io.renren.common.utils.HttpContextUtils;</span><br><span class="line"><span class="keyword">import</span> io.renren.common.utils.R;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.StringUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.web.filter.authc.AuthenticatingFilter;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletResponse;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * oauth2过滤器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OAuth2Filter</span> <span class="keyword">extends</span> <span class="title">AuthenticatingFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationToken <span class="title">createToken</span><span class="params">(ServletRequest request, ServletResponse response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取请求token</span></span><br><span class="line">        String token = getRequestToken(request);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 没有token就返回null</span></span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isBlank(token))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 否则创建一个OAuth2Token对象并返回</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> OAuth2Token(token);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isAccessAllowed</span><span class="params">(ServletRequest request, ServletResponse response, Object mappedValue)</span> </span>&#123;</span><br><span class="line">        HttpServletRequest httpRequest = (HttpServletRequest) request;</span><br><span class="line">        <span class="comment">// 如果是跨域请求时用到的HTTP OPTIONS请求，那就就放过，否则需要进行权限校验</span></span><br><span class="line">        <span class="comment">// 如果返回false，就会调用onAccessDenied方法</span></span><br><span class="line">        <span class="keyword">return</span> httpRequest.getMethod().equals(RequestMethod.OPTIONS.name());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * isAccessAllowed返回false时，会调用这个方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAccessDenied</span><span class="params">(ServletRequest request, ServletResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 获取请求token</span></span><br><span class="line">        String token = getRequestToken(request);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果token不存在，那就告知前端发生了401错误</span></span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isBlank(token))&#123;</span><br><span class="line">            HttpServletResponse httpResponse = (HttpServletResponse) response;</span><br><span class="line">            httpResponse.setHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br><span class="line">            httpResponse.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, HttpContextUtils.getOrigin());</span><br><span class="line"></span><br><span class="line">            String json = <span class="keyword">new</span> Gson().toJson(R.error(HttpStatus.SC_UNAUTHORIZED, <span class="string">"invalid token"</span>));</span><br><span class="line">            httpResponse.getWriter().print(json);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 去执行subject.login(token)的登陆逻辑，subject.login(token)会去调用自定义Ream的doGetAuthenticationInfo方法</span></span><br><span class="line">        <span class="keyword">return</span> executeLogin(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * subject.login(token)失败的时候，会调用这个方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onLoginFailure</span><span class="params">(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response)</span> </span>&#123;</span><br><span class="line">        HttpServletResponse httpResponse = (HttpServletResponse) response;</span><br><span class="line">        httpResponse.setContentType(<span class="string">"application/json;charset=utf-8"</span>);</span><br><span class="line">        httpResponse.setHeader(<span class="string">"Access-Control-Allow-Credentials"</span>, <span class="string">"true"</span>);</span><br><span class="line">        httpResponse.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, HttpContextUtils.getOrigin());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 给前端返回登陆失败的具体信息</span></span><br><span class="line">            Throwable throwable = e.getCause() == <span class="keyword">null</span> ? e : e.getCause();</span><br><span class="line">            R r = R.error(HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());</span><br><span class="line">            String json = <span class="keyword">new</span> Gson().toJson(r);</span><br><span class="line">            httpResponse.getWriter().print(json);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e1) &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// token的参数名称</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOKEN_NAME = <span class="string">"token"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取请求的token</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getRequestToken</span><span class="params">(ServletRequest request)</span></span>&#123;</span><br><span class="line">        HttpServletRequest httpRequest = (HttpServletRequest) request;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从header中获取token</span></span><br><span class="line">        String token = httpRequest.getHeader(TOKEN_NAME);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果header中不存在token，则从参数中获取token</span></span><br><span class="line">        <span class="keyword">if</span>(StringUtils.isBlank(token))&#123;</span><br><span class="line">            token = httpRequest.getParameter(TOKEN_NAME);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> token;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="与-SpringBoot-集成"><a href="#与-SpringBoot-集成" class="headerlink" title="与 SpringBoot 集成"></a>与 SpringBoot 集成</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.oauth2.OAuth2Filter;</span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.oauth2.OAuth2Realm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.spring.LifecycleBeanPostProcessor;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.spring.web.ShiroFilterFactoryBean;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.web.mgt.DefaultWebSecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.Filter;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shiro配置</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成DefaultWebSecurityManager bean，并设置我们自定义的Realm</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> oAuth2Realm Spring将会自动注入MyRealm类，因为我们给它加了<span class="doctag">@Component</span>注解</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(<span class="string">"securityManager"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> SecurityManager <span class="title">securityManager</span><span class="params">(OAuth2Realm oAuth2Realm)</span> </span>&#123;</span><br><span class="line">        DefaultWebSecurityManager securityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line">        securityManager.setRealm(oAuth2Realm);</span><br><span class="line">        securityManager.setRememberMeManager(<span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">return</span> securityManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 注入ShiroFilter，配置过滤的URL规则</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span>(<span class="string">"shiroFilter"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">shirFilter</span><span class="params">(SecurityManager securityManager)</span> </span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean shiroFilter = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line">        shiroFilter.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加OAuth2Filter过滤器且命名为oauth2</span></span><br><span class="line">        Map&lt;String, Filter&gt; filters = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        filters.put(<span class="string">"oauth2"</span>, <span class="keyword">new</span> OAuth2Filter());</span><br><span class="line">        shiroFilter.setFilters(filters);</span><br><span class="line"></span><br><span class="line">        Map&lt;String, String&gt; filterMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">        filterMap.put(<span class="string">"/webjars/**"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/druid/**"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/app/**"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/sys/login"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/swagger/**"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/v2/api-docs"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/swagger-ui.html"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/swagger-resources/**"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/captcha.jpg"</span>, <span class="string">"anon"</span>);</span><br><span class="line">        filterMap.put(<span class="string">"/**"</span>, <span class="string">"oauth2"</span>);</span><br><span class="line">        shiroFilter.setFilterChainDefinitionMap(filterMap);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> shiroFilter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --------- 开启Shiro的注解功能  -------------</span></span><br><span class="line">    <span class="meta">@Bean</span>(<span class="string">"lifecycleBeanPostProcessor"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> LifecycleBeanPostProcessor <span class="title">lifecycleBeanPostProcessor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LifecycleBeanPostProcessor();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AuthorizationAttributeSourceAdvisor <span class="title">authorizationAttributeSourceAdvisor</span><span class="params">(SecurityManager securityManager)</span> </span>&#123;</span><br><span class="line">        AuthorizationAttributeSourceAdvisor advisor = <span class="keyword">new</span> AuthorizationAttributeSourceAdvisor();</span><br><span class="line">        advisor.setSecurityManager(securityManager);</span><br><span class="line">        <span class="keyword">return</span> advisor;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// --------- 开启Shiro的注解功能  -------------</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="API接口权限控制"><a href="#API接口权限控制" class="headerlink" title="API接口权限控制"></a>API接口权限控制</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.modules.sys.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.renren.common.utils.PageUtils;</span><br><span class="line"><span class="keyword">import</span> io.renren.common.utils.R;</span><br><span class="line"><span class="keyword">import</span> io.renren.modules.sys.service.SysLogService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.annotation.RequiresPermissions;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ResponseBody;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 系统日志</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"sys/log"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SysLogController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> SysLogService sysLogService;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 列表</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"list"</span>)</span><br><span class="line">	<span class="meta">@RequiresPermissions</span>(<span class="string">"sys:log:list"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> R <span class="title">list</span><span class="params">(@RequestParam Map&lt;String, Object&gt; params)</span></span>&#123;</span><br><span class="line">		PageUtils page = sysLogService.queryPage(params);</span><br><span class="line">		<span class="keyword">return</span> R.ok().put(<span class="string">"page"</span>, page);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>@RequiresPermissions(&quot;sys:log:list&quot;)</code> 来校验用户是否有权限调用这个接口</p>
+<h2 id="捕捉Shiro的异常"><a href="#捕捉Shiro的异常" class="headerlink" title="捕捉Shiro的异常"></a>捕捉Shiro的异常</h2><p>在全局异常处理器中进行处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io.renren.common.exception;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.renren.common.utils.R;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationException;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 异常处理器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RRExceptionHandler</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">	<span class="meta">@ExceptionHandler</span>(AuthorizationException.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> R <span class="title">handleAuthorizationException</span><span class="params">(AuthorizationException e)</span></span>&#123;</span><br><span class="line">		logger.error(e.getMessage(), e);</span><br><span class="line">		<span class="keyword">return</span> R.error(<span class="string">"没有权限，请联系管理员授权"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+            <a href="/tags/前后端分离/" rel="tag"># 前后端分离</a>
+          
+            <a href="/tags/Token/" rel="tag"># Token</a>
+          
+            <a href="/tags/Shiro/" rel="tag"># Shiro</a>
+          
+            <a href="/tags/权限校验/" rel="tag"># 权限校验</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/05/MyBatis-Plus使用总结/" rel="next" title="MyBatis-Plus使用总结">
+                <i class="fa fa-chevron-left"></i> MyBatis-Plus使用总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/10/Nginx中location与proxy-pass的匹配规则/" rel="prev" title="Nginx中location与proxy_pass的匹配规则">
+                Nginx中location与proxy_pass的匹配规则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Shiro的架构"><span class="nav-number">1.</span> <span class="nav-text">Shiro的架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shiro的组件"><span class="nav-number">2.</span> <span class="nav-text">Shiro的组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用-Shiro-搭建一个基于-Token-的权限校验系统"><span class="nav-number">3.</span> <span class="nav-text">用 Shiro 搭建一个基于 Token 的权限校验系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#身份令牌"><span class="nav-number">3.1.</span> <span class="nav-text">身份令牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义-Reaml"><span class="nav-number">3.2.</span> <span class="nav-text">自定义 Reaml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义-Filter"><span class="nav-number">3.3.</span> <span class="nav-text">自定义 Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与-SpringBoot-集成"><span class="nav-number">3.4.</span> <span class="nav-text">与 SpringBoot 集成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">4.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API接口权限控制"><span class="nav-number">4.1.</span> <span class="nav-text">API接口权限控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#捕捉Shiro的异常"><span class="nav-number">4.2.</span> <span class="nav-text">捕捉Shiro的异常</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

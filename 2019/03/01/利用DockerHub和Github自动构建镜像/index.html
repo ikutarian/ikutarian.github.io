@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本地写好一份 Dockerfile，然后上传到 Github。DockerHub 会根据上传的 Dockerfile 自动构建镜像">
+<meta name="keywords" content="Docker,Dockerfile,DockerHub,Github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用DockerHub和Github自动构建镜像">
+<meta property="og:url" content="http://yoursite.com/2019/03/01/利用DockerHub和Github自动构建镜像/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="本地写好一份 Dockerfile，然后上传到 Github。DockerHub 会根据上传的 Dockerfile 自动构建镜像">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/03/01/利用DockerHub和Github自动构建镜像/Snipaste_2019-03-01_10-34-26.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.886Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用DockerHub和Github自动构建镜像">
+<meta name="twitter:description" content="本地写好一份 Dockerfile，然后上传到 Github。DockerHub 会根据上传的 Dockerfile 自动构建镜像">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/01/利用DockerHub和Github自动构建镜像/Snipaste_2019-03-01_10-34-26.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/01/利用DockerHub和Github自动构建镜像/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>利用DockerHub和Github自动构建镜像 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/利用DockerHub和Github自动构建镜像/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用DockerHub和Github自动构建镜像
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-01 10:25:30" itemprop="dateCreated datePublished" datetime="2019-03-01T10:25:30+08:00">2019-03-01</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本地写好一份 Dockerfile，然后上传到 Github。DockerHub 会根据上传的 Dockerfile 自动构建镜像</p>
+<a id="more"></a>
+<p>我写好一份 Dockerfile，然后上传到 Github 的<a href="https://github.com/ikutarian/docker_repo" target="_blank" rel="noopener">仓库</a>，目录结构是这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├─ README.md</span><br><span class="line">│</span><br><span class="line">└─ aliyun_ubuntu/</span><br><span class="line">    ├─  Dockerfile</span><br><span class="line">    └─ sources.list</span><br></pre></td></tr></table></figure>
+<p>然后在 DockerHub 新建一个 Repository，取名为 <code>ikutarian/aliyun_ubuntu</code>，并创建构建脚本</p>
+<img src="/2019/03/01/利用DockerHub和Github自动构建镜像/Snipaste_2019-03-01_10-34-26.png">
+<p>根据 Github 仓库的目录结构，Dockerfile 在 <code>aliyun_ubuntu</code> 文件夹里， 所以 <code>Build Context</code> 要写成 <code>/aliyun_ubuntu/</code>。至于 <code>Dockerfile location</code> 的值，按照文档的说法</p>
+<blockquote>
+<p>Path from the repository root to the files to build. The Dockerfile location is relative to this path</p>
+</blockquote>
+<p>也就是说 <code>Dockerfile location</code> 是相对 <code>Build Context</code> 路径来查找的。如果你的 Dockerfile 文件名没有改的话，默认就写 <code>Dockerfile</code></p>
+<p>填写完毕之后就开始构建</p>
+<p>可以查看构建的 Log，比如我的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">Building in Docker Cloud&apos;s infrastructure...</span><br><span class="line">Cloning into &apos;.&apos;...</span><br><span class="line">Warning: Permanently added the RSA host key for IP address &apos;192.30.253.112&apos; to the list of known hosts.</span><br><span class="line">Reset branch &apos;master&apos;</span><br><span class="line">Your branch is up-to-date with &apos;origin/master&apos;.</span><br><span class="line">KernelVersion: 4.4.0-1060-aws</span><br><span class="line">Components: [&#123;u&apos;Version&apos;: u&apos;18.03.1-ee-3&apos;, u&apos;Name&apos;: u&apos;Engine&apos;, u&apos;Details&apos;: &#123;u&apos;KernelVersion&apos;: u&apos;4.4.0-1060-aws&apos;, u&apos;Os&apos;: u&apos;linux&apos;, u&apos;BuildTime&apos;: u&apos;2018-08-30T18:42:30.000000000+00:00&apos;, u&apos;ApiVersion&apos;: u&apos;1.37&apos;, u&apos;MinAPIVersion&apos;: u&apos;1.12&apos;, u&apos;GitCommit&apos;: u&apos;b9a5c95&apos;, u&apos;Arch&apos;: u&apos;amd64&apos;, u&apos;Experimental&apos;: u&apos;false&apos;, u&apos;GoVersion&apos;: u&apos;go1.10.2&apos;&#125;&#125;]</span><br><span class="line">Arch: amd64</span><br><span class="line">BuildTime: 2018-08-30T18:42:30.000000000+00:00</span><br><span class="line">ApiVersion: 1.37</span><br><span class="line">Platform: &#123;u&apos;Name&apos;: u&apos;&apos;&#125;</span><br><span class="line">Version: 18.03.1-ee-3</span><br><span class="line">MinAPIVersion: 1.12</span><br><span class="line">GitCommit: b9a5c95</span><br><span class="line">Os: linux</span><br><span class="line">GoVersion: go1.10.2</span><br><span class="line">Starting build of index.docker.io/ikutarian/aliyun_ubuntu:latest...</span><br><span class="line">Step 1/4 : FROM ubuntu:16.04</span><br><span class="line">---&gt; 7e87e2b3bf7a</span><br><span class="line">Step 2/4 : RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">---&gt; Running in b2aa14f7a9c4</span><br><span class="line">Removing intermediate container b2aa14f7a9c4</span><br><span class="line">---&gt; f11911c81be9</span><br><span class="line">Step 3/4 : COPY sources.list /etc/apt/sources.list</span><br><span class="line">---&gt; 7b450ef519d8</span><br><span class="line">Step 4/4 : RUN apt-get update</span><br><span class="line">---&gt; Running in da9e1409463f</span><br><span class="line">Get:1 http://mirrors.aliyun.com/ubuntu xenial InRelease [247 kB]</span><br><span class="line">Get:2 http://mirrors.aliyun.com/ubuntu xenial-updates InRelease [109 kB]</span><br><span class="line">Get:3 http://mirrors.aliyun.com/ubuntu xenial-backports InRelease [107 kB]</span><br><span class="line">Get:4 http://mirrors.aliyun.com/ubuntu xenial-security InRelease [109 kB]</span><br><span class="line">Get:5 http://mirrors.aliyun.com/ubuntu xenial/main amd64 Packages [1558 kB]</span><br><span class="line">Get:6 http://mirrors.aliyun.com/ubuntu xenial/restricted amd64 Packages [14.1 kB]</span><br><span class="line">Get:7 http://mirrors.aliyun.com/ubuntu xenial/universe amd64 Packages [9827 kB]</span><br><span class="line">Get:8 http://mirrors.aliyun.com/ubuntu xenial/multiverse amd64 Packages [176 kB]</span><br><span class="line">Get:9 http://mirrors.aliyun.com/ubuntu xenial-updates/main amd64 Packages [1180 kB]</span><br><span class="line">Get:10 http://mirrors.aliyun.com/ubuntu xenial-updates/restricted amd64 Packages [13.1 kB]</span><br><span class="line">Get:11 http://mirrors.aliyun.com/ubuntu xenial-updates/universe amd64 Packages [944 kB]</span><br><span class="line">Get:12 http://mirrors.aliyun.com/ubuntu xenial-updates/multiverse amd64 Packages [19.1 kB]</span><br><span class="line">Get:13 http://mirrors.aliyun.com/ubuntu xenial-backports/main amd64 Packages [7942 B]</span><br><span class="line">Get:14 http://mirrors.aliyun.com/ubuntu xenial-backports/universe amd64 Packages [8532 B]</span><br><span class="line">Get:15 http://mirrors.aliyun.com/ubuntu xenial-security/main amd64 Packages [786 kB]</span><br><span class="line">Get:16 http://mirrors.aliyun.com/ubuntu xenial-security/restricted amd64 Packages [12.7 kB]</span><br><span class="line">Get:17 http://mirrors.aliyun.com/ubuntu xenial-security/universe amd64 Packages [541 kB]</span><br><span class="line">Get:18 http://mirrors.aliyun.com/ubuntu xenial-security/multiverse amd64 Packages [6116 B]</span><br><span class="line">Fetched 15.7 MB in 9s (1732 kB/s)</span><br><span class="line">Reading package lists...</span><br><span class="line">Removing intermediate container da9e1409463f</span><br><span class="line">---&gt; b6493b2ebb97</span><br><span class="line">Successfully built b6493b2ebb97</span><br><span class="line">Successfully tagged ikutarian/aliyun_ubuntu:latest</span><br><span class="line">Pushing index.docker.io/ikutarian/aliyun_ubuntu:latest...</span><br><span class="line">Done!</span><br><span class="line">Build finished</span><br></pre></td></tr></table></figure>
+<p>可以看到构建已经成功了</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/Dockerfile/" rel="tag"># Dockerfile</a>
+          
+            <a href="/tags/DockerHub/" rel="tag"># DockerHub</a>
+          
+            <a href="/tags/Github/" rel="tag"># Github</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/27/如何调试Dockerfile/" rel="next" title="如何调试Dockerfile">
+                <i class="fa fa-chevron-left"></i> 如何调试Dockerfile
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/06/《系统学习Docker，践行DevOps理念》学习笔记/" rel="prev" title="《系统学习Docker，践行DevOps理念》学习笔记">
+                《系统学习Docker，践行DevOps理念》学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

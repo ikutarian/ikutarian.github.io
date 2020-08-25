@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一个文章发布网站，可以对文章进行一些操作：  发布 投票 按照时间排序得到文章列表 按照投票进行排序得到文章列表 分组">
+<meta name="keywords" content="Redis,hash,set,zset,投票,排序,分组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Redis实现一个文章投票、排序、发布、分组系统">
+<meta property="og:url" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="一个文章发布网站，可以对文章进行一些操作：  发布 投票 按照时间排序得到文章列表 按照投票进行排序得到文章列表 分组">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-23-01.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-26-51.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-37-06.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-40-01.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-15_09-50-44.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用Redis实现一个文章投票、排序、发布、分组系统">
+<meta name="twitter:description" content="一个文章发布网站，可以对文章进行一些操作：  发布 投票 按照时间排序得到文章列表 按照投票进行排序得到文章列表 分组">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-23-01.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>用Redis实现一个文章投票、排序、发布、分组系统 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用Redis实现一个文章投票、排序、发布、分组系统
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-15 10:09:48" itemprop="dateCreated datePublished" datetime="2019-04-15T10:09:48+08:00">2019-04-15</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一个文章发布网站，可以对文章进行一些操作：</p>
+<ol>
+<li>发布</li>
+<li>投票</li>
+<li>按照时间排序得到文章列表</li>
+<li>按照投票进行排序得到文章列表</li>
+<li>分组</li>
+</ol>
+<a id="more"></a>
+<p>文章可以投票，规则是：如果一篇文章有 200 个以上的赞，就是一个好文章；并且网站首页每天会列出最新的 50 篇的好文章</p>
+<p>为了能得到一个随着时间流逝而不断减少的评分，文章的评分标准就有 2 个维度：赞的个数、发布时间。具体的计算方法为：将文章的赞的数目乘以一个常量，然后加上文章的发布时间，得出的结果就是文章的评分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">评分 = 赞的个数 * 常量 + 发布时间</span><br></pre></td></tr></table></figure>
+<p>使用时间戳来计算文章的发布时间，常量设置为 432。这个常量是将 1 天的秒数（60 <em> 60 </em> 24 = 86400）除以好文章需要的赞的数目（200）得到的。文章每获取一个赞，程序就需要将文章的评分加上 432 分。并且只有发布时间之后的一周内才可以进行评分，超时就不能评分了</p>
+<p>这种需求可以利用 Redis 来实现</p>
+<h1 id="Redis是什么"><a href="#Redis是什么" class="headerlink" title="Redis是什么"></a>Redis是什么</h1><p>速度非常快的非关系型数据库，可以存储键（key）与 5 种不同类型的值（value）之间的映射（mapping）</p>
+<h1 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h1><p>键（key）都是字符串，值（value）的 5 种类型的值如下：</p>
+<ol>
+<li>字符串</li>
+<li>列表</li>
+<li>哈希</li>
+<li>集合</li>
+<li>有序集合</li>
+</ol>
+<p>所以映射关系如下：</p>
+<ol>
+<li>string: string</li>
+<li>string: list</li>
+<li>string: hash</li>
+<li>string: set</li>
+<li>string: zset</li>
+</ol>
+<h1 id="使用的数据结构"><a href="#使用的数据结构" class="headerlink" title="使用的数据结构"></a>使用的数据结构</h1><h2 id="文章信息"><a href="#文章信息" class="headerlink" title="文章信息"></a>文章信息</h2><p>使用 hash 来存储文章信息。比如一个 ID 为 <code>92617</code> 的文章，如图</p>
+<img src="/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-23-01.png">
+<p>操作指令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset article:92617 title &quot;Go to statement considered harmful&quot;</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset article:92617 link &quot;http://goo.gl/kZUSu&quot;</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset article:92617 poster user:83271</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset article:92617 time 1331382699.33</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hset article:92617 votes 528</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hgetall article:92617</span><br><span class="line"> 1) &quot;title&quot;</span><br><span class="line"> 2) &quot;Go to statement considered harmful&quot;</span><br><span class="line"> 3) &quot;link&quot;</span><br><span class="line"> 4) &quot;http://goo.gl/kZUSu&quot;</span><br><span class="line"> 5) &quot;poster&quot;</span><br><span class="line"> 6) &quot;user:83271&quot;</span><br><span class="line"> 7) &quot;time&quot;</span><br><span class="line"> 8) &quot;1331382699.33&quot;</span><br><span class="line"> 9) &quot;votes&quot;</span><br><span class="line">10) &quot;528&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="文章发布时间"><a href="#文章发布时间" class="headerlink" title="文章发布时间"></a>文章发布时间</h2><p>用 zset 存储。成员（member）为文章 ID，分值（score）为文章的发布时间</p>
+<img src="/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-26-51.png">
+<p>操作指令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zadd time 1332065417 article:100408</span><br><span class="line">zadd time 1332075503 article:100635</span><br><span class="line">zadd time 1332082035 article:100716</span><br></pre></td></tr></table></figure>
+<h2 id="文章评分"><a href="#文章评分" class="headerlink" title="文章评分"></a>文章评分</h2><p>用 zset 存储。成员（member）为文章 ID，分值（score）为文章的评分</p>
+<img src="/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-37-06.png">
+<p>操作指令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zadd time 1332164063 article:100635</span><br><span class="line">zadd time 1332174713 article:100408</span><br><span class="line">zadd time 1332225027 article:100716</span><br></pre></td></tr></table></figure>
+<h2 id="文章投票"><a href="#文章投票" class="headerlink" title="文章投票"></a>文章投票</h2><p>为了防止用户对同一篇文章进行多次投票，还需要为每篇文章记录记录一个已投票用户名单，可以使用 set 来存储</p>
+<img src="/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-13_21-40-01.png">
+<p>并且，文章发布一周之后就不能再次投票了，记录文章已投票用户名单的集合也将被删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sadd voted:100408 user:234487</span><br></pre></td></tr></table></figure>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="文章投票-1"><a href="#文章投票-1" class="headerlink" title="文章投票"></a>文章投票</h2><p>当用户尝试对一篇文章进行投票时，程序使用 <code>ZSCORE</code> 命令查询文章发布时间的有序集合，判断文章发布的时间是否超过一周。如果还可以投票，使用 <code>SADD</code> 把用户添加到该文章的已投票用户名单的集合里。如果添加成功的话，说明用户是第一次对这篇文章进行投票，于是使用 <code>ZINCRBY</code> 给文章的评分增加 432 分，并使用 <code>HINCRBY</code> 命令对文章信息 hash 里的投票数目进行更新</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ONE_WEEK_IN_SECONDS = <span class="number">7</span> * <span class="number">86400</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VOTE_SCORE = <span class="number">432</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">articleVote</span><span class="params">(Jedis jedis, String userId, String articleId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> cutoff = System.currentTimeMillis() - ONE_WEEK_IN_SECONDS;</span><br><span class="line">    <span class="keyword">if</span> (jedis.zscore(<span class="string">"time"</span>, <span class="string">"article:"</span> + articleId) &lt; cutoff) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"距文章发布时间超过一周，不允许投票"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (jedis.sadd(<span class="string">"voted:"</span> + articleId, userId) != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"该用户已经对文章投过票了"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    jedis.zincrby(<span class="string">"score"</span>, VOTE_SCORE, <span class="string">"article:"</span> + articleId);</span><br><span class="line">    jedis.hincrBy(<span class="string">"article"</span>, <span class="string">"votes"</span>, <span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="string">"投票成功"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h2><p>发布一篇文章需要创建一个新的文章 ID，可以通过对一个计数器执行 <code>INCR</code> 命令来完成。接着程序使用 <code>SADD</code> 把文章作者的 ID 加入到已投票用户名单的集合里，并且使用 <code>EXPIRE</code> 命令为这个集合设置一个过期时间，Redis 会在一周之后自动删除这个集合。然后，程序使用 <code>HMSET</code> 命令存储文章信息，并使用两个 <code>SADD</code> 命令将文章的初始评分和发布时间分别添加到两个有序集合里</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 发布文章</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> userId 用户ID</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> title 文章标题</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> link 文章链接</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Long <span class="title">postArticle</span><span class="params">(Jedis jedis, String userId, String title, String link)</span> </span>&#123;</span><br><span class="line">    Long newArticleId = jedis.incr(<span class="string">"article"</span>);</span><br><span class="line"></span><br><span class="line">    jedis.sadd(<span class="string">"voted:"</span> + newArticleId, userId);</span><br><span class="line">    jedis.expire(<span class="string">"voted:"</span> + newArticleId, ONE_WEEK_IN_SECONDS);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> now = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">    Map&lt;String, String&gt; articleMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    articleMap.put(<span class="string">"title"</span>, title);</span><br><span class="line">    articleMap.put(<span class="string">"link"</span>, link);</span><br><span class="line">    articleMap.put(<span class="string">"poster"</span>, <span class="string">"user:"</span> + userId);</span><br><span class="line">    articleMap.put(<span class="string">"time"</span>, String.valueOf(now);</span><br><span class="line">    articleMap.put(<span class="string">"votes"</span>, String.valueOf(<span class="number">1</span>));</span><br><span class="line">    jedis.hmset(<span class="string">"article:"</span> + newArticleId, articleMap);</span><br><span class="line"></span><br><span class="line">    jedis.zadd(<span class="string">"score"</span>, now + VOTE_SCORE, <span class="string">"article:"</span> + newArticleId);</span><br><span class="line">    jedis.zadd(<span class="string">"time"</span>, now, <span class="string">"article:"</span> + newArticleId);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> newArticleId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="文章列表"><a href="#文章列表" class="headerlink" title="文章列表"></a>文章列表</h2><p>如何按照评分从高到低以及按照时间从新到旧的顺序得到文章列表？可以使用 <code>ZREVRANGE</code> 命令从时间有序列表或者评分有序列表取出多个文章 ID，然后再调用 <code>HGETALL</code> 命令从文章信息的 hash 里取出文章详情</p>
+<p>因为默认是从小到大，所以才使用 <code>ZREVRANGE</code> 命令反过来从大到小</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ARTICLES_PER_PAGE = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 文章列表</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> page  页码</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> order 排序，有 time 和 score 两种</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> List&lt;Map&lt;String, String&gt;&gt; getArticles(Jedis jedis, <span class="keyword">int</span> page, String order) &#123;</span><br><span class="line">    List&lt;Map&lt;String, String&gt;&gt; articles = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> start = (page - <span class="number">1</span>) * ARTICLES_PER_PAGE;</span><br><span class="line">    <span class="keyword">int</span> end = start + ARTICLES_PER_PAGE - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    Set&lt;String&gt; articleIds = jedis.zrevrange(order, start, end);</span><br><span class="line">    <span class="keyword">for</span> (String articleId : articleIds) &#123;</span><br><span class="line">        Map&lt;String, String&gt; articleMap = jedis.hgetAll(<span class="string">"article:"</span> + articleId);</span><br><span class="line">        articleMap.put(<span class="string">"id"</span>, articleId);</span><br><span class="line"></span><br><span class="line">        articles.add(articleMap);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> articles;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="文章分组"><a href="#文章分组" class="headerlink" title="文章分组"></a>文章分组</h2><p>群组功能由两个部分组成，一个部分负责记录文章属于哪个分组，另一个负责取出群组里的文章。问了记录各个群组都存了那些文章，需要为每个群组创建一个 set，将同属一个群组的文章的 ID 放到集合里</p>
+<p>下面是一个把文章加入群组和移出群组的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 把文章加入群组和移出群组</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> articleId 文章ID</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> toAdd     要加入的群组</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> toRemove  要移出的群组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addRemoveGroups</span><span class="params">(Jedis jedis, String articleId, List&lt;String&gt; toAdd, List&lt;String&gt; toRemove)</span> </span>&#123;</span><br><span class="line">    String article = <span class="string">"article:"</span> + articleId;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (String groupName : toAdd) &#123;</span><br><span class="line">        jedis.sadd(<span class="string">"group:"</span> + groupName, article);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (String groupName : toRemove) &#123;</span><br><span class="line">        jedis.srem(<span class="string">"group:"</span> + groupName, article);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="文章分组内的文章进行排序"><a href="#文章分组内的文章进行排序" class="headerlink" title="文章分组内的文章进行排序"></a>文章分组内的文章进行排序</h2><p>群组内的文章也需要按照时间或者分数来进行排序，<code>ZINTERSTORE</code> 命令可以接受多个集合和多个有序集合作为输入，做一个交集，找出所有同时存在于集合和有序集合中的成员</p>
+<p>比如一个“编程”分组里的文章，对它按照分值进行排序</p>
+<img src="/2019/04/15/用Redis实现一个文章投票、排序、发布、分组系统/Snipaste_2019-04-15_09-50-44.png">
+<p>如果群组里的文章非常多，执行 <code>ZINTERSTORE</code> 命令就会比较花时间，为了减少资源占用，程序将 <code>ZINTERSTORE</code> 命令的计算结果缓存 60 秒</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;Map&lt;String, String&gt;&gt; getGroupArticles(Jedis jedis, String groupName, <span class="keyword">int</span> page, String order) &#123;</span><br><span class="line">    String key = order + <span class="string">":"</span> + groupName; <span class="comment">// 群组计算结果的 key</span></span><br><span class="line">    <span class="keyword">if</span> (!jedis.exists(key)) &#123;</span><br><span class="line">        jedis.zinterstore(key, <span class="string">"groups:"</span> + groupName, order);  <span class="comment">// 取交集</span></span><br><span class="line">        jedis.expire(key, <span class="number">60</span>);  <span class="comment">// 缓存 60 秒</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> getArticles(jedis, page, key);  <span class="comment">// 获取文章列表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>熟悉 Redis 的 5 种值类型：</p>
+<ol>
+<li>字符串</li>
+<li>列表</li>
+<li>哈希</li>
+<li>集合</li>
+<li>有序集合</li>
+</ol>
+<p>同时熟悉一些相关的操作命令，这样的问题就迎刃而解了</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+            <a href="/tags/hash/" rel="tag"># hash</a>
+          
+            <a href="/tags/set/" rel="tag"># set</a>
+          
+            <a href="/tags/zset/" rel="tag"># zset</a>
+          
+            <a href="/tags/投票/" rel="tag"># 投票</a>
+          
+            <a href="/tags/排序/" rel="tag"># 排序</a>
+          
+            <a href="/tags/分组/" rel="tag"># 分组</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/Linux和Windows下查看端口占用与进程情况/" rel="next" title="Linux和Windows下查看端口占用与进程情况">
+                <i class="fa fa-chevron-left"></i> Linux和Windows下查看端口占用与进程情况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/13/如何减少if-else，让代码更健壮/" rel="prev" title="如何减少if-else，让代码更健壮">
+                如何减少if-else，让代码更健壮 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis是什么"><span class="nav-number">1.</span> <span class="nav-text">Redis是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类型"><span class="nav-number">2.</span> <span class="nav-text">类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用的数据结构"><span class="nav-number">3.</span> <span class="nav-text">使用的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文章信息"><span class="nav-number">3.1.</span> <span class="nav-text">文章信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章发布时间"><span class="nav-number">3.2.</span> <span class="nav-text">文章发布时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章评分"><span class="nav-number">3.3.</span> <span class="nav-text">文章评分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章投票"><span class="nav-number">3.4.</span> <span class="nav-text">文章投票</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">4.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文章投票-1"><span class="nav-number">4.1.</span> <span class="nav-text">文章投票</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布文章"><span class="nav-number">4.2.</span> <span class="nav-text">发布文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章列表"><span class="nav-number">4.3.</span> <span class="nav-text">文章列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章分组"><span class="nav-number">4.4.</span> <span class="nav-text">文章分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章分组内的文章进行排序"><span class="nav-number">4.5.</span> <span class="nav-text">文章分组内的文章进行排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

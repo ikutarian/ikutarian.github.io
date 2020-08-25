@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="微信公众号开发时的一些笔记，防止忘记">
+<meta name="keywords" content="公众号,微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信公众号开发笔记">
+<meta property="og:url" content="http://yoursite.com/2019/01/06/微信公众号开发笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="微信公众号开发时的一些笔记，防止忘记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/01/06/微信公众号开发笔记/a12daf5a6a2cf4c01618569b1b9e5881.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/01/06/微信公众号开发笔记/Snipaste_2019-01-06_13-38-55.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信公众号开发笔记">
+<meta name="twitter:description" content="微信公众号开发时的一些笔记，防止忘记">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/06/微信公众号开发笔记/a12daf5a6a2cf4c01618569b1b9e5881.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/06/微信公众号开发笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>微信公众号开发笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/微信公众号开发笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信公众号开发笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-06 13:22:28" itemprop="dateCreated datePublished" datetime="2019-01-06T13:22:28+08:00">2019-01-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/公众号/" itemprop="url" rel="index"><span itemprop="name">公众号</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>微信公众号开发时的一些笔记，防止忘记</p>
+<a id="more"></a>
+<h1 id="公众号类型"><a href="#公众号类型" class="headerlink" title="公众号类型"></a>公众号类型</h1><ul>
+<li>服务号</li>
+<li>订阅号</li>
+<li>企业号</li>
+</ul>
+<p>区别可以看<a href="http://kf.qq.com/faq/170815aUZjeQ170815mU7bI7.html" target="_blank" rel="noopener">公众平台服务号、订阅号、企业微信、小程序的相关说明</a></p>
+<img src="/2019/01/06/微信公众号开发笔记/a12daf5a6a2cf4c01618569b1b9e5881.jpg">
+<h1 id="开发模式与编辑模式"><a href="#开发模式与编辑模式" class="headerlink" title="开发模式与编辑模式"></a>开发模式与编辑模式</h1><p>微信公众号有两种模式：</p>
+<ul>
+<li>开发模式</li>
+<li>编辑模式</li>
+</ul>
+<p>两者是<strong>互斥</strong>的，开启了开发模式，就不能使用编辑模式的功能，开启了编辑模式就不能使用开发模式的功能。作为开发人员，编辑模式用不着，都是使用开发模式</p>
+<h1 id="数据流向"><a href="#数据流向" class="headerlink" title="数据流向"></a>数据流向</h1><p>在数据的流动过程中，涉及三个角色：</p>
+<ul>
+<li>用户</li>
+<li>微信服务器</li>
+<li>开发者服务器</li>
+</ul>
+<p>数据在这三个角色之间流动。一张图来说明</p>
+<img src="/2019/01/06/微信公众号开发笔记/Snipaste_2019-01-06_13-38-55.png">
+<ol>
+<li>用户在微信的手机客户端向公众号发送一条消息，这条消息会发送到微信服务器</li>
+<li>微信服务器接收到这条消息之后，再把它转发到开发者的服务器</li>
+<li>开发者服务器根据消息内容，执行一些业务逻辑，然后生成一条回复消息再发送到微信服务器</li>
+<li>微信服务器收到了回复消息，再返回给用户的手机</li>
+</ol>
+<h1 id="外网映射工具"><a href="#外网映射工具" class="headerlink" title="外网映射工具"></a>外网映射工具</h1><p>为了开发时方便调试，需要一个外网映射工具，把微信服务器的请求转发到自己的开发电脑上，这样就可以方便地调试代码了</p>
+<p>工具目前推荐使用<a href="https://natapp.cn/" target="_blank" rel="noopener">natapp</a>，官网有一个<a href="https://natapp.cn/article/natapp_newbie" target="_blank" rel="noopener">一分钟快速使用教程</a>可以看，看了就会用了</p>
+<h1 id="公众平台测试账号"><a href="#公众平台测试账号" class="headerlink" title="公众平台测试账号"></a>公众平台测试账号</h1><p>如果没有公众号的话，可以申请一个测试用的公众号，这个公众号的权限是最全的，什么功能都能用</p>
+<p>文档看这里：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421137522" target="_blank" rel="noopener">微信公众平台技术文档-开始开发-接口测试号申请</a></p>
+<h1 id="开发模式接入"><a href="#开发模式接入" class="headerlink" title="开发模式接入"></a>开发模式接入</h1><p>在<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421135319" target="_blank" rel="noopener">微信公众平台技术文档-开发开发-接入指南</a>有具体说明</p>
+<p>在配置的时候，微信服务器会发送一个 HTTP GET 请求到我们的服务器，携带 4 个参数</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">signature</td>
+<td style="text-align:left">微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。</td>
+</tr>
+<tr>
+<td style="text-align:left">timestamp</td>
+<td style="text-align:left">时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">nonce</td>
+<td style="text-align:left">随机数</td>
+</tr>
+<tr>
+<td style="text-align:left">echostr</td>
+<td style="text-align:left">随机字符串</td>
+</tr>
+</tbody>
+</table>
+<p>需要对这些参数进行校验，步骤如下：</p>
+<ol>
+<li><code>token</code>、<code>timestamp</code>、<code>nonce</code> 进行字典排序得到一个字符串</li>
+<li>再把字符串进行 SHA1 加密得到一个新的字符串</li>
+<li>判断新的字符串和 <code>signature</code> 是否相等。如果相等，说明这个请求是来自微信服务器的请求，不是非法请求，于是把 <code>echostr</code> 原样返回</li>
+</ol>
+<p>验证参数合法性的的工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.commons.codec.digest.DigestUtils;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">checkSignature</span><span class="params">(String token, String signature, String timestamp, </span></span></span><br><span class="line"><span class="function"><span class="params">        String nonce, String echostr)</span> </span>&#123;</span><br><span class="line">    String[] parameters = &#123;token, timestamp, nonce&#125;;</span><br><span class="line">    Arrays.sort(parameters);</span><br><span class="line"></span><br><span class="line">    StringBuilder str = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span> (String parameter : parameters) &#123;</span><br><span class="line">        str.add(parameter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String sha1Str = DigestUtils.sha1Hex(str.toString());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> signature.equals(sha1Str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SpringMVC 的 Controler 层</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"wx/portal"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(produces = <span class="string">"text/plain;charset=utf-8"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">auth</span><span class="params">(String signature, String timestamp, String nonce, String echostr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (WxUtils.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            <span class="keyword">return</span> echostr;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"非法请求"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="接收用户消息"><a href="#接收用户消息" class="headerlink" title="接收用户消息"></a>接收用户消息</h1><p>当用户发送消息到微信服务器时，微信服务器会使用 HTTP POST 转发消息到我们的服务器，URL 和“接入微信服务器”中配置的 URL 时一样的，只是 HTTP 请求方法从 GET 变成了 POST</p>
+<p>目前可以接收的用户消息有：</p>
+<ul>
+<li>文本消息</li>
+<li>图片消息</li>
+<li>语音消息</li>
+<li>视频消息</li>
+<li>小视频消息</li>
+<li>地理位置消息</li>
+<li>链接消息</li>
+</ul>
+<p>可以看这篇文档<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140453" target="_blank" rel="noopener">微信公众平台技术文档-消息管理-接收普通消息</a></p>
+<h1 id="回复用户消息"><a href="#回复用户消息" class="headerlink" title="回复用户消息"></a>回复用户消息</h1><p>用户发来消息，我们的服务器就需要回复消息，目前可以回复的消息有：</p>
+<ul>
+<li>文本消息</li>
+<li>图片消息</li>
+<li>语音消息</li>
+<li>视频消息</li>
+<li>音乐消息</li>
+<li>图文消息</li>
+</ul>
+<p>可以看这篇文档<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140543" target="_blank" rel="noopener">微信公众平台技术文档-消息管理-被动回复用户消息</a></p>
+<h1 id="一个接收用户文字消息并原样返回的例子"><a href="#一个接收用户文字消息并原样返回的例子" class="headerlink" title="一个接收用户文字消息并原样返回的例子"></a>一个接收用户文字消息并原样返回的例子</h1><p>用户给公众号发送一条“Hello”的文字，公众号回复“我收到了你的消息：Hello”</p>
+<p>微信服务器会把用户发送的消息使用 HTTP POST 的方式转发到开发者的服务器，所以 Controller 层监听一下 POST 请求就行。同时不要忘了对请求进行合法性验证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"wx/portal"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WxController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(produces = <span class="string">"application/xml;charset=UTF-8"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">data</span><span class="params">(@RequestBody String requestBody,</span></span></span><br><span class="line"><span class="function"><span class="params">                       String signature,</span></span></span><br><span class="line"><span class="function"><span class="params">                       String timestamp,</span></span></span><br><span class="line"><span class="function"><span class="params">                       String nonce)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 对请求进行合法性验证</span></span><br><span class="line">        <span class="keyword">if</span> (!WxUtils.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"非法请求，可能属于伪造的请求！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 业务逻辑</span></span><br><span class="line">        <span class="comment">// 返回消息</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接受到了微信服务器转发的消息，于是对这条消息解析，然后做一些业务逻辑，最后再返回消息。业务逻辑根据不同的场景有不同的实现，要做的工作是：</p>
+<ul>
+<li>消息解析</li>
+<li>封装返回的消息</li>
+</ul>
+<p>微信服务器传过来的消息都是 XML 格式，公众号服务器传回去的消息也是 XML 格式。用户发送一条文字消息是，微信服务器会发过来一条这样的消息</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xml</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ToUserName</span>&gt;</span>&lt;![CDATA[asdfdsafasdfsadf]]&gt;<span class="tag">&lt;/<span class="name">ToUserName</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">FromUserName</span>&gt;</span>&lt;![CDATA[sadfasdfasdf]]&gt;<span class="tag">&lt;/<span class="name">FromUserName</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">CreateTime</span>&gt;</span>1548293882<span class="tag">&lt;/<span class="name">CreateTime</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">MsgType</span>&gt;</span>&lt;![CDATA[text]]&gt;<span class="tag">&lt;/<span class="name">MsgType</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">Content</span>&gt;</span>&lt;![CDATA[我是消息内容]]&gt;<span class="tag">&lt;/<span class="name">Content</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">MsgId</span>&gt;</span>6649213423423412343<span class="tag">&lt;/<span class="name">MsgId</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">xml</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以以此写一个 Jave Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextMessage</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String ToUserName;</span><br><span class="line">    <span class="keyword">private</span> String FromUserName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> CreateTime;</span><br><span class="line">    <span class="keyword">private</span> String MsgType;</span><br><span class="line">    <span class="keyword">private</span> String Content;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> MsgId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// getter</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// setter</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>借助 dom4j 实现消息解析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解析微信传过来的消息，封装在 Map 中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String, String&gt; <span class="title">parseXml</span><span class="params">(String xmlStr)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将解析结果存储在HashMap中</span></span><br><span class="line">        Map&lt;String, String&gt; result = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Document document;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 读取XML字符串</span></span><br><span class="line">            document = DocumentHelper.parseText(xmlStr);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (DocumentException e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取根节点</span></span><br><span class="line">        Element bookstore = document.getRootElement();</span><br><span class="line">        <span class="comment">// 获取子节点的迭代器</span></span><br><span class="line">        Iterator iterator = bookstore.elementIterator();</span><br><span class="line">        <span class="comment">// 遍历迭代器</span></span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Element element = (Element) iterator.next();</span><br><span class="line">            result.put(element.getName(), element.getText());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回的消息，微信也有格式要求，比如</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xml</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ToUserName</span>&gt;</span>&lt;![CDATA[afdsadfsadf]]&gt;<span class="tag">&lt;/<span class="name">ToUserName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">FromUserName</span>&gt;</span>&lt;![CDATA[adsfadsf]]&gt;<span class="tag">&lt;/<span class="name">FromUserName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">CreateTime</span>&gt;</span>&lt;![CDATA[1548295128755]]&gt;<span class="tag">&lt;/<span class="name">CreateTime</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MsgType</span>&gt;</span>&lt;![CDATA[text]]&gt;<span class="tag">&lt;/<span class="name">MsgType</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Content</span>&gt;</span>&lt;![CDATA[接收到的消息是：看看咯啦咯]]&gt;<span class="tag">&lt;/<span class="name">Content</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">MsgId</span>&gt;</span>&lt;![CDATA[123]]&gt;<span class="tag">&lt;/<span class="name">MsgId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xml</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>借助 xtream 实现一个消息封装</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CDATA_PREFIX = <span class="string">"&lt;![CDATA["</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CDATA_SUFFIX = <span class="string">"]]&gt;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> XStream <span class="title">getXStream</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> XStream(<span class="keyword">new</span> XppDriver() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> HierarchicalStreamWriter <span class="title">createWriter</span><span class="params">(Writer out)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> PrettyPrintWriter(out) &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">writeText</span><span class="params">(QuickWriter writer, String text)</span> </span>&#123;</span><br><span class="line">                        writer.write(CDATA_PREFIX);</span><br><span class="line">                        writer.write(text);</span><br><span class="line">                        writer.write(CDATA_SUFFIX);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Java Bean 转换成 XML 字符串</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">messageToXml</span><span class="params">(TextMessage textMessage)</span> </span>&#123;</span><br><span class="line">        XStream xStream = getXStream();</span><br><span class="line">        xStream.alias(<span class="string">"xml"</span>, textMessage.getClass());</span><br><span class="line">        <span class="keyword">return</span> xStream.toXML(textMessage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在就可以写 Controller 层的代码了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(produces = <span class="string">"application/xml;charset=UTF-8"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">data</span><span class="params">(@RequestBody String requestBody,</span></span></span><br><span class="line"><span class="function"><span class="params">                    String signature,</span></span></span><br><span class="line"><span class="function"><span class="params">                    String timestamp,</span></span></span><br><span class="line"><span class="function"><span class="params">                    String nonce)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!WxUtils.checkSignature(signature, timestamp, nonce)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"非法请求，可能属于伪造的请求！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Map&lt;String, String&gt; map = MessageUtil.parseXml(requestBody);</span><br><span class="line"></span><br><span class="line">    TextMessage textMessage = <span class="keyword">new</span> TextMessage();</span><br><span class="line">    textMessage.setFromUserName(map.get(<span class="string">"ToUserName"</span>));</span><br><span class="line">    textMessage.setToUserName(map.get(<span class="string">"FromUserName"</span>));</span><br><span class="line">    textMessage.setCreateTime(System.currentTimeMillis());</span><br><span class="line">    textMessage.setMsgType(<span class="string">"text"</span>);</span><br><span class="line">    textMessage.setContent(<span class="string">"接收到的消息是："</span> + map.get(<span class="string">"Content"</span>));</span><br><span class="line">    textMessage.setMsgId(<span class="number">123456</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> MessageUtil.messageToXml(textMessage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要注意的是 <code>ToUserName</code>、<code>FromUserName</code> 接收和发送时，两者是相反的</p>
+<h1 id="接收事件推送"><a href="#接收事件推送" class="headerlink" title="接收事件推送"></a>接收事件推送</h1><p>用户和公众号交互时，会产生一些事件，比如用户关注了这公众号，微信服务器就会发送一个消息到我们的服务器；用户对公众号取消关注，微信服务器也会发送一个消息到我们的服务器</p>
+<p>目前会推送的事件有：</p>
+<ul>
+<li>关注/取消关注事件</li>
+<li>扫描带参数二维码事件</li>
+<li>上报地理位置事件</li>
+<li>自定义菜单事件</li>
+<li>点击菜单拉取消息时的事件推送</li>
+<li>点击菜单跳转链接时的事件推送</li>
+</ul>
+<p>可以看这篇文档<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140454" target="_blank" rel="noopener">微信公众平台技术文档-消息管理-接收事件推送</a></p>
+<h1 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a>获取access_token</h1><p>公众号服务器要想主动调用微信的服务器的话，先要获取到 access_token （接口访问凭证）才能调用。因为每时每刻都有请求在调用微信服务器，微信服务器通过 access_token 才能判断这个请求是哪一个公众号发来的请求。同时为了安全，access_token 有时间限制，一般是 7200 秒，超过了这个时间，access_token 就失效了</p>
+<p>可以看这篇文档<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140183" target="_blank" rel="noopener">微信公众平台技术文档-开始开发-获取access_token</a></p>
+<p>可以利用一个定时任务来获取 access_token，然后把获取到的 access_token 保存到内存或者数据库中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessTokenTask</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Logger log = LoggerFactory.getLogger(AccessTokenTask.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第一次延迟 1 秒执行，之后每隔 7000 秒执行</span></span><br><span class="line">    <span class="meta">@Scheduled</span>(initialDelay = <span class="number">1000</span>, fixedDelay = <span class="number">7000</span> * <span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getAccessToken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line"></span><br><span class="line">        HttpUrl.Builder urlBuilder = HttpUrl</span><br><span class="line">                .get(<span class="string">"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential"</span>)</span><br><span class="line">                .newBuilder()</span><br><span class="line">                .addQueryParameter(<span class="string">"appid"</span>, WxConfig.APP_ID)</span><br><span class="line">                .addQueryParameter(<span class="string">"secret"</span>, WxConfig.SECRET);</span><br><span class="line"></span><br><span class="line">        Request request = <span class="keyword">new</span> Request.Builder().url(urlBuilder.build()).build();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Response response = client.newCall(request).execute();</span><br><span class="line">            String jsonStr = response.body().string();</span><br><span class="line">            <span class="comment">// 解析 json，获取 access_token</span></span><br><span class="line">            String accessToken = JSONUtil.getValue(jsonStr, <span class="string">"access_token"</span>);</span><br><span class="line">            <span class="keyword">if</span> (StringUtils.isNotEmpty(accessToken)) &#123;</span><br><span class="line">                <span class="comment">// 保存 access_token</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                log.error(<span class="string">"access_token获取失败，微信服务器返回：&#123;&#125;"</span>, jsonStr);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            log.error(<span class="string">"access_token获取失败"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要忘了在启动类加上 <code>@EnableScheduling</code> 注解开启定时任务</p>
+<h1 id="自定义菜单"><a href="#自定义菜单" class="headerlink" title="自定义菜单"></a>自定义菜单</h1><p>文档看这里：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141013" target="_blank" rel="noopener">微信公众平台技术文档-自定义菜单</a></p>
+<h2 id="个数限制"><a href="#个数限制" class="headerlink" title="个数限制"></a>个数限制</h2><p>菜单最多 2 级。一级菜单最多 3 个，二级菜单最多 5 个</p>
+<h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><p>目前支持 3 种类型的菜单：</p>
+<ol>
+<li>view：网页类型</li>
+<li>click：点击类型</li>
+<li>miniprogram：小程序类型</li>
+</ol>
+<p>用户点击 view 类型的菜单，会调用微信内置的浏览器打开指定的网页。点击 click 类型的菜单，微信会把菜单的 key 值传给开发者服务器，开发者根据 key 值做操作并返回数据。点击 miniprogram 类型的菜单，会打开指定的小程序页面</p>
+<h2 id="封装菜单Java-Bean"><a href="#封装菜单Java-Bean" class="headerlink" title="封装菜单Java Bean"></a>封装菜单Java Bean</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/公众号/" rel="tag"># 公众号</a>
+          
+            <a href="/tags/微信/" rel="tag"># 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/一个简单的SpringBoot测试用例/" rel="next" title="一个简单的SpringBoot测试用例">
+                <i class="fa fa-chevron-left"></i> 一个简单的SpringBoot测试用例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/06/利用Dom4j实现XML文件读取与写入/" rel="prev" title="利用Dom4j实现XML文件读取与写入">
+                利用Dom4j实现XML文件读取与写入 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#公众号类型"><span class="nav-number">1.</span> <span class="nav-text">公众号类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发模式与编辑模式"><span class="nav-number">2.</span> <span class="nav-text">开发模式与编辑模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据流向"><span class="nav-number">3.</span> <span class="nav-text">数据流向</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#外网映射工具"><span class="nav-number">4.</span> <span class="nav-text">外网映射工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公众平台测试账号"><span class="nav-number">5.</span> <span class="nav-text">公众平台测试账号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发模式接入"><span class="nav-number">6.</span> <span class="nav-text">开发模式接入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接收用户消息"><span class="nav-number">7.</span> <span class="nav-text">接收用户消息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回复用户消息"><span class="nav-number">8.</span> <span class="nav-text">回复用户消息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个接收用户文字消息并原样返回的例子"><span class="nav-number">9.</span> <span class="nav-text">一个接收用户文字消息并原样返回的例子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接收事件推送"><span class="nav-number">10.</span> <span class="nav-text">接收事件推送</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取access-token"><span class="nav-number">11.</span> <span class="nav-text">获取access_token</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义菜单"><span class="nav-number">12.</span> <span class="nav-text">自定义菜单</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#个数限制"><span class="nav-number">12.1.</span> <span class="nav-text">个数限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型"><span class="nav-number">12.2.</span> <span class="nav-text">类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装菜单Java-Bean"><span class="nav-number">12.3.</span> <span class="nav-text">封装菜单Java Bean</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

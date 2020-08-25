@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在最近的开发中，遇到了图片拼接、合成与Base64编码转换的问题，现在进行总结">
+<meta name="keywords" content="Base64,图片处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片合成、拼接与Base64转换">
+<meta property="og:url" content="http://yoursite.com/2018/10/23/图片合成、拼接与Base64转换/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="在最近的开发中，遇到了图片拼接、合成与Base64编码转换的问题，现在进行总结">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/10/23/图片合成、拼接与Base64转换/demo.jpg">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.894Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图片合成、拼接与Base64转换">
+<meta name="twitter:description" content="在最近的开发中，遇到了图片拼接、合成与Base64编码转换的问题，现在进行总结">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/23/图片合成、拼接与Base64转换/demo.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/23/图片合成、拼接与Base64转换/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>图片合成、拼接与Base64转换 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/23/图片合成、拼接与Base64转换/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">图片合成、拼接与Base64转换
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-23 17:10:15" itemprop="dateCreated datePublished" datetime="2018-10-23T17:10:15+08:00">2018-10-23</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在最近的开发中，遇到了图片拼接、合成与Base64编码转换的问题，现在进行总结</p>
+<a id="more"></a>
+<h2 id="图片拼接"><a href="#图片拼接" class="headerlink" title="图片拼接"></a>图片拼接</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 纵向拼接多张图片</span></span><br><span class="line"><span class="comment"> * 宽度必须一样，否则会抛异常</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> imgs    图片地址集合</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> type    图片类型</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> dst_pic 输出的文件的路径：F:/test2.jpg</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">splice</span><span class="params">(String[] imgs, String type, String dst_pic)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//获取需要拼接的图片长度</span></span><br><span class="line">    <span class="keyword">int</span> len = imgs.length;</span><br><span class="line">    <span class="comment">//判断长度是否大于0</span></span><br><span class="line">    <span class="keyword">if</span> (len &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    File[] src = <span class="keyword">new</span> File[len];</span><br><span class="line">    BufferedImage[] images = <span class="keyword">new</span> BufferedImage[len];</span><br><span class="line">    <span class="keyword">int</span>[][] ImageArrays = <span class="keyword">new</span> <span class="keyword">int</span>[len][];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            src[i] = <span class="keyword">new</span> File(imgs[i]);</span><br><span class="line">            images[i] = ImageIO.read(src[i]);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> width = images[i].getWidth();</span><br><span class="line">        <span class="keyword">int</span> height = images[i].getHeight();</span><br><span class="line">        <span class="comment">// 从图片中读取RGB 像素</span></span><br><span class="line">        ImageArrays[i] = <span class="keyword">new</span> <span class="keyword">int</span>[width * height];</span><br><span class="line">        ImageArrays[i] = images[i].getRGB(<span class="number">0</span>, <span class="number">0</span>, width, height, ImageArrays[i], <span class="number">0</span>, width);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> dst_height = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> dst_width = images[<span class="number">0</span>].getWidth();</span><br><span class="line">    <span class="comment">//合成图片像素</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; images.length; i++) &#123;</span><br><span class="line">        dst_width = dst_width &gt; images[i].getWidth() ? dst_width : images[i].getWidth();</span><br><span class="line">        dst_height += images[i].getHeight();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//合成后的图片</span></span><br><span class="line">    System.out.println(<span class="string">"宽度:"</span> + dst_width);</span><br><span class="line">    System.out.println(<span class="string">"高度:"</span> + dst_height);</span><br><span class="line">    <span class="keyword">if</span> (dst_height &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        System.out.println(<span class="string">"dst_height &lt; 1"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 生成新图片</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        dst_width = images[<span class="number">0</span>].getWidth();</span><br><span class="line">        BufferedImage ImageNew = <span class="keyword">new</span> BufferedImage(dst_width, dst_height,</span><br><span class="line">                BufferedImage.TYPE_INT_RGB);</span><br><span class="line">        <span class="keyword">int</span> height_i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; images.length; i++) &#123;</span><br><span class="line">            ImageNew.setRGB(<span class="number">0</span>, height_i, dst_width, images[i].getHeight(),</span><br><span class="line">                    ImageArrays[i], <span class="number">0</span>, dst_width);</span><br><span class="line">            height_i += images[i].getHeight();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        File outFile = <span class="keyword">new</span> File(dst_pic);</span><br><span class="line">        ImageIO.write(ImageNew, type, outFile);<span class="comment">// 写图片 ，输出到硬盘</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="合成"><a href="#合成" class="headerlink" title="合成"></a>合成</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 两张图片合成一张图片</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> backImage 背景图文件地址</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> srcImage  前景图文件地址</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> descImage 生成图文件地址</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(String backImage, String srcImage, String descImage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        BufferedImage backBufferedImage = ImageIO.read(<span class="keyword">new</span> File(backImage));</span><br><span class="line">        BufferedImage srcBufferedImage = ImageIO.read(<span class="keyword">new</span> File(srcImage));</span><br><span class="line">        <span class="comment">// 输出图片宽度</span></span><br><span class="line">        <span class="keyword">int</span> width = backBufferedImage.getWidth();</span><br><span class="line">        <span class="comment">// 输出图片高度</span></span><br><span class="line">        <span class="keyword">int</span> height = backBufferedImage.getHeight();</span><br><span class="line">        BufferedImage descBufferedImage = <span class="keyword">new</span> BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);</span><br><span class="line">        Graphics2D graphics2d = (Graphics2D) descBufferedImage.getGraphics();</span><br><span class="line">        graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);</span><br><span class="line">        <span class="comment">// 往画布上添加图片,并设置边距</span></span><br><span class="line">        graphics2d.drawImage(backBufferedImage, <span class="keyword">null</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        graphics2d.drawImage(srcBufferedImage, <span class="keyword">null</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        graphics2d.dispose();</span><br><span class="line">        <span class="comment">// 输出新图片</span></span><br><span class="line">        ImageIO.write(descBufferedImage, <span class="string">"png"</span>, <span class="keyword">new</span> File(descImage));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>一张图片</p>
+<img src="/2018/10/23/图片合成、拼接与Base64转换/demo.jpg">
+<p>转换成 Base64 之后，得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data:image/jpeg;base64,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</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将base64编码字符串转换为图片</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> base64Code 图片的Base64编码</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> outputPath 输出文件的路径</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 转换是否成功 true-成功 false-失败</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">generateImage</span><span class="params">(String base64Code, String outputPath)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (base64Code == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    base64Code = cutBase64Header(base64Code);</span><br><span class="line">    BASE64Decoder decoder = <span class="keyword">new</span> BASE64Decoder();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 解密</span></span><br><span class="line">        <span class="keyword">byte</span>[] b = decoder.decodeBuffer(base64Code);</span><br><span class="line">        <span class="comment">// 处理数据</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; b.length; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (b[i] &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                b[i] += <span class="number">256</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        OutputStream out = <span class="keyword">new</span> FileOutputStream(outputPath);</span><br><span class="line">        out.write(b);</span><br><span class="line">        out.flush();</span><br><span class="line">        out.close();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">cutBase64Header</span><span class="params">(String base64Code)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这一步很重要很重要，因为base64的数据会有 data:image/png;base64,</span></span><br><span class="line">    <span class="comment">// 所以需要将这个头截取掉之后再转换成图片，否则图片就打不开</span></span><br><span class="line">    <span class="keyword">return</span> base64Code.substring(base64Code.indexOf(<span class="string">","</span>) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String base64 = <span class="string">"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAQABAAD/2wBDAAUDBAQEAwU..."</span>;</span><br><span class="line">generateImage(base64, <span class="string">"f:/base64_result.jpg"</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="使用开源库"><a href="#使用开源库" class="headerlink" title="使用开源库"></a>使用开源库</h2><p>关于图片处理，有一些开源库</p>
+<ul>
+<li>阿里巴巴的 SimpleImage</li>
+<li>Google的 thumbnailator</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Base64/" rel="tag"># Base64</a>
+          
+            <a href="/tags/图片处理/" rel="tag"># 图片处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/20/MyBatis三剑客/" rel="next" title="MyBatis三剑客">
+                <i class="fa fa-chevron-left"></i> MyBatis三剑客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/24/使用BeyondCompare作为git的diff与merge工具/" rel="prev" title="使用BeyondCompare作为git的diff与merge工具">
+                使用BeyondCompare作为git的diff与merge工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图片拼接"><span class="nav-number">1.</span> <span class="nav-text">图片拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合成"><span class="nav-number">2.</span> <span class="nav-text">合成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Base64"><span class="nav-number">3.</span> <span class="nav-text">Base64</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用开源库"><span class="nav-number">4.</span> <span class="nav-text">使用开源库</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

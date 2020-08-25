@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本篇是学习《系统学习Docker，践行DevOps理念》的笔记">
+<meta name="keywords" content="Docker,Dockerfile">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《系统学习Docker，践行DevOps理念》学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/《系统学习Docker，践行DevOps理念》学习笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="本篇是学习《系统学习Docker，践行DevOps理念》的笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《系统学习Docker，践行DevOps理念》学习笔记">
+<meta name="twitter:description" content="本篇是学习《系统学习Docker，践行DevOps理念》的笔记">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/06/《系统学习Docker，践行DevOps理念》学习笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《系统学习Docker，践行DevOps理念》学习笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/《系统学习Docker，践行DevOps理念》学习笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《系统学习Docker，践行DevOps理念》学习笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-06 09:30:52" itemprop="dateCreated datePublished" datetime="2019-03-06T09:30:52+08:00">2019-03-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本篇是学习《系统学习Docker，践行DevOps理念》的笔记</p>
+<a id="more"></a>
+<h1 id="DockerPlayground"><a href="#DockerPlayground" class="headerlink" title="DockerPlayground"></a>DockerPlayground</h1><p>如果电脑上没有安装 Docker 环境的话，可以在浏览器中使用 <a href="https://labs.play-with-docker.com" target="_blank" rel="noopener">DockerPlayground</a>。它提供了一个 Docker 环境供我们使用</p>
+<h1 id="删除已停止的容器"><a href="#删除已停止的容器" class="headerlink" title="删除已停止的容器"></a>删除已停止的容器</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm $(docker ps -f &quot;status=exited&quot; -q)</span><br></pre></td></tr></table></figure>
+<h1 id="Dockerfile-语法与最佳实践"><a href="#Dockerfile-语法与最佳实践" class="headerlink" title="Dockerfile 语法与最佳实践"></a>Dockerfile 语法与最佳实践</h1><h2 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h2><blockquote>
+<p>Dockerfile 的第一行指令，用于选择 base image</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch  <span class="comment"># 使用空白镜像</span></span><br><span class="line"><span class="keyword">FROM</span> centos  <span class="comment"># 使用最新版的 centos 镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">14.04</span>  <span class="comment"># 使用版本号为 14.04 的 ubuntu 镜像</span></span><br></pre></td></tr></table></figure>
+<p>最佳实践：</p>
+<blockquote>
+<p>为了安全，尽量使用官方的 image 作为 base image</p>
+</blockquote>
+<h2 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h2><blockquote>
+<p>定义 image 的 metadata</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">"ikutarian &lt;ikutarian@ikutarian.com&gt;"</span>  <span class="comment"># 维护者信息</span></span></span><br><span class="line"><span class="bash">LABEL version=<span class="string">"1.0"</span>  <span class="comment"># 版本</span></span></span><br><span class="line"><span class="bash">LABEL description=<span class="string">"This is description"</span>  <span class="comment"># 描述</span></span></span><br></pre></td></tr></table></figure>
+<p>最佳实践：</p>
+<blockquote>
+<p>metadata 不可少，要告诉别人这个镜像是做什么的</p>
+</blockquote>
+<h2 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h2><blockquote>
+<p>执行命令并创建新的 image layer</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> yum update &amp;&amp; yum install -y vim \</span></span><br><span class="line"><span class="bash">    python-dev  <span class="comment"># 反斜线换行</span></span></span><br><span class="line"><span class="bash">RUN apt-get update &amp;&amp; apt-get install -y perl \</span></span><br><span class="line"><span class="bash">    pwgen --no-install-recommends &amp;&amp; rm -rf \</span></span><br><span class="line"><span class="bash">    /var/lib/apt/lists/*  <span class="comment"># 注意清理apt-get 的 cache</span></span></span><br><span class="line"><span class="bash">RUN /bin/bash -c <span class="string">'source $HOME/.bashrc; echo $HOME'</span></span></span><br></pre></td></tr></table></figure>
+<p>最佳实践：</p>
+<ol>
+<li>命令尽量写在一行，可以用 <code>&amp;&amp;</code> 和 <code>\</code> 进行分割</li>
+<li>安装软件时，<code>apt-get update</code>、<code>apt-get install</code> 要写在一起，比如</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y vim</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>软件装完之后还要清理 apt-get 的缓存</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install -y vim \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get clean</span></span><br></pre></td></tr></table></figure>
+<h2 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h2><blockquote>
+<p>设定当前工作目录</p>
+</blockquote>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /<span class="built_in">test</span>  <span class="comment"># 如果没有 test 目录会自动创建</span></span></span><br><span class="line"><span class="bash">WORKDIR demo</span></span><br><span class="line"><span class="bash">RUN <span class="built_in">pwd</span>  <span class="comment"># 输出结果是 /test/demo</span></span></span><br></pre></td></tr></table></figure>
+<p>最佳实践：</p>
+<blockquote>
+<ol>
+<li>用 WORKDIR，不要用 <code>RUN cd</code></li>
+<li>尽量使用绝对目录，这样更清晰不容易出错</li>
+</ol>
+</blockquote>
+<h2 id="ADD-和-COPY"><a href="#ADD-和-COPY" class="headerlink" title="ADD 和 COPY"></a>ADD 和 COPY</h2><blockquote>
+<p>添加文件</p>
+</blockquote>
+<p>最佳实践：</p>
+<ol>
+<li>大部分情况，COPY 优先于 ADD 使用，因为 COPY 语义更加直接</li>
+<li>ADD 除了 COPY 还有额外功能（解压）</li>
+<li>添加远程文件/目录应该使用网 <code>RUN wget</code> 或者 <code>RUN curl</code> 命令来获取。因为使用 <code>wget</code> 或者 <code>curl</code> 更加方便清理存储的中间文件和临时文件，同时这样也能使用更少的 layer 来完成同样的事情</li>
+</ol>
+<h2 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h2><blockquote>
+<p>设置环境变量</p>
+</blockquote>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENV</span> MYSQL_VERSION <span class="number">5.6</span>  <span class="comment"># 设置常量</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y mysql-server = <span class="string">"<span class="variable">$&#123;MYSQL_VERSION&#125;</span>"</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf /var/lib/apt/lists/*</span></span><br></pre></td></tr></table></figure>
+<p>最佳实践：</p>
+<p>尽量使用 ENV 来增加可维护性</p>
+<h2 id="CMD-与-ENTRYPOINT"><a href="#CMD-与-ENTRYPOINT" class="headerlink" title="CMD 与 ENTRYPOINT"></a>CMD 与 ENTRYPOINT</h2><p>看这篇文章《<a href="/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/" title="Docker中RUN、CMD和ENTRYPOINT的区别">Docker中RUN、CMD和ENTRYPOINT的区别</a>》</p>
+<h1 id="如何进入一个正在运行的容器"><a href="#如何进入一个正在运行的容器" class="headerlink" title="如何进入一个正在运行的容器"></a>如何进入一个正在运行的容器</h1><p>使用 <code>docker exec</code> 命令，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it &lt;CONTAINER_ID&gt; /bin/bash</span><br><span class="line">docker exec -it &lt;CONTAINER_ID&gt; python</span><br><span class="line">docker exec -it &lt;CONTAINER_ID&gt; ip a</span><br></pre></td></tr></table></figure>
+<h1 id="容器的资源限制"><a href="#容器的资源限制" class="headerlink" title="容器的资源限制"></a>容器的资源限制</h1><p>可以对容器的资源，比如 CPU、内存等进行限制</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/Dockerfile/" rel="tag"># Dockerfile</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/01/利用DockerHub和Github自动构建镜像/" rel="next" title="利用DockerHub和Github自动构建镜像">
+                <i class="fa fa-chevron-left"></i> 利用DockerHub和Github自动构建镜像
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/" rel="prev" title="Docker中RUN、CMD和ENTRYPOINT的区别">
+                Docker中RUN、CMD和ENTRYPOINT的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DockerPlayground"><span class="nav-number">1.</span> <span class="nav-text">DockerPlayground</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除已停止的容器"><span class="nav-number">2.</span> <span class="nav-text">删除已停止的容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dockerfile-语法与最佳实践"><span class="nav-number">3.</span> <span class="nav-text">Dockerfile 语法与最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FROM"><span class="nav-number">3.1.</span> <span class="nav-text">FROM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LABEL"><span class="nav-number">3.2.</span> <span class="nav-text">LABEL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RUN"><span class="nav-number">3.3.</span> <span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WORKDIR"><span class="nav-number">3.4.</span> <span class="nav-text">WORKDIR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ADD-和-COPY"><span class="nav-number">3.5.</span> <span class="nav-text">ADD 和 COPY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ENV"><span class="nav-number">3.6.</span> <span class="nav-text">ENV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMD-与-ENTRYPOINT"><span class="nav-number">3.7.</span> <span class="nav-text">CMD 与 ENTRYPOINT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何进入一个正在运行的容器"><span class="nav-number">4.</span> <span class="nav-text">如何进入一个正在运行的容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#容器的资源限制"><span class="nav-number">5.</span> <span class="nav-text">容器的资源限制</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

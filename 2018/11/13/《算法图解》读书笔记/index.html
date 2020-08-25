@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="读书计划开始了，这是我要阅读的第四本书">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《算法图解》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2018/11/13/《算法图解》读书笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="读书计划开始了，这是我要阅读的第四本书">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.855Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《算法图解》读书笔记">
+<meta name="twitter:description" content="读书计划开始了，这是我要阅读的第四本书">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/13/《算法图解》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《算法图解》读书笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/13/《算法图解》读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《算法图解》读书笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-13 09:32:54" itemprop="dateCreated datePublished" datetime="2018-11-13T09:32:54+08:00">2018-11-13</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>读书计划开始了，这是我要阅读的第四本书</p>
+<a id="more"></a>
+<h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h1><h2 id="对数"><a href="#对数" class="headerlink" title="对数"></a>对数</h2><p>log2·8 表示将多少个 2 相乘才能等于 8。2 x 2 x 2 = 8，所以 log2·8 等于 3。</p>
+<p>对数运算是幂运算的逆运算</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>假设数据是从小到大排列的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_search</span><span class="params">(nums, target)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> low &lt;= high:</span><br><span class="line">        mid = (low + high) // <span class="number">2</span>  <span class="comment"># // 表示向下取整</span></span><br><span class="line">        guess = nums[mid]</span><br><span class="line">        <span class="keyword">if</span> guess &gt; target:</span><br><span class="line">            high = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> guess &lt; target:</span><br><span class="line">            low = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<h2 id="二分查找的前提条件"><a href="#二分查找的前提条件" class="headerlink" title="二分查找的前提条件"></a>二分查找的前提条件</h2><p>仅当列表是有序的，二分查找才能管用</p>
+<h2 id="大-O-表示法"><a href="#大-O-表示法" class="headerlink" title="大 O 表示法"></a>大 O 表示法</h2><ul>
+<li>算法的速度并非指时间，而是操作数的<strong>增速</strong></li>
+<li>谈论算法的速度时，我们说的是随着输入的增加，其运行时间将以什么样的速度增加</li>
+<li>O(log n) 比 O(n) 快，当需要搜索的元素越多时，前者比后者快得越多</li>
+</ul>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><p>两种基本的数据结构：</p>
+<ul>
+<li>数组</li>
+<li>链表</li>
+</ul>
+<p>一种排序算法：</p>
+<ul>
+<li>选择排序</li>
+</ul>
+<h2 id="内存的工作原理"><a href="#内存的工作原理" class="headerlink" title="内存的工作原理"></a>内存的工作原理</h2><p>把内存想象成储物格，每个储物格都有一个编号。要存东西的时候，找计算机要一个格子的编号，然后把东西存到这个编号的格子里面</p>
+<h2 id="对于数组"><a href="#对于数组" class="headerlink" title="对于数组"></a>对于数组</h2><p>需要向计算机申请连续的储物格</p>
+<h2 id="对于链表"><a href="#对于链表" class="headerlink" title="对于链表"></a>对于链表</h2><p>一个格子存有下一个格子的编号。所以向计算机请求储物格时，不要求连续，随机也可</p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>因为数组的内存地址是连续的。只要知道了第 0 个元素的内存地址，比如 000000，那么第 1 个元素就是 000001，第二个就是 000002，以此类推。因此数组的查找特别快。但是对于插入与删除，需要向后和向前移动后面的所有元素，因此速度比较慢</p>
+<p>而对于链表。每个元素存有下一个元素的内存地址信息，所以查找需要从第 0 个元素找起，因此查找很慢。而对于插入与删除，仅仅是修改一下指向下一个元素的地址信息即可，所以很快</p>
+<h2 id="用大-O-表示法"><a href="#用大-O-表示法" class="headerlink" title="用大 O 表示法"></a>用大 O 表示法</h2><p>用大 O 表示法来看</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">操作</th>
+<th style="text-align:left">数组</th>
+<th style="text-align:left">链表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">查找</td>
+<td style="text-align:left">O(1)</td>
+<td style="text-align:left">O(n)</td>
+</tr>
+<tr>
+<td style="text-align:left">插入</td>
+<td style="text-align:left">O(n)</td>
+<td style="text-align:left">O(1)</td>
+</tr>
+<tr>
+<td style="text-align:left">删除</td>
+<td style="text-align:left">O(n)</td>
+<td style="text-align:left">O(1)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="选择排序-1"><a href="#选择排序-1" class="headerlink" title="选择排序"></a>选择排序</h2><p>简单解释：</p>
+<blockquote>
+<p>两个容器 A 和 B，容器 A 存放未排序的元素，容器 B 存放已经排号顺序的元素。每次从容器 A 中找到最小的元素，放入容器 B。直到容器 A 为空为止</p>
+</blockquote>
+<p>代码：</p>
+<p>假设每个元素值都不重复，按照从小到大排序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findSmallest</span><span class="params">(nums)</span>:</span></span><br><span class="line">    min = nums[<span class="number">0</span>]  <span class="comment"># 最小的元素</span></span><br><span class="line">    min_index = <span class="number">0</span>  <span class="comment"># 最小的元素的索引</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">        <span class="keyword">if</span> nums[i] &lt; min:</span><br><span class="line">            min = nums[i]</span><br><span class="line">            min_index = i</span><br><span class="line">    <span class="keyword">return</span> min_index</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">        min_index = findSmallest(nums)  <span class="comment"># 找到最小的元素的索引</span></span><br><span class="line">        result.append(nums.pop(min_index))  <span class="comment"># 从容器 A 去除这个最小元素，加入容器 B 中</span></span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h1><h2 id="递归条件和基线条件"><a href="#递归条件和基线条件" class="headerlink" title="递归条件和基线条件"></a>递归条件和基线条件</h2><p>编写递归函数时，要告诉它何时终止递归。所以有了：</p>
+<ul>
+<li>递归条件（recursive case）</li>
+<li>基线条件（base case）</li>
+</ul>
+<p>递归条件就是函数自己调用自己。基线条件就是什么时候终止递归，以免形成死循环</p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><ul>
+<li>FILO</li>
+<li>push</li>
+<li>pop</li>
+</ul>
+<h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><p>所有函数调用都会进入调用栈</p>
+<h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><h2 id="递归的基线条件"><a href="#递归的基线条件" class="headerlink" title="递归的基线条件"></a>递归的基线条件</h2><blockquote>
+<p>编写涉及数组的递归函数时，基线条件通常是数组为空或者只包含一个元素。陷入困境时，可以检查一下基线条件是不是这样的</p>
+</blockquote>
+<p>计算数组元素之和</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum2</span><span class="params">(nums)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> nums == []:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>] + sum2(nums[<span class="number">1</span>:])</span><br></pre></td></tr></table></figure>
+<p>计算数组元素个数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count2</span><span class="params">(nums)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> nums == []:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + count(nums[<span class="number">1</span>:])</span><br></pre></td></tr></table></figure>
+<p>找出列表中最大的数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max</span><span class="params">(nums)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(nums) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> len(nums) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> nums[<span class="number">0</span>] &gt; max(nums[<span class="number">1</span>:]):</span><br><span class="line">            <span class="keyword">return</span> nums[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> max(nums[<span class="number">1</span>:])</span><br></pre></td></tr></table></figure>
+<p>二分查找，如果用循环来写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_search</span><span class="params">(nums, target)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> low &lt;= high:</span><br><span class="line">        mid = (low + high) // <span class="number">2</span></span><br><span class="line">        guess = nums[mid]</span><br><span class="line">        <span class="keyword">if</span> guess &gt; target:</span><br><span class="line">            high = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> guess &lt; target:</span><br><span class="line">            low = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<p>如果用递归来写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_search</span><span class="params">(nums, low, high, target)</span>:</span></span><br><span class="line">    mid = (low + high) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> low &lt;= high:</span><br><span class="line">        guess = nums[mid]</span><br><span class="line">        <span class="keyword">if</span> guess &gt; target:</span><br><span class="line">            high = mid - <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> binary_search(nums, low, high, target)  <span class="comment"># 另一半</span></span><br><span class="line">        <span class="keyword">elif</span> guess &lt; target:</span><br><span class="line">            low = mid + <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> binary_search(nums, low, high, target)  <span class="comment"># 另一半</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<p>调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(binary_search([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>], <span class="number">0</span>, len(nums) - <span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">print(binary_search([<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>], <span class="number">0</span>, len(nums) - <span class="number">1</span>, <span class="number">6</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="快速排序-1"><a href="#快速排序-1" class="headerlink" title="快速排序"></a>快速排序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(nums) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> nums</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        pivot = nums[<span class="number">0</span>]</span><br><span class="line">        less = [i <span class="keyword">for</span> i <span class="keyword">in</span> nums[<span class="number">1</span>:] <span class="keyword">if</span> i &lt;= pivot]</span><br><span class="line">        greater = [i <span class="keyword">for</span> i <span class="keyword">in</span> nums[<span class="number">1</span>:] <span class="keyword">if</span> i &gt; pivot]</span><br><span class="line">        <span class="keyword">return</span> quick_sort(less) + [pivot] + quick_sort(greater)</span><br></pre></td></tr></table></figure>
+<h1 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h1><h2 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h2><p>含义：</p>
+<blockquote>
+<p>无论给它什么数据，都返回一个数字</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li>相同的输入会得到相同的结果</li>
+<li>不同的输入会得到不同的结果</li>
+</ul>
+<h2 id="散列表（hash-table）"><a href="#散列表（hash-table）" class="headerlink" title="散列表（hash table）"></a>散列表（hash table）</h2><p>散列表 = 散列函数 + 数组</p>
+<p>利用散列函数得到元素在数组中的索引位置</p>
+<p>速度很快，算法复杂度为 O(1)</p>
+<h2 id="冲突"><a href="#冲突" class="headerlink" title="冲突"></a>冲突</h2><p>散列函数得到的值有可能会相同</p>
+<h2 id="填装因子"><a href="#填装因子" class="headerlink" title="填装因子"></a>填装因子</h2><p>填装因子 = 数组中被占用的位置数 / 数组长度</p>
+<p>比如数组中有 2 个位置被占了，数组长度是 5，因此装填因子是 2/5，即 0.4。一旦填装因子大于 0.7，就调整散列表的长度</p>
+<h1 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><ul>
+<li>图</li>
+<li>队列</li>
+</ul>
+<h2 id="图的实现"><a href="#图的实现" class="headerlink" title="图的实现"></a>图的实现</h2><p>用散列表</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(name)</span>:</span></span><br><span class="line">    search_queue = dqueue()</span><br><span class="line">    search_queue += graph[name]</span><br><span class="line">    searched = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> search_queue:</span><br><span class="line">        person = search_queue.popleft()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> person <span class="keyword">in</span> searched:</span><br><span class="line">            <span class="keyword">if</span> person_is_seller(person):</span><br><span class="line">                print(person + <span class="string">" is a mango seller"</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                search_queue += graph[person]</span><br><span class="line">                searched.add(person)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/10/《Docker-从入门到实践》读书笔记/" rel="next" title="《Docker 从入门到实践》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《Docker 从入门到实践》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/理解Linux的硬链接和软链接/" rel="prev" title="理解Linux的硬链接和软链接">
+                理解Linux的硬链接和软链接 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对数"><span class="nav-number">1.1.</span> <span class="nav-text">对数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">1.2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找的前提条件"><span class="nav-number">1.3.</span> <span class="nav-text">二分查找的前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大-O-表示法"><span class="nav-number">1.4.</span> <span class="nav-text">大 O 表示法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择排序"><span class="nav-number">2.</span> <span class="nav-text">选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存的工作原理"><span class="nav-number">2.1.</span> <span class="nav-text">内存的工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于数组"><span class="nav-number">2.2.</span> <span class="nav-text">对于数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于链表"><span class="nav-number">2.3.</span> <span class="nav-text">对于链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优缺点"><span class="nav-number">2.4.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用大-O-表示法"><span class="nav-number">2.5.</span> <span class="nav-text">用大 O 表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择排序-1"><span class="nav-number">2.6.</span> <span class="nav-text">选择排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#递归"><span class="nav-number">3.</span> <span class="nav-text">递归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#递归条件和基线条件"><span class="nav-number">3.1.</span> <span class="nav-text">递归条件和基线条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈"><span class="nav-number">3.2.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用栈"><span class="nav-number">3.3.</span> <span class="nav-text">调用栈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#快速排序"><span class="nav-number">4.</span> <span class="nav-text">快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#递归的基线条件"><span class="nav-number">4.1.</span> <span class="nav-text">递归的基线条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序-1"><span class="nav-number">4.2.</span> <span class="nav-text">快速排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#散列表"><span class="nav-number">5.</span> <span class="nav-text">散列表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#散列函数"><span class="nav-number">5.1.</span> <span class="nav-text">散列函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表（hash-table）"><span class="nav-number">5.2.</span> <span class="nav-text">散列表（hash table）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冲突"><span class="nav-number">5.3.</span> <span class="nav-text">冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#填装因子"><span class="nav-number">5.4.</span> <span class="nav-text">填装因子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广度优先搜索"><span class="nav-number">6.</span> <span class="nav-text">广度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">6.1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的实现"><span class="nav-number">6.2.</span> <span class="nav-text">图的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">6.3.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

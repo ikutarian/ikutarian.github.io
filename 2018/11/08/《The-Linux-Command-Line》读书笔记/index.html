@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="读书计划开始了，这是我要阅读的第二本书，命令行操作还是很重要的">
+<meta name="keywords" content="Linux,命令行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《The Linux Command Line》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="读书计划开始了，这是我要阅读的第二本书，命令行操作还是很重要的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/Snipaste_2018-11-09_21-33-27.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/QQ截图20181120112009.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/QQ截图20181120112009.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《The Linux Command Line》读书笔记">
+<meta name="twitter:description" content="读书计划开始了，这是我要阅读的第二本书，命令行操作还是很重要的">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/Snipaste_2018-11-09_21-33-27.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《The Linux Command Line》读书笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/《The-Linux-Command-Line》读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《The Linux Command Line》读书笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-08 09:14:44" itemprop="dateCreated datePublished" datetime="2018-11-08T09:14:44+08:00">2018-11-08</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>读书计划开始了，这是我要阅读的第二本书，命令行操作还是很重要的</p>
+<a id="more"></a>
+<h1 id="2-什么是-Shell"><a href="#2-什么是-Shell" class="headerlink" title="2 什么是 Shell"></a>2 什么是 Shell</h1><h2 id="root-ikutarian-是什么"><a href="#root-ikutarian-是什么" class="headerlink" title="root@ikutarian:~# 是什么"></a>root@ikutarian:~# 是什么</h2><p>进入 bash，可以看到已经有一行文字显示在上面了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ikutarian:~#</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>root</code> 表示当前登陆的用户，我现在是以 root 用户登陆，所以显示的是 <code>root</code></li>
+<li><code>ikutarian</code> 是我这台电脑的名称</li>
+<li><code>~</code> 表示当前所在的路径，目前是在 root 用户的 home 目录下</li>
+<li><code>#</code> 表示当前是超级管理员角色。如果是普通用户，显示的是 <code>$</code></li>
+</ul>
+<h2 id="命令历史记录"><a href="#命令历史记录" class="headerlink" title="命令历史记录"></a>命令历史记录</h2><p>可以通过键盘 <code>↑</code>与键盘 <code>↓</code> 查看命令历史记录</p>
+<h2 id="几个常用的命令："><a href="#几个常用的命令：" class="headerlink" title="几个常用的命令："></a>几个常用的命令：</h2><p>退出终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>关机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown now</span><br></pre></td></tr></table></figure>
+<p>查看当前日期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date</span><br></pre></td></tr></table></figure>
+<p>查看本月日历</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cal</span><br></pre></td></tr></table></figure>
+<p>查看硬盘使用量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+<p>查看内存使用量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free -h</span><br></pre></td></tr></table></figure>
+<h1 id="3-文件系统"><a href="#3-文件系统" class="headerlink" title="3 文件系统"></a>3 文件系统</h1><h2 id="文件系统的属性结构"><a href="#文件系统的属性结构" class="headerlink" title="文件系统的属性结构"></a>文件系统的属性结构</h2><p>Windows 是每个存储设备都有一个自己的文件系统，比如 C 盘、D 盘等。但是 Linux 不一样。不管有多少个存储设备，都是只有一个文件系统。这些存储设备是挂载到目录树上的</p>
+<p>目录树只有一个根节点 <code>/</code>，然后下面文件和子目录，子目录里面又有文件和子目录</p>
+<img src="/2018/11/08/《The-Linux-Command-Line》读书笔记/Snipaste_2018-11-09_21-33-27.png">
+<h2 id="查看当前的工作目录"><a href="#查看当前的工作目录" class="headerlink" title="查看当前的工作目录"></a>查看当前的工作目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<p>pwd 就是 print working directory 的缩写</p>
+<h2 id="home-目录"><a href="#home-目录" class="headerlink" title="home 目录"></a>home 目录</h2><p>每个用户都有自己的 home 目录，比如 root 用户的 home 目录是 <code>/root</code>。一个叫 ikutarian 的用户的 home 目录是 <code>/home/ikutarian</code></p>
+<p>可以用 <code>~</code> 表示自己的 home 目录，输入 <code>cd ~</code> 即可跳转到自己的 home 目录</p>
+<h2 id="列出目录内容"><a href="#列出目录内容" class="headerlink" title="列出目录内容"></a>列出目录内容</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br></pre></td></tr></table></figure>
+<h2 id="目录跳转"><a href="#目录跳转" class="headerlink" title="目录跳转"></a>目录跳转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br></pre></td></tr></table></figure>
+<p>有两种方式可以跳转：</p>
+<ol>
+<li>绝对路径 - <code>/path</code></li>
+<li>相对路径 - <code>.</code> 表示当前目录，<code>..</code> 表示上一级目录</li>
+</ol>
+<h2 id="文件名的规范"><a href="#文件名的规范" class="headerlink" title="文件名的规范"></a>文件名的规范</h2><ol>
+<li>以 <code>.</code> 开头的是隐藏文件</li>
+<li>文件名大小写敏感</li>
+<li>Linux 没有文件扩展名的概念</li>
+<li>文件名不要带空格，可以用 <code>_</code> 代替</li>
+</ol>
+<h1 id="4-探究操作系统"><a href="#4-探究操作系统" class="headerlink" title="4 探究操作系统"></a>4 探究操作系统</h1><h2 id="ls-l"><a href="#ls-l" class="headerlink" title="ls -l"></a>ls -l</h2><p><code>ls -l</code> 可以列出目录下的文件和目录信息，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@ikutarian:/etc# ls -l</span><br><span class="line">total 788</span><br><span class="line">drwxr-xr-x 3 root root    4096 Nov  6 10:26 acpi</span><br><span class="line">-rw-r--r-- 1 root root    3028 Jul 31 08:30 adduser.conf</span><br><span class="line">drwxr-xr-x 2 root root    4096 Nov  6 10:33 alternatives</span><br><span class="line">drwxr-xr-x 3 root root    4096 Nov  6 10:26 apm</span><br><span class="line">drwxr-xr-x 3 root root    4096 Nov  6 10:34 apparmor</span><br><span class="line">drwxr-xr-x 9 root root    4096 Nov  6 10:26 apparmor.d</span><br><span class="line">drwxr-xr-x 3 root root    4096 Nov  6 10:26 apport</span><br><span class="line">drwxr-xr-x 6 root root    4096 Nov  6 11:39 apt</span><br><span class="line">-rw-r----- 1 root daemon   144 Jan 15  2016 at.deny</span><br></pre></td></tr></table></figure>
+<p>这些字段都有自己的含义，以第一行 <code>drwxr-xr-x 3 root root    4096 Nov  6 10:26 acpi</code> 为例从左到右进行说明</p>
+<p><code>drwxr-xr-x</code> 是由 3 个部分组成的： <code>d</code> + <code>rwx</code> + <code>r-x</code> + <code>r-x</code>。<code>d</code> 表示这是一个目录，如果是文件就以 <code>-</code> 表示。后三个字符（<code>rwx</code>）是文件所有者的访问权限。再后面三个字符（<code>r-x</code>）是文件所属用户组的访问权限，最后三个字符（<code>r-x</code>）是所有人的访问权限。</p>
+<p><code>rwx</code> 中 <code>r</code> 是 read，表示可读；<code>w</code> 是 write，表示可写；<code>x</code> excute，表示可执行</p>
+<p><code>3</code> 表示硬链接的数目</p>
+<p><code>root</code> 表示文件所属用户</p>
+<p><code>root</code> 表示文件所属用户组</p>
+<p><code>4096</code> 表示文件的大小，以字节为单位</p>
+<p><code>Nov  6 10:26</code> 是文件最后修改日期</p>
+<p><code>acpi</code> 是目录名，如果是文件就是文件名</p>
+<h2 id="查看文件类型"><a href="#查看文件类型" class="headerlink" title="查看文件类型"></a>查看文件类型</h2><p>Linux 不要求文件名要有后缀。如果先知道文件的类型，可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file filename</span><br></pre></td></tr></table></figure>
+<p>来查看文件类型</p>
+<h1 id="5-操作文件和目录"><a href="#5-操作文件和目录" class="headerlink" title="5 操作文件和目录"></a>5 操作文件和目录</h1><h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><p>可以用通配符来表示一些特定格式的文件名和目录名，所以通配符的知识也需要掌握</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">通配符</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">匹配任意多个字符（&gt;= 0）</td>
+</tr>
+<tr>
+<td style="text-align:left">？</td>
+<td style="text-align:left">匹配任意一个字符（== 0）</td>
+</tr>
+<tr>
+<td style="text-align:left">[characters]</td>
+<td style="text-align:left">匹配任意一个属于字符集中的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">[!characters]</td>
+<td style="text-align:left">匹配任意一个不在字符集中的字符</td>
+</tr>
+<tr>
+<td style="text-align:left">[[:class:]]</td>
+<td style="text-align:left">匹配任意一个指定字符类中的字符</td>
+</tr>
+</tbody>
+</table>
+<p>假设我要查找文件，用通配符来指代文件名</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">模式</th>
+<th style="text-align:left">匹配对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">*</td>
+<td style="text-align:left">所有文件</td>
+</tr>
+<tr>
+<td style="text-align:left">g*</td>
+<td style="text-align:left">所有以字母“g”开头的文件</td>
+</tr>
+<tr>
+<td style="text-align:left">b*.txt</td>
+<td style="text-align:left">以“b”开头，中间又零个或多个字符，以“.txt”结尾的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">Data???</td>
+<td style="text-align:left">“Data”开头，后面跟着三个字符的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left">[abc]*</td>
+<td style="text-align:left">以“a”或“b”或“c”开头的文件名</td>
+</tr>
+</tbody>
+</table>
+<p>一个新知识：字符类</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字符类</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">[:alnum:]</td>
+<td style="text-align:left">匹配任意一个字母或数字</td>
+</tr>
+<tr>
+<td style="text-align:left">[:alpha:]</td>
+<td style="text-align:left">匹配任意一个字母</td>
+</tr>
+<tr>
+<td style="text-align:left">[:digit:]</td>
+<td style="text-align:left">匹配任意一个数字</td>
+</tr>
+<tr>
+<td style="text-align:left">[:lower:]</td>
+<td style="text-align:left">匹配任意一个小写字母</td>
+</tr>
+<tr>
+<td style="text-align:left">[:upper:]</td>
+<td style="text-align:left">匹配任意一个大写字母</td>
+</tr>
+</tbody>
+</table>
+<p>对于 <code>[a-z]</code> 和 <code>[A-Z]</code>，不要再使用它了，应该改用 <code>[:lower:]</code> 和 <code>[:upper:]</code></p>
+<h2 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir directory ...</span><br></pre></td></tr></table></figure>
+<h2 id="复制文件和目录到指定的目录"><a href="#复制文件和目录到指定的目录" class="headerlink" title="复制文件和目录到指定的目录"></a>复制文件和目录到指定的目录</h2><p>复制一个文件或目录到指定的目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp item target_dir</span><br></pre></td></tr></table></figure>
+<p>复制多个文件或目录到指定目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp item ... target_dir</span><br></pre></td></tr></table></figure>
+<h2 id="移动和重命名"><a href="#移动和重命名" class="headerlink" title="移动和重命名"></a>移动和重命名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv item1 item2</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm item</span><br></pre></td></tr></table></figure>
+<p>强制删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f item</span><br></pre></td></tr></table></figure>
+<p>删除目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -r item</span><br></pre></td></tr></table></figure>
+<p><strong>重要</strong></p>
+<blockquote>
+<p>删除文件之前，先执行 <code>ls</code> 命令确认要删除的内容</p>
+</blockquote>
+<h2 id="符号链接和硬链接"><a href="#符号链接和硬链接" class="headerlink" title="符号链接和硬链接"></a>符号链接和硬链接</h2><p>硬链接没什么用，学习符号连接才对。符号连接也叫软链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s item link</span><br></pre></td></tr></table></figure>
+<p><code>-s</code> 就是表示软连接的 <code>soft</code> 的缩写</p>
+<p>关于硬链接和符号链接，可以看这篇《<a href="/2018/11/13/理解Linux的硬链接和软链接/" title="理解Linux的硬链接和软链接">理解Linux的硬链接和软链接</a>》</p>
+<h1 id="6-使用命令"><a href="#6-使用命令" class="headerlink" title="6 使用命令"></a>6 使用命令</h1><h2 id="命令有哪些类型？"><a href="#命令有哪些类型？" class="headerlink" title="命令有哪些类型？"></a>命令有哪些类型？</h2><p>可以使用 <code>type</code> 命令查看命令的类型</p>
+<ol>
+<li>可执行程序</li>
+</ol>
+<p>比如位于 <code>r/bin/</code> 和 <code>/usr/bin/</code> 下的文件，比如 <code>cp</code>、<code>python</code>、<code>gcc</code> 等</p>
+<p>使用 <code>type</code> 命令输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type python</span><br><span class="line">python is /usr/bin/python</span><br></pre></td></tr></table></figure>
+<p>可以看到 <code>python is /usr/bin/python</code></p>
+<ol start="2">
+<li>内置的 shell 命令</li>
+</ol>
+<p>比如 <code>cd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type cd</span><br><span class="line">cd is a shell builtin</span><br></pre></td></tr></table></figure>
+<p><code>type</code> 自己本身也是内置的 shell 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type type</span><br><span class="line">type is a shell builtin</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>一个 shell 函数</li>
+</ol>
+<p>一个加入到环境变量的 shell 脚本</p>
+<ol start="4">
+<li>一个命令别名</li>
+</ol>
+<p><code>ls</code> 其实是一个命令别名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type ls</span><br><span class="line">ls is aliased to `ls --color=auto&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="which-－显示可执行程序的路径"><a href="#which-－显示可执行程序的路径" class="headerlink" title="which －显示可执行程序的路径"></a>which －显示可执行程序的路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# which ls</span><br><span class="line">/bin/ls</span><br><span class="line">root@iZ94fg0bhwgrgtZ:~# which python</span><br><span class="line">/usr/bin/python</span><br></pre></td></tr></table></figure>
+<h2 id="查看命令的文档"><a href="#查看命令的文档" class="headerlink" title="查看命令的文档"></a>查看命令的文档</h2><p><code>whatis</code> - 一句话解释命令的用途<br><code>man</code> - 查看手册</p>
+<p>有些命令还可以带上 <code>--help</code> 参数查看文档</p>
+<h2 id="命令的分隔符"><a href="#命令的分隔符" class="headerlink" title="命令的分隔符"></a>命令的分隔符</h2><p>使用 <code>;</code> 作为命令的分隔符</p>
+<h2 id="查看所有已经定义的别名"><a href="#查看所有已经定义的别名" class="headerlink" title="查看所有已经定义的别名"></a>查看所有已经定义的别名</h2><p>不要带参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias</span><br></pre></td></tr></table></figure>
+<h2 id="给命令设置别名"><a href="#给命令设置别名" class="headerlink" title="给命令设置别名"></a>给命令设置别名</h2><p>两个步骤：</p>
+<ol>
+<li>查找别名是否已经被使用 </li>
+<li>创建别名</li>
+</ol>
+<p>给 <code>cd /usr; ls; cd</code> 创建一个别名，比如 test。首先确认一下 test 是否被使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type test</span><br><span class="line">test is a shell builtin</span><br></pre></td></tr></table></figure>
+<p>可以看到 test 是一个内置的 shell 命令。于是换一个名字，比如 foo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# type foo</span><br><span class="line">-bash: type: foo: not found</span><br></pre></td></tr></table></figure>
+<p><code>-bash: type: foo: not found</code> 表示 foo 没有被使用。那就用这个了</p>
+<p>alias 的<strong>格式</strong>如下，<code>name=&#39;string&#39;</code> 没有空格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias name=&apos;string&apos;</span><br></pre></td></tr></table></figure>
+<p>于是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias foo=&apos;cd /usr; ls; cd&apos;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p>如果输入 <code>exit</code> 退出账户的话，刚刚创建的别名就失效了。可以加到环境变量中，让别名不失效</p>
+<h1 id="7-重定向"><a href="#7-重定向" class="headerlink" title="7 重定向"></a>7 重定向</h1><h2 id="标准输入、标准输出、标准错误"><a href="#标准输入、标准输出、标准错误" class="headerlink" title="标准输入、标准输出、标准错误"></a>标准输入、标准输出、标准错误</h2><ul>
+<li>stdin</li>
+<li>stdout</li>
+<li>stderr</li>
+</ul>
+<p>stdout 和 stderr 通常连接的是屏幕，stdin 连接的是键盘</p>
+<h2 id="所谓重定向"><a href="#所谓重定向" class="headerlink" title="所谓重定向"></a>所谓重定向</h2><p>就是改变 stdin 的来源，改变 stdout、stderr 的输出位置</p>
+<h2 id="重定向-stdout-到文件"><a href="#重定向-stdout-到文件" class="headerlink" title="重定向 stdout 到文件"></a>重定向 stdout 到文件</h2><p>使用 <code>&gt;</code></p>
+<p><code>&gt;</code> 会覆盖或者新建文件内容。如果要向文件追加内容，可以使用 <code>&gt;&gt;</code></p>
+<h2 id="重定向-stderr-到文件"><a href="#重定向-stderr-到文件" class="headerlink" title="重定向 stderr 到文件"></a>重定向 stderr 到文件</h2><p>使用 <code>2&gt;</code>。比如，对一个不存在的目录使用 <code>ls</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls foo 2&gt; ls-out.txt</span><br></pre></td></tr></table></figure>
+<h2 id="重定向-stdout、stderr-到同一个文件"><a href="#重定向-stdout、stderr-到同一个文件" class="headerlink" title="重定向 stdout、stderr 到同一个文件"></a>重定向 stdout、stderr 到同一个文件</h2><p>使用 <code>&amp;&gt;</code></p>
+<p>列出不存在的目录 foo 和 ~ 目录的内容，并重定向到文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls foo ~ &amp;&gt; ls-out.txt</span><br></pre></td></tr></table></figure>
+<h2 id="重定向-stdin"><a href="#重定向-stdin" class="headerlink" title="重定向 stdin"></a>重定向 stdin</h2><p>使用 <code>&lt;</code>，把输入源从键盘改成文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &lt; ls-out.txt</span><br></pre></td></tr></table></figure>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p><code>|</code>，前一个命令的输出作为下一个命令的输入</p>
+<h2 id="打印匹配文本"><a href="#打印匹配文本" class="headerlink" title="打印匹配文本"></a>打印匹配文本</h2><p><code>grep</code>，可以打印匹配文本所在那一行的所有文本，可以使用正则表达式</p>
+<h2 id="把数据同时输出到-stdout-和文件"><a href="#把数据同时输出到-stdout-和文件" class="headerlink" title="把数据同时输出到 stdout 和文件"></a>把数据同时输出到 stdout 和文件</h2><p>这条命令无法得到结果。因为 <code>|</code> 和 <code>&gt;</code> 没办法同时用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l ~ | &gt; ls-out.txt</span><br></pre></td></tr></table></figure>
+<p>和管道连用时，可以用 <code>tee</code> 代替 <code>&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l ~ | tee ls-out.txt</span><br></pre></td></tr></table></figure>
+<h1 id="9-键盘操作高级技巧"><a href="#9-键盘操作高级技巧" class="headerlink" title="9 键盘操作高级技巧"></a>9 键盘操作高级技巧</h1><h2 id="清空屏幕"><a href="#清空屏幕" class="headerlink" title="清空屏幕"></a>清空屏幕</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clear</span><br></pre></td></tr></table></figure>
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><p>键盘 Tab 键</p>
+<h2 id="命令历史记录-1"><a href="#命令历史记录-1" class="headerlink" title="命令历史记录"></a>命令历史记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">history</span><br></pre></td></tr></table></figure>
+<p>搜索历史记录，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">history | grep /usr/bin</span><br></pre></td></tr></table></figure>
+<h1 id="10-权限"><a href="#10-权限" class="headerlink" title="10 权限"></a>10 权限</h1><p><strong>这是重点</strong></p>
+<h2 id="拥有者、组成员、其他人"><a href="#拥有者、组成员、其他人" class="headerlink" title="拥有者、组成员、其他人"></a>拥有者、组成员、其他人</h2><p>这个文件或者文件夹是我的，我就是拥有者（Owener），我对它拥有控制权</p>
+<p>而我又是属于一个用户组，我可以规定我的组员们对这个文件或者文件夹拥有怎么样的控制权</p>
+<p>而对于组员之外的其他用户，我可以规定他们对这文件或者文件夹拥有怎么样的控制权</p>
+<h2 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h2><ul>
+<li>读（read）</li>
+<li>写（write）</li>
+<li>执行（excute）</li>
+</ul>
+<h2 id="权限的表示法"><a href="#权限的表示法" class="headerlink" title="权限的表示法"></a>权限的表示法</h2><ul>
+<li>八进制</li>
+<li>符号</li>
+</ul>
+<p>常用的就用“八进制”即可</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">八进制</th>
+<th style="text-align:center">二进制</th>
+<th style="text-align:center">权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">000</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">001</td>
+<td style="text-align:center">–x</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">010</td>
+<td style="text-align:center">-w-</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">011</td>
+<td style="text-align:center">-wx</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">r–</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">r-x</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">110</td>
+<td style="text-align:center">rw-</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">111</td>
+<td style="text-align:center">rwx</td>
+</tr>
+</tbody>
+</table>
+<h2 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h2><p>权限，也叫 “File Mode”，所以 <code>chmod</code> 就是 “change file mode” 的缩写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# &gt; foo.txt</span><br><span class="line">root@iZ94fg0bhwgrgtZ:~# ls -l foo.txt </span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 16 15:23 foo.txt</span><br><span class="line">root@iZ94fg0bhwgrgtZ:~# chmod 600 foo.txt</span><br><span class="line">root@iZ94fg0bhwgrgtZ:~# ls -l foo.txt </span><br><span class="line">-rw------- 1 root root 0 Nov 16 15:23 foo.txt</span><br></pre></td></tr></table></figure>
+<h1 id="11-进程"><a href="#11-进程" class="headerlink" title="11 进程"></a>11 进程</h1><h2 id="PID"><a href="#PID" class="headerlink" title="PID"></a>PID</h2><p>系统会给每个进程分配一个数字，这个数字叫 PID（process id 的缩写）</p>
+<h2 id="查看进程快照"><a href="#查看进程快照" class="headerlink" title="查看进程快照"></a>查看进程快照</h2><p>显示当前会话相关的进程快照</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps</span><br></pre></td></tr></table></figure>
+<p>以一定格式，输出所有进程快照的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux</span><br></pre></td></tr></table></figure>
+<h2 id="查看系统的动态信息"><a href="#查看系统的动态信息" class="headerlink" title="查看系统的动态信息"></a>查看系统的动态信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+<p>比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">top - 20:51:07 up 41 days,  6:59,  1 user,  load average: 0.06, 0.05, 0.02</span><br><span class="line">Tasks:  90 total,   1 running,  89 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.3 us,  1.0 sy,  0.0 ni, 98.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  2048124 total,   110620 free,    96232 used,  1841272 buff/cache</span><br><span class="line">KiB Swap:        0 total,        0 free,        0 used.  1742532 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND</span><br><span class="line">  </span><br><span class="line">26673 root      20   0  805560  76512  38068 S  0.3  3.7  21:39.20 dockerd</span><br></pre></td></tr></table></figure>
+<p>下面逐行说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top - 20:51:07 up 41 days,  6:59,  1 user,  load average: 0.06, 0.05, 0.02</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">top</td>
+<td style="text-align:left">程序名</td>
+</tr>
+<tr>
+<td style="text-align:left">20:51:07</td>
+<td style="text-align:left">当前时间</td>
+</tr>
+<tr>
+<td style="text-align:left">up 41 days,  6:59</td>
+<td style="text-align:left">计算机从上次启动到现在的正常运行时间</td>
+</tr>
+<tr>
+<td style="text-align:left">1 user</td>
+<td style="text-align:left">有一个用户登陆系统</td>
+</tr>
+<tr>
+<td style="text-align:left">load average</td>
+<td style="text-align:left">加载平均值。分别表示最后60秒、前5分钟、前15分钟。若平均值低于1.0，表示计算机工作不忙碌</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tasks:  90 total,   1 running,  89 sleeping,   0 stopped,   0 zombie</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Tasks</td>
+<td style="text-align:left">总结了进程数目和各种状态下进程的个数</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%Cpu(s):  0.3 us,  1.0 sy,  0.0 ni, 98.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">%Cpu(s)</td>
+<td style="text-align:left">CPU正在执行的进程的特性</td>
+</tr>
+<tr>
+<td style="text-align:left">us</td>
+<td style="text-align:left">user process（用户进程）</td>
+</tr>
+<tr>
+<td style="text-align:left">sy</td>
+<td style="text-align:left">system process（内核进程）</td>
+</tr>
+<tr>
+<td style="text-align:left">ni</td>
+<td style="text-align:left">nice process，即低优先级进程</td>
+</tr>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">表示 98.7% 的 CPU 时间是空闲的</td>
+</tr>
+<tr>
+<td style="text-align:left">wa</td>
+<td style="text-align:left">0.0% 的 CPU 时间来等待 IO</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KiB Mem :  2048124 total,   110620 free,    96232 used,  1841272 buff/cache</span><br></pre></td></tr></table></figure>
+<p>物理内存的使用情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KiB Swap:        0 total,        0 free,        0 used.  1742532 avail Mem</span><br></pre></td></tr></table></figure>
+<p>交换分区（虚拟内存）的使用情况</p>
+<h2 id="给进程发送信号"><a href="#给进程发送信号" class="headerlink" title="给进程发送信号"></a>给进程发送信号</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill [-signal] PID...</span><br></pre></td></tr></table></figure>
+<p><code>[-signal]</code> 常用的是 <code>9</code>，表示让内核立刻杀死进程（进程来不及做收尾工作或者保存劳动成果）。比如 <code>kill -9 PID...</code></p>
+<h1 id="12-环境变量"><a href="#12-环境变量" class="headerlink" title="12 环境变量"></a>12 环境变量</h1><h2 id="两个重要的配置文件"><a href="#两个重要的配置文件" class="headerlink" title="两个重要的配置文件"></a>两个重要的配置文件</h2><ul>
+<li><code>/etc/profile</code></li>
+<li><code>˜/.bashrc</code></li>
+</ul>
+<p><code>/etc/profile</code> 是全局配置文件。<code>˜/.bashrc</code> 是用户自己的配置文件</p>
+<p>以 Windows 为例</p>
+<img src="/2018/11/08/《The-Linux-Command-Line》读书笔记/QQ截图20181120112009.png">
+<p><code>/etc/profile</code> 就相当于系统变量，<code>˜/.bashrc</code> 就相当于用户变量</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>修改完配置文件之后，需要使用 <code>source</code> 命令才能生效</p>
+<h2 id="PATH"><a href="#PATH" class="headerlink" title="PATH"></a>PATH</h2><p>就相当于 Windows 环境变量里的 Path</p>
+<img src="/2018/11/08/《The-Linux-Command-Line》读书笔记/QQ截图20181120112009.png">
+<p>可以用 <code>$PATH</code> 表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $PATH</span><br></pre></td></tr></table></figure>
+<h2 id="以安装-JDK-为例"><a href="#以安装-JDK-为例" class="headerlink" title="以安装 JDK 为例"></a>以安装 JDK 为例</h2><p>下载 jdk-8u191-linux-x64.tar.gz 到 <code>/root/</code>，然后解压到 <code>/root/jdk1.8.0_191/</code> 文件夹中。打开 <code>etc/profile</code>，在最后面增加以下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/root/jdk1.8.0_191</span><br><span class="line">export JAVA_HOME</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
+<p>让环境变量生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+<p>现在测试一下 <code>echo $PATH</code>，可以看到末尾多出了 JDK 的路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~/jdk1.8.0_191# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/root/jdk1.8.0_191/bin</span><br></pre></td></tr></table></figure>
+<p>再测试一下 <code>java -version</code>，可以打出 JDK 的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~/jdk1.8.0_191# java -version</span><br><span class="line">java version &quot;1.8.0_191&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_191-b12)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)</span><br></pre></td></tr></table></figure>
+<h1 id="13-vi-编辑器"><a href="#13-vi-编辑器" class="headerlink" title="13 vi 编辑器"></a>13 vi 编辑器</h1><h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>命令模式 - 键盘 <code>ESE</code></li>
+<li>插入模式 - 键盘 <code>i</code></li>
+</ul>
+<h2 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h2><ul>
+<li>:w</li>
+<li>:wq</li>
+</ul>
+<h2 id="移动光标"><a href="#移动光标" class="headerlink" title="移动光标"></a>移动光标</h2><ul>
+<li>上 - 键盘 <code>j</code></li>
+<li>下 - 键盘 <code>k</code></li>
+<li>左 - 键盘 <code>h</code></li>
+<li>右 - 键盘 <code>l</code></li>
+<li>行首 - 键盘 <code>0</code></li>
+<li>行尾 - 键盘 <code>$</code></li>
+<li>文件末尾 - 键盘 <code>G</code></li>
+</ul>
+<h2 id="追加文字"><a href="#追加文字" class="headerlink" title="追加文字"></a>追加文字</h2><ul>
+<li>a - 当前位置的下一个位置进行追加</li>
+<li>A - 当前行的行尾进行追加</li>
+</ul>
+<h2 id="行插入"><a href="#行插入" class="headerlink" title="行插入"></a>行插入</h2><ul>
+<li>o - 当前行的下方插入</li>
+<li>O - 当前行的上方插入</li>
+</ul>
+<h2 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h2><ul>
+<li>x - 删除当前字符</li>
+<li>dd - 删除当前行</li>
+</ul>
+<h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2><ul>
+<li>yy - 复制当前行</li>
+<li>p - 粘贴当前行</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li>/ + 要查找的字符</li>
+<li>n - 下一个结果</li>
+</ul>
+<h1 id="15-软件包管理"><a href="#15-软件包管理" class="headerlink" title="15 软件包管理"></a>15 软件包管理</h1><h2 id="更新软件源"><a href="#更新软件源" class="headerlink" title="更新软件源"></a>更新软件源</h2><p>Debian</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<p>RedHat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br></pre></td></tr></table></figure>
+<h2 id="查找软件包"><a href="#查找软件包" class="headerlink" title="查找软件包"></a>查找软件包</h2><p>Debian</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-cache search search_string</span><br></pre></td></tr></table></figure>
+<p>RedHat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum search search_string</span><br></pre></td></tr></table></figure>
+<h2 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h2><p>Debian</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install package_name</span><br></pre></td></tr></table></figure>
+<p>RedHat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install package_name</span><br></pre></td></tr></table></figure>
+<h2 id="卸载软件包"><a href="#卸载软件包" class="headerlink" title="卸载软件包"></a>卸载软件包</h2><p>Debian</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get remove package_name</span><br></pre></td></tr></table></figure>
+<p>RedHat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum erase package_name</span><br></pre></td></tr></table></figure>
+<h1 id="19-归档和备份"><a href="#19-归档和备份" class="headerlink" title="19 归档和备份"></a>19 归档和备份</h1><h2 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip file_name</span><br></pre></td></tr></table></figure>
+<p>会生成一个 <code>file_name.gz</code> 文件名的文件，同时 <code>file_name</code> 文件消失了</p>
+<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -d file_name.gz</span><br></pre></td></tr></table></figure>
+<p>可以得到 <code>file_name</code> 文件名的文件，同时 <code>file_name.gz</code> 文件消失了</p>
+<h2 id="解压归档文件"><a href="#解压归档文件" class="headerlink" title="解压归档文件"></a>解压归档文件</h2><p>比如 file_name.tar.gz 就是一个用 gzip 压缩过的 tar 归档文件，所以解压的时候，要使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxf file_name.tar.gz</span><br></pre></td></tr></table></figure>
+<p><code>z</code> 表示这是一个用 gzip 压缩过的 tar 归档文件。<code>x</code> 表示把文件从 tar 包中提取出来。<code>f</code> 表示目标文件名，也就是 file_name.tar.gz</p>
+<h1 id="25-编写第一个-Shell-脚本"><a href="#25-编写第一个-Shell-脚本" class="headerlink" title="25 编写第一个 Shell 脚本"></a>25 编写第一个 Shell 脚本</h1><h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><p>文件名：hell_world.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># This is our first script</span><br><span class="line">echo &apos;Hello World&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="权限-1"><a href="#权限-1" class="headerlink" title="权限"></a>权限</h2><p>自己有 rwx 权限，其他人有 r-x 权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chomod 755 hell_world.sh</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p>为了能够执行脚本，脚本必须是可读的。所以 r-x 权限必不可少</p>
+</blockquote>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hell_world.sh</span><br></pre></td></tr></table></figure>
+<p>或者也可以加入环境变量</p>
+<h1 id="命令总结"><a href="#命令总结" class="headerlink" title="命令总结"></a>命令总结</h1><ul>
+<li>常用命令<ul>
+<li><code>exit</code> - 退出终端</li>
+<li><code>shutdown now</code> - 关机</li>
+<li><code>date</code> - 查看当前日期</li>
+<li><code>cal</code> - 查看本月日历</li>
+<li><code>df -h</code> - 查看硬盘使用量</li>
+<li><code>free -h</code> - 查看内存使用量</li>
+</ul>
+</li>
+<li>文件系统<ul>
+<li><code>pwd</code> - 查看当前的工作目录</li>
+<li><code>ls</code> - 列出目录内容</li>
+<li><code>cd</code> - 文件夹跳转</li>
+<li><code>file</code> - 查看文件类型</li>
+<li><code>mkdir</code> - 创建目录</li>
+<li><code>cp</code> - 复制文件或目录</li>
+<li><code>mv</code> - 移动和重命名</li>
+<li><code>rm</code> - 删除文件或目录</li>
+<li><code>ln</code> - 创建链接</li>
+</ul>
+</li>
+<li>使用命令<ul>
+<li><code>type</code> - 命令查看命令的类型</li>
+<li><code>which</code> －显示可执行程序的路径</li>
+<li><code>whatis</code> - 一句话解释命令的用途</li>
+<li><code>man</code> - 查看手册</li>
+<li><code>alias</code> - 查看所有已经定义的别名</li>
+<li><code>alias name=&#39;string&#39;</code> - 创建命令的别名</li>
+</ul>
+</li>
+<li>重定向<ul>
+<li><code>&gt;</code> - 重定向 stdout 到文件</li>
+<li><code>2&gt;</code> - 重定向 stderr 到文件</li>
+<li><code>&amp;&gt;</code> - 重定向 stdout、stderr 到同一个文件</li>
+<li><code>&lt;</code> - 重定向 stdin</li>
+<li><code>|</code> - 管道</li>
+<li><code>grep</code> - 打印匹配文本所在那一行的所有文本</li>
+<li><code>tee</code> - 把数据同时输出到 stdout 和文件</li>
+</ul>
+</li>
+<li>键盘操作高级技巧<ul>
+<li><code>clear</code> - 清空屏幕</li>
+<li>键盘 Tab 键 - 自动补全</li>
+<li><code>history</code> - 命令历史记录</li>
+</ul>
+</li>
+<li>权限<ul>
+<li><code>chmod</code> - 更改权限</li>
+<li><code>sudo</code>- 获取超级用户权限</li>
+</ul>
+</li>
+<li>进程<ul>
+<li><code>ps</code> - 查看进程快照</li>
+<li><code>top</code> - 查看系统的动态信息</li>
+<li><code>kill</code> - 给进程发送信号</li>
+</ul>
+</li>
+<li>环境变量<ul>
+<li><code>/etc/profile</code> - 全局配置文件</li>
+<li><code>~/.bashrc</code> - 用户自己的配置文件</li>
+<li><code>source</code> - 让配置文件生效</li>
+</ul>
+</li>
+<li>软件包管理<ul>
+<li><code>apt-get update</code> - 更新软件源</li>
+<li><code>apt-cache search search_string</code> - 查找软件包</li>
+<li><code>apt-get install package_name</code> - 安装软件包</li>
+<li><code>apt-get remove package_name</code> - 卸载软件包</li>
+</ul>
+</li>
+<li>归档和备份<ul>
+<li><code>gzip file_name</code> - 压缩</li>
+<li><code>gzip -d file_name</code> - 解压缩</li>
+<li><code>tar zxf file_name.tar.gz</code> - 加压缩归档文件</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/命令行/" rel="tag"># 命令行</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/《图解Java多线程设计模式》笔记/" rel="next" title="《图解Java多线程设计模式》">
+                <i class="fa fa-chevron-left"></i> 《图解Java多线程设计模式》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/10/《Docker-从入门到实践》读书笔记/" rel="prev" title="《Docker 从入门到实践》读书笔记">
+                《Docker 从入门到实践》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2-什么是-Shell"><span class="nav-number">1.</span> <span class="nav-text">2 什么是 Shell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#root-ikutarian-是什么"><span class="nav-number">1.1.</span> <span class="nav-text">root@ikutarian:~# 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令历史记录"><span class="nav-number">1.2.</span> <span class="nav-text">命令历史记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个常用的命令："><span class="nav-number">1.3.</span> <span class="nav-text">几个常用的命令：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-文件系统"><span class="nav-number">2.</span> <span class="nav-text">3 文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统的属性结构"><span class="nav-number">2.1.</span> <span class="nav-text">文件系统的属性结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前的工作目录"><span class="nav-number">2.2.</span> <span class="nav-text">查看当前的工作目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#home-目录"><span class="nav-number">2.3.</span> <span class="nav-text">home 目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出目录内容"><span class="nav-number">2.4.</span> <span class="nav-text">列出目录内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录跳转"><span class="nav-number">2.5.</span> <span class="nav-text">目录跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件名的规范"><span class="nav-number">2.6.</span> <span class="nav-text">文件名的规范</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-探究操作系统"><span class="nav-number">3.</span> <span class="nav-text">4 探究操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ls-l"><span class="nav-number">3.1.</span> <span class="nav-text">ls -l</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看文件类型"><span class="nav-number">3.2.</span> <span class="nav-text">查看文件类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-操作文件和目录"><span class="nav-number">4.</span> <span class="nav-text">5 操作文件和目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通配符"><span class="nav-number">4.1.</span> <span class="nav-text">通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建目录"><span class="nav-number">4.2.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制文件和目录到指定的目录"><span class="nav-number">4.3.</span> <span class="nav-text">复制文件和目录到指定的目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动和重命名"><span class="nav-number">4.4.</span> <span class="nav-text">移动和重命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">4.5.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号链接和硬链接"><span class="nav-number">4.6.</span> <span class="nav-text">符号链接和硬链接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-使用命令"><span class="nav-number">5.</span> <span class="nav-text">6 使用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令有哪些类型？"><span class="nav-number">5.1.</span> <span class="nav-text">命令有哪些类型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#which-－显示可执行程序的路径"><span class="nav-number">5.2.</span> <span class="nav-text">which －显示可执行程序的路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看命令的文档"><span class="nav-number">5.3.</span> <span class="nav-text">查看命令的文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令的分隔符"><span class="nav-number">5.4.</span> <span class="nav-text">命令的分隔符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看所有已经定义的别名"><span class="nav-number">5.5.</span> <span class="nav-text">查看所有已经定义的别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给命令设置别名"><span class="nav-number">5.6.</span> <span class="nav-text">给命令设置别名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-重定向"><span class="nav-number">6.</span> <span class="nav-text">7 重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标准输入、标准输出、标准错误"><span class="nav-number">6.1.</span> <span class="nav-text">标准输入、标准输出、标准错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所谓重定向"><span class="nav-number">6.2.</span> <span class="nav-text">所谓重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向-stdout-到文件"><span class="nav-number">6.3.</span> <span class="nav-text">重定向 stdout 到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向-stderr-到文件"><span class="nav-number">6.4.</span> <span class="nav-text">重定向 stderr 到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向-stdout、stderr-到同一个文件"><span class="nav-number">6.5.</span> <span class="nav-text">重定向 stdout、stderr 到同一个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向-stdin"><span class="nav-number">6.6.</span> <span class="nav-text">重定向 stdin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道"><span class="nav-number">6.7.</span> <span class="nav-text">管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打印匹配文本"><span class="nav-number">6.8.</span> <span class="nav-text">打印匹配文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#把数据同时输出到-stdout-和文件"><span class="nav-number">6.9.</span> <span class="nav-text">把数据同时输出到 stdout 和文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-键盘操作高级技巧"><span class="nav-number">7.</span> <span class="nav-text">9 键盘操作高级技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#清空屏幕"><span class="nav-number">7.1.</span> <span class="nav-text">清空屏幕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动补全"><span class="nav-number">7.2.</span> <span class="nav-text">自动补全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令历史记录-1"><span class="nav-number">7.3.</span> <span class="nav-text">命令历史记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-权限"><span class="nav-number">8.</span> <span class="nav-text">10 权限</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拥有者、组成员、其他人"><span class="nav-number">8.1.</span> <span class="nav-text">拥有者、组成员、其他人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限"><span class="nav-number">8.2.</span> <span class="nav-text">权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限的表示法"><span class="nav-number">8.3.</span> <span class="nav-text">权限的表示法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chmod"><span class="nav-number">8.4.</span> <span class="nav-text">chmod</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-进程"><span class="nav-number">9.</span> <span class="nav-text">11 进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PID"><span class="nav-number">9.1.</span> <span class="nav-text">PID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看进程快照"><span class="nav-number">9.2.</span> <span class="nav-text">查看进程快照</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看系统的动态信息"><span class="nav-number">9.3.</span> <span class="nav-text">查看系统的动态信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给进程发送信号"><span class="nav-number">9.4.</span> <span class="nav-text">给进程发送信号</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12-环境变量"><span class="nav-number">10.</span> <span class="nav-text">12 环境变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#两个重要的配置文件"><span class="nav-number">10.1.</span> <span class="nav-text">两个重要的配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">10.2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PATH"><span class="nav-number">10.3.</span> <span class="nav-text">PATH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以安装-JDK-为例"><span class="nav-number">10.4.</span> <span class="nav-text">以安装 JDK 为例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#13-vi-编辑器"><span class="nav-number">11.</span> <span class="nav-text">13 vi 编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模式"><span class="nav-number">11.1.</span> <span class="nav-text">模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存"><span class="nav-number">11.2.</span> <span class="nav-text">保存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动光标"><span class="nav-number">11.3.</span> <span class="nav-text">移动光标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#追加文字"><span class="nav-number">11.4.</span> <span class="nav-text">追加文字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行插入"><span class="nav-number">11.5.</span> <span class="nav-text">行插入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除-1"><span class="nav-number">11.6.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制粘贴"><span class="nav-number">11.7.</span> <span class="nav-text">复制粘贴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找"><span class="nav-number">11.8.</span> <span class="nav-text">查找</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-软件包管理"><span class="nav-number">12.</span> <span class="nav-text">15 软件包管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新软件源"><span class="nav-number">12.1.</span> <span class="nav-text">更新软件源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找软件包"><span class="nav-number">12.2.</span> <span class="nav-text">查找软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装软件包"><span class="nav-number">12.3.</span> <span class="nav-text">安装软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载软件包"><span class="nav-number">12.4.</span> <span class="nav-text">卸载软件包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#19-归档和备份"><span class="nav-number">13.</span> <span class="nav-text">19 归档和备份</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#压缩"><span class="nav-number">13.1.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压缩"><span class="nav-number">13.2.</span> <span class="nav-text">解压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解压归档文件"><span class="nav-number">13.3.</span> <span class="nav-text">解压归档文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#25-编写第一个-Shell-脚本"><span class="nav-number">14.</span> <span class="nav-text">25 编写第一个 Shell 脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板"><span class="nav-number">14.1.</span> <span class="nav-text">模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限-1"><span class="nav-number">14.2.</span> <span class="nav-text">权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行"><span class="nav-number">14.3.</span> <span class="nav-text">运行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令总结"><span class="nav-number">15.</span> <span class="nav-text">命令总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

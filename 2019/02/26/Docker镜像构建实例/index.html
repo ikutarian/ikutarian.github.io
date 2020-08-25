@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="用实际例子来学习 Docker">
+<meta name="keywords" content="Dockerfile,镜像,容器,实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker镜像构建实例">
+<meta property="og:url" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="用实际例子来学习 Docker">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-01-50.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-03-24.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-06-40.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-09-21.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-20-20.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_10-03-56.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.699Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker镜像构建实例">
+<meta name="twitter:description" content="用实际例子来学习 Docker">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-01-50.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/26/Docker镜像构建实例/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Docker镜像构建实例 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/Docker镜像构建实例/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker镜像构建实例
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-26 14:29:04" itemprop="dateCreated datePublished" datetime="2019-02-26T14:29:04+08:00">2019-02-26</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用实际例子来学习 Docker</p>
+<a id="more"></a>
+<h1 id="安装好-Vim-的-Ubuntu-镜像"><a href="#安装好-Vim-的-Ubuntu-镜像" class="headerlink" title="安装好 Vim 的 Ubuntu 镜像"></a>安装好 Vim 的 Ubuntu 镜像</h1><p>Ubuntu 的 base 镜像默认是没有安装 Vim 软件的，现在来制作一个装好 Vim 软件的镜像</p>
+<p>新建一个文件夹，比如 <code>test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir test &amp;&amp; cd test</span><br></pre></td></tr></table></figure>
+<p>新建一个名为 <code>Dockerfile</code> 的文件，写入如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu</span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y vim</span><br></pre></td></tr></table></figure>
+<p>Dockerfile 中命令的含义是：</p>
+<ol>
+<li>以 ubuntu 为 base 镜像</li>
+<li>先执行 <code>apt-get update</code> 命令更新软件源</li>
+<li>然后再执行 <code>apt-get install -y vim</code> 命令安装 vim（<code>-y</code> 参数的意思是不询问直接安装软件）</li>
+</ol>
+<p>编译 Dockerfile，把新镜像命名为 <code>ubuntu-vi</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ubuntu-vi .</span><br></pre></td></tr></table></figure>
+<p>执行 <code>docker images</code> 就能看到一个名为 <code>ubuntu-vi</code> 的镜像了</p>
+<h1 id="第一个-Docker-化的-Java-应用"><a href="#第一个-Docker-化的-Java-应用" class="headerlink" title="第一个 Docker 化的 Java 应用"></a>第一个 Docker 化的 Java 应用</h1><p><a href="http://www.jpress.io/" target="_blank" rel="noopener">JPress</a> 是 Java 版的 WordPress。现在使用 Docker 来构建一个 JPress 的应用</p>
+<p>过程如下：</p>
+<ol>
+<li>使用 Tomcat 的镜像，把 JPress 的 WAR 包打包进去</li>
+<li>再启动一个 MySQL 的 Docker 容器</li>
+<li>JPress 应用连接 MySQL</li>
+</ol>
+<h2 id="配置阿里云安全组规则"><a href="#配置阿里云安全组规则" class="headerlink" title="配置阿里云安全组规则"></a>配置阿里云安全组规则</h2><p>阿里云默认只允许 22 端口连接，如果还需要其他端口的话，需要配置一下安全组规则。这里需要配置一下 Tomcat 的 8080 端口和 MySQL 3306 端口</p>
+<h3 id="8080-端口"><a href="#8080-端口" class="headerlink" title="8080 端口"></a>8080 端口</h3><p>在实例列表中，选择“更多 - 安全组配置”</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-01-50.png">
+<p>选择“配置规则”</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-03-24.png">
+<p>点击右上角的“添加安全组规则”</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-06-40.png">
+<p>按照如下图设置，允许外网访问 8080 端口</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-09-21.png">
+<p>对于“规则方向”，<a href="https://help.aliyun.com/document_detail/25471.html?spm=5176.2020520101.0.d0.7ce34df5gZH4NP" target="_blank" rel="noopener">文档</a> 里有讲：</p>
+<ul>
+<li>出方向：是指 ECS 实例访问内网中其他 ECS 实例或者公网上的资源。（也就是主机到外网）</li>
+<li>入方向：是指内网中的其他 ECS 实例或公网上的资源访问 ECS 实例。（即外网到主机）</li>
+</ul>
+<h3 id="3306-端口"><a href="#3306-端口" class="headerlink" title="3306 端口"></a>3306 端口</h3><p>按照下图设置</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_14-20-20.png">
+<p>需要注意的是，我只允许本机可以访问 MySQL，所以把“授权对象”填写成自己的外网 IP</p>
+<h2 id="构建-JPress-镜像"><a href="#构建-JPress-镜像" class="headerlink" title="构建 JPress 镜像"></a>构建 JPress 镜像</h2><p>新建一个文件夹，然后下载 JPress 的 WAR 包，改名为 <code>jpress.war</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir jpress</span><br><span class="line">cd jpress</span><br><span class="line">wget https://raw.githubusercontent.com/JpressProjects/jpress/alpha/wars/jpress-web-newest.war</span><br><span class="line">mv jpress-web-newest.war jpress.war</span><br></pre></td></tr></table></figure>
+<p>创建一个 Dockerfile 文本文件，然后写入如下信息。tomcat 镜像的配置，可以看<a href="https://hub.docker.com/_/tomcat" target="_blank" rel="noopener">官网</a></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 tomcat 作为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> tomcat:<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian46@ikutarian46.com"</span><br><span class="line"></span><br><span class="line"># 把 jpress.war 复制到 webapps 目录下</span><br><span class="line">COPY jpress.war $CATALINA_HOME/webapps</span><br></pre></td></tr></table></figure>
+<p>构建镜像，镜像的名字指定为 <code>jpress:latest</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t jpress:latest .</span><br></pre></td></tr></table></figure>
+<p>输入 <code>docker image ls jpress</code> 就可以看到创建好的 jpress 镜像了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~/docker# docker image ls jpress</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">jpress              latest              adda9c53bd34        3 minutes ago       483MB</span><br></pre></td></tr></table></figure>
+<h2 id="启动-JPress-镜像"><a href="#启动-JPress-镜像" class="headerlink" title="启动 JPress 镜像"></a>启动 JPress 镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 jpress</span><br></pre></td></tr></table></figure>
+<p><code>-d</code> 表示容器后台启动，<code>-p 8080:8080</code> 表示宿主机的 8080 端口访问容器的 8080 端口。TAG 默认是 <code>latest</code>，所以不写也行</p>
+<p>使用 <code>netstat -na | grep &lt;port&gt;</code> 可以查看宿主机的端口监听状态。使用 <code>docker ps</code> 也可以看到目前启动的容器相关信息</p>
+<h2 id="启动-MySQL-容器"><a href="#启动-MySQL-容器" class="headerlink" title="启动 MySQL 容器"></a>启动 MySQL 容器</h2><p>mysql 镜像的使用方法，可以看<a href="https://hub.docker.com/_/mysql" target="_blank" rel="noopener">官网</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=jpress mysql:5.7</span><br></pre></td></tr></table></figure>
+<p><code>-d</code> 后台启动。<code>-p 3306:3306</code> 宿主机的 3306 端口连接容器的 3306 端口。<code>-e MYSQL_ROOT_PASSWORD=123456</code> 指定环境变量 <code>MYSQL_ROOT_PASSWORD</code> 的值，这里是指定 ROOT 密码为 <code>123456</code>。<code>-e MYSQL_DATABASE=jpress</code> 指定环境变量 <code>MYSQL_DATABASE</code> 的值，这里是默认创建一个名为 jpress 的数据库</p>
+<h2 id="使用-JPress"><a href="#使用-JPress" class="headerlink" title="使用 JPress"></a>使用 JPress</h2><p>根据本机的 IP 访问 JPress，比如是 <code>http://123.123.123.123/jpress</code>，就可以看到界面了</p>
+<img src="/2019/02/26/Docker镜像构建实例/Snipaste_2019-02-26_10-03-56.png">
+<p>按照提示一步一步操作即可。在连接 MySQL 时，注意一下 IP，不要写成 <code>localhost</code> 了，因为这里的 <code>localhost</code> 是只 JPress 容器自己的 <code>localhost</code>，而不是宿主机的 <code>localhost</code></p>
+<p>JPress 安装完成之后，执行 <code>docker restart &lt;containerId&gt;</code> 重启容器</p>
+<h1 id="创建一个-Java-Tomcat-镜像"><a href="#创建一个-Java-Tomcat-镜像" class="headerlink" title="创建一个 Java + Tomcat 镜像"></a>创建一个 Java + Tomcat 镜像</h1><h2 id="下载-JDK-和-Tomcat"><a href="#下载-JDK-和-Tomcat" class="headerlink" title="下载 JDK 和 Tomcat"></a>下载 JDK 和 Tomcat</h2><p>新建一个文件夹，比如 test</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">cd test</span><br></pre></td></tr></table></figure>
+<p>下载 JDK 并解压，得到一个名为 <code>jdk1.8.0_201</code> 的文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz</span><br><span class="line">tar -zxf jdk-8u201-linux-x64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>下载 Tomcat 并解压，得到一个名为 <code>apache-tomcat-8.5.38</code> 的文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.tar.gz</span><br><span class="line">tar -zxf apache-tomcat-8.5.38.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="编写-Dockerfile"><a href="#编写-Dockerfile" class="headerlink" title="编写 Dockerfile"></a>编写 Dockerfile</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 ubuntu:16.04 为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">16.04</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian46@ikutarian46.com"</span><br><span class="line"></span><br><span class="line"># 拷贝 JDK 和 Tomcat 的安装包到指定位置</span><br><span class="line">RUN mkdir -p /usr/local/soft</span><br><span class="line">COPY jdk1.8.0_201 /usr/local/soft/jdk</span><br><span class="line">COPY apache-tomcat-8.5.38 /usr/local/soft/tomcat</span><br><span class="line"></span><br><span class="line"># 添加 JDK 和 Tomcat 的环境变量</span><br><span class="line">ENV JAVA_HOME /usr/local/soft/jdk</span><br><span class="line">ENV CATALINA_HOME /usr/local/soft/tomcat</span><br><span class="line">ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/bin</span><br><span class="line"></span><br><span class="line"># 开放 8080 端口</span><br><span class="line">EXPOSE 8080</span><br><span class="line"></span><br><span class="line"># 容器启动时运行 Tomcat</span><br><span class="line">CMD ["/usr/local/soft/tomcat/bin/catalina.sh", "run"]</span><br></pre></td></tr></table></figure>
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/tomcat:1.0 .</span><br></pre></td></tr></table></figure>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 ikutarian/tomcat:1.0</span><br></pre></td></tr></table></figure>
+<p>浏览器访问 <code>&lt;宿主机ip&gt;:8080</code> 即可看到界面了</p>
+<h1 id="一个使用阿里软件源的-Ubuntu-镜像"><a href="#一个使用阿里软件源的-Ubuntu-镜像" class="headerlink" title="一个使用阿里软件源的 Ubuntu 镜像"></a>一个使用阿里软件源的 Ubuntu 镜像</h1><p>新建一个文件夹比如 <code>new_ubuntu</code></p>
+<p>准备好一个 Ubuntu 16.04 的阿里云源文件 <code>sources.list</code>， 内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>阿里云软件源如何配置可以看这篇文章：《<a href="/2019/02/27/ubuntu软件源/" title="ubuntu软件源">ubuntu软件源</a>》</p>
+<p>然后创建一个 Dockerfile 文件，填入以下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 ubuntu:16.04 为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">16.04</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份原有的源</span></span><br><span class="line"><span class="keyword">RUN</span> mv /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line"></span><br><span class="line"># 复制阿里源</span><br><span class="line">COPY sources.list /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line"># 更新源</span><br><span class="line">RUN apt-get update</span><br></pre></td></tr></table></figure>
+<p>然后是构建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/new_ubuntu .</span><br></pre></td></tr></table></figure>
+<h1 id="自己创建一个-Nginx-镜像"><a href="#自己创建一个-Nginx-镜像" class="headerlink" title="自己创建一个 Nginx 镜像"></a>自己创建一个 Nginx 镜像</h1><p>新建一个文件夹，比如 <code>static_web</code>，然后创建一个 Dockerfile 文件，填入如下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 ikutarian/new_ubuntu 为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ikutarian/new_ubuntu</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Nginx</span></span><br><span class="line"><span class="keyword">RUN</span> apt-get install -y nginx</span><br><span class="line"></span><br><span class="line"># 开放 80 端口</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"># 容器启动时，执行的命令，这里是在前台启动 Nginx</span><br><span class="line">CMD ["nginx", "-g", "daemon off;"]</span><br></pre></td></tr></table></figure>
+<p>构建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/static_web .</span><br></pre></td></tr></table></figure>
+<p>启动容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 80:80 ikutarian/static_web</span><br></pre></td></tr></table></figure>
+<p>访问宿主机的 IP 就能看到 Nginx 的页面了</p>
+<h1 id="一个体积很小的-Docker-镜像"><a href="#一个体积很小的-Docker-镜像" class="headerlink" title="一个体积很小的 Docker 镜像"></a>一个体积很小的 Docker 镜像</h1><p>官方的 hello-world 镜像才 1.84KB，算是很小了。我也试试看能不能创建一个体积很小的 Docker 镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hello-world         latest              fce289e99eb9        2 months ago        1.84kB</span><br></pre></td></tr></table></figure>
+<p>首先创建一个文件夹 <code>hello</code>，然后在文件夹中新建一个 <code>hello.c</code>，填入以下内容</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Hello, World\n"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后编译 <code>hello.c</code>，生成可执行文件 <code>hello</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc hello.c -o hello</span><br></pre></td></tr></table></figure>
+<p>运行可执行文件 <code>hello</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hello</span><br></pre></td></tr></table></figure>
+<p>就可以输出内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, World</span><br></pre></td></tr></table></figure>
+<p>编写 Dockerfile，填入如下内容</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用空白镜像</span></span><br><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian &lt;ikutarian@ikutarian.com&gt;"</span><br><span class="line"></span><br><span class="line"># 拷贝 hello 文件到根目录</span><br><span class="line">COPY hello /</span><br><span class="line"></span><br><span class="line"># 容器启动时运行的命令</span><br><span class="line">CMD ["/hello"]</span><br></pre></td></tr></table></figure>
+<p>构建镜像，取名为 <code>ikutarian/hello</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/hello .</span><br></pre></td></tr></table></figure>
+<p>查看刚刚构建好的镜像，可以看到体积为 10.6KB，算是很小了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> docker images</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">ikutarian/hello     latest              3dfd813fabfd        53 seconds ago      10.6kB</span><br><span class="line">hello-world         latest              fce289e99eb9        2 months ago        1.84kB</span><br></pre></td></tr></table></figure>
+<p>现在运行一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm ikutarian/hello</span><br></pre></td></tr></table></figure>
+<p>却发现报错了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">standard_init_linux.go:190: exec user process caused &quot;no such file or directory&quot;</span><br></pre></td></tr></table></figure>
+<p>由于刚刚我们编译 <code>hello.c</code> 的时候，采用的是动态链接，gcc 帮我们默认链接了库文件，而 <code>ikutarian/hello</code> 中只有根目录下一个 <code>hello</code> 文件，并没有这些库文件，所以容器中的 <code>hello</code> 肯定运行不起来。使用 <code>ldd hello</code> 命令查看 <code>hello</code> 链接了哪些库文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/lib/ld-musl-x86_64.so.1 (0x7f12fcfc8000)</span><br><span class="line">libc.musl-x86_64.so.1 =&gt; /lib/ld-musl-x86_64.so.1 (0x7f12fcfc8000)</span><br></pre></td></tr></table></figure>
+<p>这次我们采用静态编译的方式编译 <code>hello.c</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -static hello.c -o hello</span><br></pre></td></tr></table></figure>
+<p>重新构建镜像，现在的镜像大小是 82.7kB，因为加入了库文件，所以镜像变大了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">ikutarian/hello     latest              cdd11ba57412        8 seconds ago       82.7kB</span><br><span class="line">hello-world         latest              fce289e99eb9        2 months ago        1.84kB</span><br></pre></td></tr></table></figure>
+<p>不过现在重新运行镜像，没有问题，可以输出 <code>Hello, World</code>。不过和官方的 <code>hello-world</code> 镜像比起来，我的 <code>ikutarian/hello</code> 镜像体积太大了。到 Github 上  <code>hello-world</code> 的仓库]查看一下</p>
+<p>Dockerfile 如下</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"><span class="keyword">COPY</span> hello /</span><br><span class="line">CMD ["/hello"]</span><br></pre></td></tr></table></figure>
+<p><code>hello.c</code> 如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/syscall.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOCKER_IMAGE</span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> DOCKER_IMAGE <span class="meta-string">"hello-world"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOCKER_GREETING</span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> DOCKER_GREETING <span class="meta-string">"Hello from Docker!"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DOCKER_ARCH</span></span><br><span class="line">	<span class="meta">#<span class="meta-keyword">define</span> DOCKER_ARCH <span class="meta-string">"amd64"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> message[] =</span><br><span class="line">	<span class="string">"\n"</span></span><br><span class="line">	DOCKER_GREETING <span class="string">"\n"</span></span><br><span class="line">	<span class="string">"This message shows that your installation appears to be working correctly.\n"</span></span><br><span class="line">	<span class="string">"\n"</span></span><br><span class="line">	<span class="string">"To generate this message, Docker took the following steps:\n"</span></span><br><span class="line">	<span class="string">" 1. The Docker client contacted the Docker daemon.\n"</span></span><br><span class="line">	<span class="string">" 2. The Docker daemon pulled the \""</span> DOCKER_IMAGE <span class="string">"\" image from the Docker Hub.\n"</span></span><br><span class="line">	<span class="string">"    ("</span> DOCKER_ARCH <span class="string">")\n"</span></span><br><span class="line">	<span class="string">" 3. The Docker daemon created a new container from that image which runs the\n"</span></span><br><span class="line">	<span class="string">"    executable that produces the output you are currently reading.\n"</span></span><br><span class="line">	<span class="string">" 4. The Docker daemon streamed that output to the Docker client, which sent it\n"</span></span><br><span class="line">	<span class="string">"    to your terminal.\n"</span></span><br><span class="line">	<span class="string">"\n"</span></span><br><span class="line">	<span class="string">"To try something more ambitious, you can run an Ubuntu container with:\n"</span></span><br><span class="line">	<span class="string">" $ docker run -it ubuntu bash\n"</span></span><br><span class="line">	<span class="string">"\n"</span></span><br><span class="line">	<span class="string">"Share images, automate workflows, and more with a free Docker ID:\n"</span></span><br><span class="line">	<span class="string">" https://hub.docker.com/\n"</span></span><br><span class="line">	<span class="string">"\n"</span></span><br><span class="line">	<span class="string">"For more examples and ideas, visit:\n"</span></span><br><span class="line">	<span class="string">" https://docs.docker.com/get-started/\n"</span></span><br><span class="line">	<span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _start() &#123;</span><br><span class="line">	<span class="comment">//write(1, message, sizeof(message) - 1);</span></span><br><span class="line">	syscall(SYS_write, <span class="number">1</span>, message, <span class="keyword">sizeof</span>(message) - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//_exit(0);</span></span><br><span class="line">	syscall(SYS_exit, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Dockerfile 和我的是一样的，之所以 <code>hello-world</code> 之所以这么小，就是因为在 <code>hello.c</code> 上做的文章。C 语言我不熟，研究就到此为止吧</p>
+<h1 id="一个-Python-的-flask-框架-demo"><a href="#一个-Python-的-flask-框架-demo" class="headerlink" title="一个 Python 的 flask 框架 demo"></a>一个 Python 的 flask 框架 demo</h1><p>新建一个文件夹 flask</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir flask</span><br><span class="line">cd flask</span><br></pre></td></tr></table></figure>
+<p>新建 app.py 文件，写入如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello, world'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(host=<span class="string">'0.0.0.0'</span>)</span><br></pre></td></tr></table></figure>
+<p>新建一个 Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 python:2.7 为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">2.7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian &lt;ikutarian@ikutarian.com&gt;"</span><br><span class="line"></span><br><span class="line"># 安装 flask 框架</span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple flask</span><br><span class="line"></span><br><span class="line"># 拷贝 app.py 到 /app/ 文件夹下</span><br><span class="line">COPY app.py /app/</span><br><span class="line"></span><br><span class="line"># 切换工作目录到 /app/ 文件夹</span><br><span class="line">WORKDIR /app/</span><br><span class="line"></span><br><span class="line"># 开放 5000 端口</span><br><span class="line">EXPOSE 5000</span><br><span class="line"></span><br><span class="line"># 容器启动时执行 python app.py 命令</span><br><span class="line">CMD ["python", "app.py"]</span><br></pre></td></tr></table></figure>
+<p>构建镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/flask-hello .</span><br></pre></td></tr></table></figure>
+<p>运行容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 5000:5000 -d ikutarian/flask-hello</span><br></pre></td></tr></table></figure>
+<p>浏览器访问 <code>http://宿主机ip:5000</code> 即可看到 <code>hello world</code> 返回</p>
+<h1 id="搭建本地-Python-Flask-开发环境"><a href="#搭建本地-Python-Flask-开发环境" class="headerlink" title="搭建本地 Python Flask 开发环境"></a>搭建本地 Python Flask 开发环境</h1><p>新建一个文件夹 flask_dev</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir flask_dev</span><br><span class="line">cd flask_dev</span><br></pre></td></tr></table></figure>
+<p>新建 app.py 文件，写入如下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'hello, world'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(host=<span class="string">'0.0.0.0'</span>)</span><br></pre></td></tr></table></figure>
+<p>Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以 python:2.7 为基础镜像</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">2.7</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian &lt;ikutarian@ikutarian.com&gt;"</span><br><span class="line"></span><br><span class="line"># 安装 flask 框架</span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple flask</span><br><span class="line"></span><br><span class="line"># 切换工作目录到 /app/ 文件夹</span><br><span class="line">WORKDIR /app/</span><br><span class="line"></span><br><span class="line"># 创建一个挂载点</span><br><span class="line">VOLUME /app/</span><br><span class="line"></span><br><span class="line"># 开放 5000 端口</span><br><span class="line">EXPOSE 5000</span><br><span class="line"></span><br><span class="line"># 容器启动时执行命令</span><br><span class="line">ENTRYPOINT ["python"]</span><br><span class="line"></span><br><span class="line"># 命令的参数，默认为空</span><br><span class="line">CMD []</span><br></pre></td></tr></table></figure>
+<p>运行容器，同时把当前路径挂载到 <code>/app/</code> 文件夹，并且指定 python 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 5000:5000 -v $(pwd):/app/ ikutarian/pyton_dev app.py</span><br></pre></td></tr></table></figure>
+<p>浏览器访问 <code>http://宿主机ip:5000</code> 即可看到 <code>hello world</code> 返回</p>
+<h1 id="stress镜像"><a href="#stress镜像" class="headerlink" title="stress镜像"></a>stress镜像</h1><p>新建文件夹 <code>stress</code>，然后在里面新建一个 Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ikutarian/aliyun_ubuntu</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span> apt-get update &amp;&amp; apt-get install -y stress &amp;&amp; apt-get clean</span><br><span class="line"></span><br><span class="line">ENTRYPOINT ["/usr/bin/stress"]</span><br><span class="line"></span><br><span class="line">CMD []</span><br></pre></td></tr></table></figure>
+<p>构建镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/stress .</span><br></pre></td></tr></table></figure>
+<p>注意 Dockerfile 中 ENTRYPOINT 和 CMD 都有，说明以下方式调用都可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ikutarian/stress</span><br><span class="line">docker run -it ikutarian/stress --vm 1 --verbose</span><br></pre></td></tr></table></figure>
+<p>具体原因看这篇文章：《<a href="/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/" title="Docker中RUN、CMD和ENTRYPOINT的区别">Docker中RUN、CMD和ENTRYPOINT的区别</a>》</p>
+<h1 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h1><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定基础镜像，为了减少大小，采用了 alpine 镜像</span></span><br><span class="line"><span class="keyword">FROM</span> node:<span class="number">8</span>-alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 作者信息</span></span><br><span class="line"><span class="keyword">LABEL</span> maintainer="ikutarian &lt;ikutarian@ikutarian.com&gt;"</span><br><span class="line"></span><br><span class="line"># 切换工作目录到 /hexo/ 文件夹</span><br><span class="line">WORKDIR /hexo/</span><br><span class="line"></span><br><span class="line"># 安装 hexo，并新建一个 blog</span><br><span class="line">RUN npm config set registry https://registry.npm.taobao.org \</span><br><span class="line">    &amp;&amp; npm install hexo-cli -g \</span><br><span class="line">    &amp;&amp; hexo init blog \</span><br><span class="line">    &amp;&amp; cd blog \</span><br><span class="line">    &amp;&amp; npm install</span><br><span class="line"></span><br><span class="line"># 开放端口</span><br><span class="line">EXPOSE 4000</span><br><span class="line"></span><br><span class="line"># 容器启动时默认执行的命令</span><br><span class="line">ENTRYPOINT ["hexo"]</span><br><span class="line"></span><br><span class="line"># 后续的命令由用户自己指定</span><br><span class="line">CMD ["server"]</span><br></pre></td></tr></table></figure>
+<p><a href="https://neue.v2ex.com/t/279518#reply2" target="_blank" rel="noopener">https://neue.v2ex.com/t/279518#reply2</a></p>
+<p><a href="https://hub.docker.com/search?q=hexo&amp;type=image" target="_blank" rel="noopener">https://hub.docker.com/search?q=hexo&amp;type=image</a></p>
+<p><a href="https://www.google.com/search?safe=strict&amp;source=hp&amp;ei=2Od9XI3kKMv7-Qag_prABg&amp;q=docker+hexo&amp;btnK=Google+%E6%90%9C%E7%B4%A2&amp;oq=docker+hexo&amp;gs_l=psy-ab.3..0j0i30j0i8i30l6.2220.5564..6099...2.0..0.162.1724.0j14......0....1..gws-wiz.....0..35i39j0i131j0i3j0i12i131j0i203j0i12.HFxEMmr-rNk" target="_blank" rel="noopener">https://www.google.com/search?safe=strict&amp;source=hp&amp;ei=2Od9XI3kKMv7-Qag_prABg&amp;q=docker+hexo&amp;btnK=Google+%E6%90%9C%E7%B4%A2&amp;oq=docker+hexo&amp;gs_l=psy-ab.3..0j0i30j0i8i30l6.2220.5564..6099...2.0..0.162.1724.0j14......0....1..gws-wiz.....0..35i39j0i131j0i3j0i12i131j0i203j0i12.HFxEMmr-rNk</a></p>
+<h1 id="Docker-部署-SpringBoot-项目"><a href="#Docker-部署-SpringBoot-项目" class="headerlink" title="Docker 部署 SpringBoot 项目"></a>Docker 部署 SpringBoot 项目</h1><p><a href="https://spring.io/blog/2018/11/08/spring-boot-in-a-container" target="_blank" rel="noopener">https://spring.io/blog/2018/11/08/spring-boot-in-a-container</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Dockerfile/" rel="tag"># Dockerfile</a>
+          
+            <a href="/tags/镜像/" rel="tag"># 镜像</a>
+          
+            <a href="/tags/容器/" rel="tag"># 容器</a>
+          
+            <a href="/tags/实例/" rel="tag"># 实例</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/25/bin-sh-c-是什么意思/" rel="next" title="/bin/sh -c 是什么意思?">
+                <i class="fa fa-chevron-left"></i> /bin/sh -c 是什么意思?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/27/ubuntu软件源/" rel="prev" title="ubuntu软件源">
+                ubuntu软件源 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装好-Vim-的-Ubuntu-镜像"><span class="nav-number">1.</span> <span class="nav-text">安装好 Vim 的 Ubuntu 镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一个-Docker-化的-Java-应用"><span class="nav-number">2.</span> <span class="nav-text">第一个 Docker 化的 Java 应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置阿里云安全组规则"><span class="nav-number">2.1.</span> <span class="nav-text">配置阿里云安全组规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8080-端口"><span class="nav-number">2.1.1.</span> <span class="nav-text">8080 端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3306-端口"><span class="nav-number">2.1.2.</span> <span class="nav-text">3306 端口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建-JPress-镜像"><span class="nav-number">2.2.</span> <span class="nav-text">构建 JPress 镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动-JPress-镜像"><span class="nav-number">2.3.</span> <span class="nav-text">启动 JPress 镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动-MySQL-容器"><span class="nav-number">2.4.</span> <span class="nav-text">启动 MySQL 容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-JPress"><span class="nav-number">2.5.</span> <span class="nav-text">使用 JPress</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建一个-Java-Tomcat-镜像"><span class="nav-number">3.</span> <span class="nav-text">创建一个 Java + Tomcat 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载-JDK-和-Tomcat"><span class="nav-number">3.1.</span> <span class="nav-text">下载 JDK 和 Tomcat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写-Dockerfile"><span class="nav-number">3.2.</span> <span class="nav-text">编写 Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建"><span class="nav-number">3.3.</span> <span class="nav-text">构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">3.4.</span> <span class="nav-text">启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个使用阿里软件源的-Ubuntu-镜像"><span class="nav-number">4.</span> <span class="nav-text">一个使用阿里软件源的 Ubuntu 镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自己创建一个-Nginx-镜像"><span class="nav-number">5.</span> <span class="nav-text">自己创建一个 Nginx 镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个体积很小的-Docker-镜像"><span class="nav-number">6.</span> <span class="nav-text">一个体积很小的 Docker 镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个-Python-的-flask-框架-demo"><span class="nav-number">7.</span> <span class="nav-text">一个 Python 的 flask 框架 demo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建本地-Python-Flask-开发环境"><span class="nav-number">8.</span> <span class="nav-text">搭建本地 Python Flask 开发环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#stress镜像"><span class="nav-number">9.</span> <span class="nav-text">stress镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">10.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-部署-SpringBoot-项目"><span class="nav-number">11.</span> <span class="nav-text">Docker 部署 SpringBoot 项目</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

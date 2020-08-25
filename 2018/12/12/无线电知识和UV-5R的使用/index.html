@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近对无线电感兴趣，买了一对宝峰 UV-5R 对讲机，捣鼓捣鼓一下">
+<meta name="keywords" content="无线电,UV-5R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无线电知识和UV-5R的使用">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="最近对无线电感兴趣，买了一对宝峰 UV-5R 对讲机，捣鼓捣鼓一下">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/35852932_1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/100017116093_14455667845728.jpg">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.917Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="无线电知识和UV-5R的使用">
+<meta name="twitter:description" content="最近对无线电感兴趣，买了一对宝峰 UV-5R 对讲机，捣鼓捣鼓一下">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/35852932_1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>无线电知识和UV-5R的使用 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/无线电知识和UV-5R的使用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">无线电知识和UV-5R的使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-12 10:13:13" itemprop="dateCreated datePublished" datetime="2018-12-12T10:13:13+08:00">2018-12-12</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/无线电/" itemprop="url" rel="index"><span itemprop="name">无线电</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近对无线电感兴趣，买了一对宝峰 UV-5R 对讲机，捣鼓捣鼓一下</p>
+<a id="more"></a>
+<h2 id="中继"><a href="#中继" class="headerlink" title="中继"></a>中继</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>两人离开一定距离之后，因为地球的曲率和山脉或建筑物等物体遮挡，互相就看不到了，但两人抬头都能看到同一个月亮。同理，两个手台离开一定距离后，无线电波会因遮挡等原因被衰减，直到不能通联。但如果在高处设置一个两个手台都能“看到”的电台为双方转发信息，这样两个电台就仍然可以互相通信了</p>
+<img src="/2018/12/12/无线电知识和UV-5R的使用/35852932_1.jpg">
+<p>通常的中继台需要使用一对频点，一个频点用来接收来自使用者手台或车台的信号（上行信号，如 434.460 MHz），当收到时，在另一个频点上广播出去（下行信号，如439.460 MHz）。由于中继台占有比较好的地理位置，同时有比较大的发射功率，所以通过中继台能够联络到更多的人</p>
+<p>所谓下行：</p>
+<blockquote>
+<p>中继向下发送到电台</p>
+</blockquote>
+<p>可以这样理解。一般中继都在高处，中继向下发射电波到对讲机，所以叫下行</p>
+<p>所谓上行：</p>
+<blockquote>
+<p>电台向上发送到中继</p>
+</blockquote>
+<p>可以这样理解，中继一般在很高的地方，我们拿对讲机都在中继下面。我们发射的电波是朝上走传给中继的，叫上行</p>
+<h3 id="中继通联的特点"><a href="#中继通联的特点" class="headerlink" title="中继通联的特点"></a>中继通联的特点</h3><ol>
+<li>覆盖范围广。中继台通常会设在很高的地方，越高的地方信号覆盖的范围越广</li>
+<li>多人共享。通过中继台的信号中转，在有效通联范围内的所有火腿都能收到其他人的呼叫</li>
+</ol>
+<h3 id="如何使用手台进行中继通联"><a href="#如何使用手台进行中继通联" class="headerlink" title="如何使用手台进行中继通联"></a>如何使用手台进行中继通联</h3><p>连接中继的手台或车台的收发频率要和中继的收发频率相反，这样才可以打开中继。中继是接收频率，那我就得是发射频率；中继是发射频率，我就要是接收频率</p>
+<p>中继的上行信号（接收频率）是 434.460 MHz，那么手台的发射频率就要设置成 434.460 MHz，中继的下行信号（发射频率）是 439.460 MHz，那么手台的接收信号就要是 439.460 MHz</p>
+<h2 id="下差"><a href="#下差" class="headerlink" title="下差"></a>下差</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>接收频率和发射频率之间的频差称之为“差频”，差频又分为上差和下差，一般我们都使用下差</p>
+<p>所谓的下差：</p>
+<blockquote>
+<p>就是发射频率低于接收频率多少 MHz</p>
+</blockquote>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>有时候别人给我一串数字 “438.650 -5”，就表示接收频率是 438.650 MHz，发射频率比接收频率小 5MHz，即 433.650 MHz</p>
+<p>有下差，就有上差。上差</p>
+<blockquote>
+<p>就是发射频率比接收频率大多少 MHz</p>
+</blockquote>
+<h2 id="亚音"><a href="#亚音" class="headerlink" title="亚音"></a>亚音</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><p>亚音是用于在同一频率上有多个电台通讯时，防止与自己不相干的电台干扰的一种方法。亚音有多种，最常用的亚音就是 CTCSS，也就是常说的模拟亚音。还有一种是 DCS，即数字亚音</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>亚音按照方向分“发射亚音”和“接收亚音”两种。一般，为了能上中继，都是使用发射亚音，这样才能打开中继。而中继自己采用的就是“接收亚音”，没有亚音的信号就被排斥了。中继下来的信号有的不带亚音但也有带亚音的。同样，自己接收时，为了能排斥自己不需要听的信号，也可以同样加上接收亚音。这样，两个电台（或几个电台）之间也可以使用约定的亚音，用于排除外来干扰信号</p>
+<h3 id="误区"><a href="#误区" class="headerlink" title="误区"></a>误区</h3><p>发射亚音时，接收方只有设置到亚音接收才能接收。 错！事实上正相反。发射亚音时，接收方设置到“非亚音接收状态”一定能接收，设置到“亚音接收状态”时，必须亚音类型一致、同时亚音码一致才能接收</p>
+<h3 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h3><p>有时候会看到“中继台 438.650 -5 88.5”，这串文字是什么意思？</p>
+<blockquote>
+<p>这串文字表示：中继台下行频率 438.650 MHz，下差 5 MHz，因此上行频率为 433.65 MHz。88.5 表示中继台的接收亚音频率。所以对讲机设置接收频率 438.65 MHz，发射频率设置 433.650 MHz，然后再设置发射亚音为 88.5 MHz</p>
+</blockquote>
+<h2 id="直频"><a href="#直频" class="headerlink" title="直频"></a>直频</h2><p>所谓直频，就是两个电台用同一频率通联的清醒。许多火腿为了测试，在有中继的时候不使用中继，直接使用中继的下行频率即守听频率进行通连。</p>
+<p>直频通连具有信号好（没有通过中继）、影响范围小、对中继不干扰、同时不改变中继守听的特点，因此适合近距离的通连。</p>
+<p>例如某中继的上行频率为434M，下行频率（即守听频率）为439M，则直频就是收发都用439M。一方采用直频后，应建议对方也改成直频，否则双方尽管可以通连，但对方的信号是通过中继下来的，仍然影响全局并听起来只有一方说话比较奇怪。当双方都使用直频时，在通连的间隙仍然在监听中继信号</p>
+<h2 id="天线"><a href="#天线" class="headerlink" title="天线"></a>天线</h2><h3 id="八木天线"><a href="#八木天线" class="headerlink" title="八木天线"></a>八木天线</h3><img src="/2018/12/12/无线电知识和UV-5R的使用/100017116093_14455667845728.jpg">
+<h2 id="波段"><a href="#波段" class="headerlink" title="波段"></a>波段</h2><p>UHF 也称作 70 厘米（波长），VHF 也称作 2 米（波长）</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://tieba.baidu.com/p/2988811700" target="_blank" rel="noopener">【无线电】何谓中继、频率、频差、亚音、直频、倒频</a></li>
+<li><a href="http://www.360doc.com/content/13/1013/17/3977809_321171986.shtml" target="_blank" rel="noopener">用手台实现远程通联</a></li>
+<li><a href="http://www.szbsr.org/index.php/home/news/index/id/N20161122093408869.html" target="_blank" rel="noopener">宝峰-UV5R上中继的调频方法</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/无线电/" rel="tag"># 无线电</a>
+          
+            <a href="/tags/UV-5R/" rel="tag"># UV-5R</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/03/《MySQL必知必会》读书笔记/" rel="next" title="《MySQL必知必会》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《MySQL必知必会》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/12/导入Oracle的JDBC驱动到本地Maven仓库/" rel="prev" title="导入Oracle的JDBC驱动到本地Maven仓库">
+                导入Oracle的JDBC驱动到本地Maven仓库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#中继"><span class="nav-number">1.</span> <span class="nav-text">中继</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中继通联的特点"><span class="nav-number">1.2.</span> <span class="nav-text">中继通联的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用手台进行中继通联"><span class="nav-number">1.3.</span> <span class="nav-text">如何使用手台进行中继通联</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下差"><span class="nav-number">2.</span> <span class="nav-text">下差</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-1"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#举例"><span class="nav-number">2.2.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#亚音"><span class="nav-number">3.</span> <span class="nav-text">亚音</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义-2"><span class="nav-number">3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">3.2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#误区"><span class="nav-number">3.3.</span> <span class="nav-text">误区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#举例-1"><span class="nav-number">3.4.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直频"><span class="nav-number">4.</span> <span class="nav-text">直频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#天线"><span class="nav-number">5.</span> <span class="nav-text">天线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#八木天线"><span class="nav-number">5.1.</span> <span class="nav-text">八木天线</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#波段"><span class="nav-number">6.</span> <span class="nav-text">波段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

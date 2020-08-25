@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="读书计划开始了，这是我要阅读的第三本书">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Docker 从入门到实践》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2018/11/10/《Docker-从入门到实践》读书笔记/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="读书计划开始了，这是我要阅读的第三本书">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.846Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Docker 从入门到实践》读书笔记">
+<meta name="twitter:description" content="读书计划开始了，这是我要阅读的第三本书">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/10/《Docker-从入门到实践》读书笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《Docker 从入门到实践》读书笔记 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/10/《Docker-从入门到实践》读书笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Docker 从入门到实践》读书笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-10 14:14:57" itemprop="dateCreated datePublished" datetime="2018-11-10T14:14:57+08:00">2018-11-10</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>读书计划开始了，这是我要阅读的第三本书</p>
+<a id="more"></a>
+<h1 id="关于这本书"><a href="#关于这本书" class="headerlink" title="关于这本书"></a>关于这本书</h1><p>可以在《<a href="https://yeasy.gitbooks.io/docker_practice/content/" target="_blank" rel="noopener">Docker — 从入门到实践</a>》看到原文。也可以直接在<a href="/uploads/docker_practice.pdf">这里</a>下载</p>
+<h1 id="Docker-简介"><a href="#Docker-简介" class="headerlink" title="Docker 简介"></a>Docker 简介</h1><h2 id="什么是-Docker"><a href="#什么是-Docker" class="headerlink" title="什么是 Docker"></a>什么是 Docker</h2><ul>
+<li>Go 语言开发</li>
+<li>操作系统层面的虚拟化技术</li>
+</ul>
+<h2 id="为什么要用-Docker"><a href="#为什么要用-Docker" class="headerlink" title="为什么要用 Docker"></a>为什么要用 Docker</h2><ol>
+<li>不需要进行硬件虚拟化和运行完整的操作系统</li>
+<li>启动很快，秒级</li>
+<li>一致的运行环境</li>
+<li>DevOps</li>
+<li>迁移很方便</li>
+<li>维护和扩展很方便</li>
+</ol>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><ul>
+<li>镜像（Image）</li>
+<li>容器（Container）</li>
+<li>仓库（Repository）</li>
+</ul>
+<p>镜像（Image）可以理解成一个里面有一个操作系统和一些软件的安装包</p>
+<p>镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样。我可以通过安装镜像，得到一个能运行的软件</p>
+<p>仓库（Repository）就是存放镜像（Image）的仓库，仓库有公共仓库和私有仓库两种</p>
+<p><strong>一个容易混淆的概念</strong></p>
+<p>经常有人把仓库（Repository）和仓库注册服务器（Registry）混为一谈。两者是不同的东西。仓库（Repository）放镜像；仓库注册服务器（Registry）放仓库。比如 Ubuntu 镜像就放在 Ubuntu 的仓库里，按照不同的 TAG，比如 14.04、16.04、18.04 等来区分不同版本的 Ubuntu。仓库注册服务器（Registry）有很多的仓库，比如 Ubuntu 的仓库、Nginx 的仓库、Tomcat 的仓库、MySQL 的仓库等等</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>看这篇文章《<a href="/2018/11/01/Ubuntu安装Docker-CE/" title="Ubuntu安装Docker-CE">Ubuntu安装Docker-CE</a>》</p>
+<h1 id="帮助文档"><a href="#帮助文档" class="headerlink" title="帮助文档"></a>帮助文档</h1><p>docker 命令的文档，有两种方式可以查看。</p>
+<ol>
+<li>按照 <code>docker xxx --help</code> 这样的格式即可查看简略文档，比如 <code>docker pull --help</code></li>
+<li>可以通过 <code>man docker xxx</code> 查看详细文档。比如要查看 <code>docker pull</code> 命令的文档，可以输入 <code>man docker pull</code></li>
+</ol>
+<p>目前 Docker 支持这些命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">Usage:	docker [OPTIONS] COMMAND</span><br><span class="line"></span><br><span class="line">A self-sufficient runtime for containers</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">      --config string      Location of client config files (default &quot;/root/.docker&quot;)</span><br><span class="line">  -D, --debug              Enable debug mode</span><br><span class="line">  -H, --host list          Daemon socket(s) to connect to</span><br><span class="line">  -l, --log-level string   Set the logging level (&quot;debug&quot;|&quot;info&quot;|&quot;warn&quot;|&quot;error&quot;|&quot;fatal&quot;) (default &quot;info&quot;)</span><br><span class="line">      --tls                Use TLS; implied by --tlsverify</span><br><span class="line">      --tlscacert string   Trust certs signed only by this CA (default &quot;/root/.docker/ca.pem&quot;)</span><br><span class="line">      --tlscert string     Path to TLS certificate file (default &quot;/root/.docker/cert.pem&quot;)</span><br><span class="line">      --tlskey string      Path to TLS key file (default &quot;/root/.docker/key.pem&quot;)</span><br><span class="line">      --tlsverify          Use TLS and verify the remote</span><br><span class="line">  -v, --version            Print version information and quit</span><br><span class="line"></span><br><span class="line">Management Commands:</span><br><span class="line">  config      Manage Docker configs</span><br><span class="line">  container   Manage containers</span><br><span class="line">  image       Manage images</span><br><span class="line">  network     Manage networks</span><br><span class="line">  node        Manage Swarm nodes</span><br><span class="line">  plugin      Manage plugins</span><br><span class="line">  secret      Manage Docker secrets</span><br><span class="line">  service     Manage services</span><br><span class="line">  stack       Manage Docker stacks</span><br><span class="line">  swarm       Manage Swarm</span><br><span class="line">  system      Manage Docker</span><br><span class="line">  trust       Manage trust on Docker images</span><br><span class="line">  volume      Manage volumes</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  attach      Attach local standard input, output, and error streams to a running container</span><br><span class="line">  build       Build an image from a Dockerfile</span><br><span class="line">  commit      Create a new image from a container&apos;s changes</span><br><span class="line">  cp          Copy files/folders between a container and the local filesystem</span><br><span class="line">  create      Create a new container</span><br><span class="line">  diff        Inspect changes to files or directories on a container&apos;s filesystem</span><br><span class="line">  events      Get real time events from the server</span><br><span class="line">  exec        Run a command in a running container</span><br><span class="line">  export      Export a container&apos;s filesystem as a tar archive</span><br><span class="line">  history     Show the history of an image</span><br><span class="line">  images      List images</span><br><span class="line">  import      Import the contents from a tarball to create a filesystem image</span><br><span class="line">  info        Display system-wide information</span><br><span class="line">  inspect     Return low-level information on Docker objects</span><br><span class="line">  kill        Kill one or more running containers</span><br><span class="line">  load        Load an image from a tar archive or STDIN</span><br><span class="line">  login       Log in to a Docker registry</span><br><span class="line">  logout      Log out from a Docker registry</span><br><span class="line">  logs        Fetch the logs of a container</span><br><span class="line">  pause       Pause all processes within one or more containers</span><br><span class="line">  port        List port mappings or a specific mapping for the container</span><br><span class="line">  ps          List containers</span><br><span class="line">  pull        Pull an image or a repository from a registry</span><br><span class="line">  push        Push an image or a repository to a registry</span><br><span class="line">  rename      Rename a container</span><br><span class="line">  restart     Restart one or more containers</span><br><span class="line">  rm          Remove one or more containers</span><br><span class="line">  rmi         Remove one or more images</span><br><span class="line">  run         Run a command in a new container</span><br><span class="line">  save        Save one or more images to a tar archive (streamed to STDOUT by default)</span><br><span class="line">  search      Search the Docker Hub for images</span><br><span class="line">  start       Start one or more stopped containers</span><br><span class="line">  stats       Display a live stream of container(s) resource usage statistics</span><br><span class="line">  stop        Stop one or more running containers</span><br><span class="line">  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE</span><br><span class="line">  top         Display the running processes of a container</span><br><span class="line">  unpause     Unpause all processes within one or more containers</span><br><span class="line">  update      Update configuration of one or more containers</span><br><span class="line">  version     Show the Docker version information</span><br><span class="line">  wait        Block until one or more containers stop, then print their exit codes</span><br><span class="line"></span><br><span class="line">Run &apos;docker COMMAND --help&apos; for more information on a command.</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-镜像的操作"><a href="#Docker-镜像的操作" class="headerlink" title="Docker 镜像的操作"></a>Docker 镜像的操作</h1><p>常用的操作有：</p>
+<ul>
+<li>拉取镜像</li>
+<li>列出本地的镜像</li>
+<li>查看镜像的详细信息</li>
+<li>删除本地镜像</li>
+<li>镜像导入导出</li>
+</ul>
+<h2 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h2><p>镜像有名字，格式为：<code>NAME:TAG</code>，如果 <code>TAG</code> 不指定的话，默认是 <code>latest</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull NAME[:TAG]</span><br></pre></td></tr></table></figure>
+<p>比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu:16.04</span><br></pre></td></tr></table></figure>
+<p>会拉取 ubuntu 仓库中 TAG 为 16.04 的镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure>
+<p>没有指定 TAG，默认为 <code>latest</code>，因此会拉取 ubuntu 仓库中最新的镜像</p>
+<h2 id="列出本地的镜像"><a href="#列出本地的镜像" class="headerlink" title="列出本地的镜像"></a>列出本地的镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+<p>可以列出已经从仓库拉取保存到本地的镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">gitlab/gitlab-ce    latest              446c42fd5226        10 days ago         1.56GB</span><br><span class="line">ubuntu              16.04               4a689991aa24        2 weeks ago         116MB</span><br><span class="line">ubuntu              latest              ea4c82dcd15a        2 weeks ago         85.8MB</span><br><span class="line">nginx               latest              dbfc48660aeb        2 weeks ago         109MB</span><br><span class="line">jenkins/jenkins     lts                 9cff19ad8c8b        3 weeks ago         730MB</span><br><span class="line">registry            latest              2e2f252f3c88        7 weeks ago         33.3MB</span><br><span class="line">hello-world         latest              4ab4c602aa5e        8 weeks ago         1.84kB</span><br></pre></td></tr></table></figure>
+<p>可以看到镜像的一些信息：</p>
+<ul>
+<li>REPOSITORY：镜像的仓库名称</li>
+<li>TAG：镜像的 TAG</li>
+<li>IMAGE ID：镜像的唯一标识</li>
+<li>CREATED：镜像的创建时间</li>
+<li>SIZE：镜像的大小</li>
+</ul>
+<p>也可以指定只列出某一个仓库的镜像，比如只列出 ubuntu 仓库的镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls ubuntu</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">ubuntu              16.04               4a689991aa24        2 weeks ago         116MB</span><br><span class="line">ubuntu              latest              ea4c82dcd15a        2 weeks ago         85.8MB</span><br></pre></td></tr></table></figure>
+<p>有一个命令参数很有用：<code>-q</code>，只列出镜像的 <code>IMAGE_ID</code>。比如</p>
+<p>列出所有镜像的 <code>IMAGE_ID</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls -q</span><br></pre></td></tr></table></figure>
+<p>列出 ubuntu 仓库中所有镜像的 <code>IMAGE_ID</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls ubuntu -q</span><br></pre></td></tr></table></figure>
+<h2 id="查看镜像的详细信息"><a href="#查看镜像的详细信息" class="headerlink" title="查看镜像的详细信息"></a>查看镜像的详细信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect NAME[:TAG] | IMAGE_ID</span><br></pre></td></tr></table></figure>
+<h2 id="删除本地镜像"><a href="#删除本地镜像" class="headerlink" title="删除本地镜像"></a>删除本地镜像</h2><p>可以使用 <code>NAME[:TAG]</code>（仓库名：标签）或者 <code>IMAGE_ID</code>（镜像ID）来删除镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image rm NAME[:TAG] | IMAGE_ID</span><br></pre></td></tr></table></figure>
+<p><code>docker image rm</code> 可以简写为 <code>docker rmi</code></p>
+<p>之前说过，可以用 <code>docker image ls</code> 带上参数 <code>-q</code> 可以列出镜像的 <code>IMAGE_ID</code>。如果要删除全部镜像，命令还可以这么写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image rm $(docker image ls -q)</span><br></pre></td></tr></table></figure>
+<h2 id="镜像导入导出"><a href="#镜像导入导出" class="headerlink" title="镜像导入导出"></a>镜像导入导出</h2><p>导出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save ubuntu &gt; ubuntu.tar</span><br></pre></td></tr></table></figure>
+<p>导入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load &lt; ubuntu.tar</span><br></pre></td></tr></table></figure>
+<h1 id="用-Dockerfile-定制自己的镜像"><a href="#用-Dockerfile-定制自己的镜像" class="headerlink" title="用 Dockerfile 定制自己的镜像"></a>用 Dockerfile 定制自己的镜像</h1><p><strong>这是重点！</strong></p>
+<p>镜像的定制实际上就是定制每一层所添加的配置、文件，把每一层修改、安装、构建、操作的命令都写入一个名为 Dockerfile 的脚本，用这个脚本来构建、定制镜像</p>
+<p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，<strong>每一条指令构建一层</strong>。每一条指令的内容，就是描述该层应当如何构建。Dockerfile 的写法可以看 <a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">Dockerfile reference</a>，最佳实践可以看 <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/" target="_blank" rel="noopener">Best practices for writing Dockerfiles</a></p>
+<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><p>以自己定制一个 nginx 镜像为例。创建一个文件夹，在文件夹新建一个名为 <code>Dockerfile</code> 的文件（这一步很重要，每次定制镜像时，都建立一个独立的文件夹）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir mynginx</span><br><span class="line">cd mynginx</span><br><span class="line">touch Dockerfile</span><br></pre></td></tr></table></figure>
+<p>Dockerfile 的内容为</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> nginx</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'&lt;h1&gt;Hello, Docker!&lt;/h1&gt;'</span> &gt; /usr/share/nginx/html/index.html</span></span><br></pre></td></tr></table></figure>
+<p>构建镜像（别忘了后面有一个 <code>.</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t nginx:ikutarian .</span><br></pre></td></tr></table></figure>
+<p>会输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Sending build context to Docker daemon  2.048kB</span><br><span class="line">Step 1/2 : FROM nginx</span><br><span class="line">latest: Pulling from library/nginx</span><br><span class="line">f17d81b4b692: Pull complete </span><br><span class="line">d5c237920c39: Pull complete </span><br><span class="line">a381f92f36de: Pull complete </span><br><span class="line">Digest: sha256:b73f527d86e3461fd652f62cf47e7b375196063bbbd503e853af5be16597cb2e</span><br><span class="line">Status: Downloaded newer image for nginx:latest</span><br><span class="line"> ---&gt; dbfc48660aeb</span><br><span class="line">Step 2/2 : RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</span><br><span class="line"> ---&gt; Running in 374b25943bd3</span><br><span class="line">Removing intermediate container 374b25943bd3</span><br><span class="line"> ---&gt; a86dfb4b5ce9</span><br><span class="line">Successfully built a86dfb4b5ce9</span><br><span class="line">Successfully tagged nginx:ikutarian</span><br></pre></td></tr></table></figure>
+<p>这样一个仓库名为 <code>nginx</code>，标签为 <code>ikutarian</code> 的镜像就创建好了。输入 <code>docker images nginx</code> 就可以看到新增了一个 <code>nginx:ikutarian</code> 镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">nginx               ikutarian           a86dfb4b5ce9        2 minutes ago       109MB</span><br><span class="line">nginx               latest              dbfc48660aeb        3 weeks ago         109MB</span><br></pre></td></tr></table></figure>
+<h1 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h1><ul>
+<li>启动（<strong>这是重点</strong>）<ul>
+<li>后台启动</li>
+<li>进入容器</li>
+</ul>
+</li>
+<li>查看容器列表</li>
+<li>停止</li>
+<li>重启</li>
+<li>删除</li>
+</ul>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>有两种方式：</p>
+<ol>
+<li>基于镜像新建一个容器并启动</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -i -t ubuntu bash</span><br></pre></td></tr></table></figure>
+<p><code>-i</code> 表示开启 STDIN；<code>-t</code> 表示开启一个伪 tty 终端；指定一个名字为 <code>ubuntu</code> 的镜像来创建容器；<code>bash</code> 是启动容器之后要执行的命令，表示启动了一个 bash shell</p>
+<ol start="2">
+<li>将已经停止的容器重新启动</li>
+</ol>
+<p>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES</span><br><span class="line">05d194951f12        ubuntu              &quot;bash&quot;              25 seconds ago      Exited (0) 5 seconds ago                       nostalgic_thompson</span><br></pre></td></tr></table></figure>
+<p>找一个已经处于停止状态的容器。这里正好有一个 <code>STATUS</code> 是 <code>Exited (0) 5 seconds ago</code> 的容器，ID 是 <code>05d194951f12</code>，那么就可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start 05d194951f12</span><br></pre></td></tr></table></figure>
+<p>把这个容器启动起来</p>
+<h3 id="后台启动"><a href="#后台启动" class="headerlink" title="后台启动"></a>后台启动</h3><p>可以加上参数 <code>-d</code> 让容器在后台运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -d ubuntu bash</span><br></pre></td></tr></table></figure>
+<p>docker 会返回一个很长的容器 ID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# docker run -itd ubuntu bash</span><br><span class="line">9fd01d0651556d6bbfa3e7606b56e96983825d20a519727557ee0f7805265bad</span><br></pre></td></tr></table></figure>
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><p>进入容器有两种方法：</p>
+<ol>
+<li>docker attach CONTAINER_ID</li>
+<li>docker exec CONTAINER_ID</li>
+</ol>
+<p><code>docker attach IMAGE_ID</code> 如果输入 <code>exit</code> 退出虚拟终端会把容器给停掉。<code>docker exec IMAGE_ID</code> 则相反，输入 <code>exit</code> 不会把容器停掉。所以推荐使用 <code>docker exec IMAGE_ID</code></p>
+<p>可以看下面的例子</p>
+<p>列出正在运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">9fd01d065155        ubuntu              &quot;bash&quot;              5 minutes ago       Up 5 minutes                            unruffled_yonath</span><br></pre></td></tr></table></figure>
+<p>进入一个正在运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# docker exec -it 9fd bash</span><br></pre></td></tr></table></figure>
+<p>在容器中输入 <code>exit</code> 退出终端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@9fd01d065155:/# exit</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>再次查看正在运行的容器，可以看见容器还是在正常运行，没有停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@iZ94fg0bhwgrgtZ:~# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">9fd01d065155        ubuntu              &quot;bash&quot;              6 minutes ago       Up 6 minutes                            unruffled_yonath</span><br></pre></td></tr></table></figure>
+<h2 id="查看容器列表"><a href="#查看容器列表" class="headerlink" title="查看容器列表"></a>查看容器列表</h2><p>查看正在运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p>查看所有容器，不管是停止还是正在运行的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<p>会输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                       PORTS               NAMES</span><br><span class="line">bc11b336f77e        ubuntu              &quot;/bin/bash&quot;         11 minutes ago      Exited (127) 7 seconds ago                       dazzling_northcutt</span><br></pre></td></tr></table></figure>
+<p><strong>注意到一个现象</strong></p>
+<p>之前输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -i -t ubuntu bash</span><br></pre></td></tr></table></figure>
+<p>启动一个 ubuntu 镜像，并进入 bash shell。用户敲了一些命令，执行了一些任务之后。输入 <code>exit</code> 退出 ubuntu。这时候再输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p>却发现没有看到 ubuntu 出现在列表中。这是为什么呢？</p>
+<blockquote>
+<p>这是因为想要保持 Docker 容器的活跃状态，需要其中运行前台的进程不能中断。中断了话容器就停止了</p>
+</blockquote>
+<h2 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop CONTAINER_ID</span><br></pre></td></tr></table></figure>
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart CONTAINER_ID</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm CONTAINER_ID</span><br></pre></td></tr></table></figure>
+<p>可以利用命令参数 <code>-q</code>，一条命令删除所有容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+<h1 id="数据管理"><a href="#数据管理" class="headerlink" title="数据管理"></a>数据管理</h1><p>两种方式：</p>
+<ol>
+<li>数据卷（Volumes）</li>
+<li>挂载宿主机目录（Bind mounts）</li>
+</ol>
+<h1 id="使用网络"><a href="#使用网络" class="headerlink" title="使用网络"></a>使用网络</h1><ul>
+<li>外部访问容器</li>
+<li>容器互联</li>
+</ul>
+<h2 id="外部访问容器"><a href="#外部访问容器" class="headerlink" title="外部访问容器"></a>外部访问容器</h2><p>“外部访问容器”就是要让外部的请求通过端口映射转发到容器内部。使用 <code>-p</code> 参数可以指定要映射的端口，格式有：</p>
+<ul>
+<li>宿主机端口:容器端口</li>
+<li>宿主机ip:宿主机端口:容器端口</li>
+<li>宿主机ip::容器端口</li>
+</ul>
+<h3 id="宿主机端口-容器端口"><a href="#宿主机端口-容器端口" class="headerlink" title="宿主机端口:容器端口"></a>宿主机端口:容器端口</h3><p>宿主机端口 5000 映射到容器的 5000 端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 5000:5000</span><br></pre></td></tr></table></figure>
+<h3 id="宿主机ip-宿主机端口-容器端口"><a href="#宿主机ip-宿主机端口-容器端口" class="headerlink" title="宿主机ip:宿主机端口:容器端口"></a>宿主机ip:宿主机端口:容器端口</h3><p>宿主机的 localhost:5000 映射到容器的 5000 端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 127.0.0.1:5000:5000</span><br></pre></td></tr></table></figure>
+<h3 id="宿主机ip-容器端口"><a href="#宿主机ip-容器端口" class="headerlink" title="宿主机ip::容器端口"></a>宿主机ip::容器端口</h3><p>宿主机的 localhost 所有端口的请求都转发到容器的 5000 端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 127.0.0.1::5000</span><br></pre></td></tr></table></figure>
+<h3 id="可以一次映射多个端口"><a href="#可以一次映射多个端口" class="headerlink" title="可以一次映射多个端口"></a>可以一次映射多个端口</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 5000:5000 -p 3000:80</span><br></pre></td></tr></table></figure>
+<h2 id="容器互联"><a href="#容器互联" class="headerlink" title="容器互联"></a>容器互联</h2><p>“容器互联”就是要让容器与容器之间互相通信。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这本书的学习就到这里了，后面的知识和 Docker 没什么太大关系，现在学也没什么用。接下来就是实践，边做边学</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/08/《The-Linux-Command-Line》读书笔记/" rel="next" title="《The Linux Command Line》读书笔记">
+                <i class="fa fa-chevron-left"></i> 《The Linux Command Line》读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/《算法图解》读书笔记/" rel="prev" title="《算法图解》读书笔记">
+                《算法图解》读书笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于这本书"><span class="nav-number">1.</span> <span class="nav-text">关于这本书</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-简介"><span class="nav-number">2.</span> <span class="nav-text">Docker 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Docker"><span class="nav-number">2.1.</span> <span class="nav-text">什么是 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用-Docker"><span class="nav-number">2.2.</span> <span class="nav-text">为什么要用 Docker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心概念"><span class="nav-number">3.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#帮助文档"><span class="nav-number">5.</span> <span class="nav-text">帮助文档</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-镜像的操作"><span class="nav-number">6.</span> <span class="nav-text">Docker 镜像的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取镜像"><span class="nav-number">6.1.</span> <span class="nav-text">拉取镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出本地的镜像"><span class="nav-number">6.2.</span> <span class="nav-text">列出本地的镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看镜像的详细信息"><span class="nav-number">6.3.</span> <span class="nav-text">查看镜像的详细信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除本地镜像"><span class="nav-number">6.4.</span> <span class="nav-text">删除本地镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像导入导出"><span class="nav-number">6.5.</span> <span class="nav-text">镜像导入导出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用-Dockerfile-定制自己的镜像"><span class="nav-number">7.</span> <span class="nav-text">用 Dockerfile 定制自己的镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子"><span class="nav-number">7.1.</span> <span class="nav-text">一个例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#容器操作"><span class="nav-number">8.</span> <span class="nav-text">容器操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">8.1.</span> <span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台启动"><span class="nav-number">8.1.1.</span> <span class="nav-text">后台启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入容器"><span class="nav-number">8.1.2.</span> <span class="nav-text">进入容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看容器列表"><span class="nav-number">8.2.</span> <span class="nav-text">查看容器列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止"><span class="nav-number">8.3.</span> <span class="nav-text">停止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启"><span class="nav-number">8.4.</span> <span class="nav-text">重启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">8.5.</span> <span class="nav-text">删除</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据管理"><span class="nav-number">9.</span> <span class="nav-text">数据管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用网络"><span class="nav-number">10.</span> <span class="nav-text">使用网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#外部访问容器"><span class="nav-number">10.1.</span> <span class="nav-text">外部访问容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#宿主机端口-容器端口"><span class="nav-number">10.1.1.</span> <span class="nav-text">宿主机端口:容器端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宿主机ip-宿主机端口-容器端口"><span class="nav-number">10.1.2.</span> <span class="nav-text">宿主机ip:宿主机端口:容器端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#宿主机ip-容器端口"><span class="nav-number">10.1.3.</span> <span class="nav-text">宿主机ip::容器端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可以一次映射多个端口"><span class="nav-number">10.1.4.</span> <span class="nav-text">可以一次映射多个端口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器互联"><span class="nav-number">10.2.</span> <span class="nav-text">容器互联</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

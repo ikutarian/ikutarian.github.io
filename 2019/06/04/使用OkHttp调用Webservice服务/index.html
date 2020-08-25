@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="工作中遇到需要请求 Webservice 的场景。如果用一些 WebService 框架去请求的话需要引入很多的库。这样太麻烦了，学习也要时间。反正请求 Webservice 其实也是发起 HTTP 请求，就用 HTTP 库来实现好了。于是就用 OkHttp 来发起请求调用 Webservice 服务">
+<meta name="keywords" content="OkHttp,Webservice,SOAP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用OkHttp调用Webservice服务">
+<meta property="og:url" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="工作中遇到需要请求 Webservice 的场景。如果用一些 WebService 框架去请求的话需要引入很多的库。这样太麻烦了，学习也要时间。反正请求 Webservice 其实也是发起 HTTP 请求，就用 HTTP 库来实现好了。于是就用 OkHttp 来发起请求调用 Webservice 服务">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-30-19.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-31-15.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-32-20.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-36-10.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-37-19.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-37-37.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-41-08.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-45-30.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-46-29.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-47-46.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-22-09.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-22-34.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-24-01.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用OkHttp调用Webservice服务">
+<meta name="twitter:description" content="工作中遇到需要请求 Webservice 的场景。如果用一些 WebService 框架去请求的话需要引入很多的库。这样太麻烦了，学习也要时间。反正请求 Webservice 其实也是发起 HTTP 请求，就用 HTTP 库来实现好了。于是就用 OkHttp 来发起请求调用 Webservice 服务">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-30-19.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用OkHttp调用Webservice服务 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/04/使用OkHttp调用Webservice服务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用OkHttp调用Webservice服务
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-04 21:36:14" itemprop="dateCreated datePublished" datetime="2019-06-04T21:36:14+08:00">2019-06-04</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工作中遇到需要请求 Webservice 的场景。如果用一些 WebService 框架去请求的话需要引入很多的库。这样太麻烦了，学习也要时间。反正请求 Webservice 其实也是发起 HTTP 请求，就用 HTTP 库来实现好了。于是就用 OkHttp 来发起请求调用 Webservice 服务</p>
+<a id="more"></a>
+<h1 id="报文格式是什么样的？"><a href="#报文格式是什么样的？" class="headerlink" title="报文格式是什么样的？"></a>报文格式是什么样的？</h1><p>报文格式可以使用 <a href="https://www.soapui.org/" target="_blank" rel="noopener">SoapUI</a> 来查看。SoapUI 和常用的 PostMan 一样都是接口测试工具。不过 SoapUI 在调用 WebService 时更专业一点</p>
+<p>现在有一个天气预报的 WebService WSDL：<a href="http://www.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl。打开" target="_blank" rel="noopener">http://www.webxml.com.cn/WebServices/WeatherWS.asmx?wsdl。打开</a> SoapUI，选择 “File - New SOAP Project”</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-30-19.png">
+<p>填写项目名称和 WSDL，然后点击 “OK”</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-31-15.png">
+<p>就会在侧边栏看到项目了</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-32-20.png">
+<p>随便点击一个接口，比如 <code>getSupportCity</code>，就可以看到请求报文格式了</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-36-10.png">
+<p>现在按照文档，填充请求报文，点击左上角的绿色三角发起请求</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-37-19.png">
+<p>现在就可以看到返回的报文了</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-37-37.png">
+<p>那么报文格式呢？点击这个 “RAW” 按钮就可看到了</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-41-08.png">
+<p><strong>需要关注的是 Header 部分</strong>，这两个最重要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Content-Type: text/xml;charset=UTF-8</span><br><span class="line">SOAPAction: &quot;http://WebXml.com.cn/getSupportCity&quot;</span><br></pre></td></tr></table></figure>
+<p>现在知道报文格式了，那么就可以利用 PostMan 来组装报文请求 WebService 试试</p>
+<h1 id="使用-PostMan-组装报文请求-WebService"><a href="#使用-PostMan-组装报文请求-WebService" class="headerlink" title="使用 PostMan 组装报文请求 WebService"></a>使用 PostMan 组装报文请求 WebService</h1><p>填写 URL，使用 Post 请求，包体选择 Raw，并选择 <code>XML(text/xml)</code>，填写报文</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-45-30.png">
+<p>填写 Header</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-46-29.png">
+<p>现在发起请求试试，可以看到有响应报文返回</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_10-47-46.png">
+<h1 id="使用-OkHttp-请求-WebService"><a href="#使用-OkHttp-请求-WebService" class="headerlink" title="使用 OkHttp 请求 WebService"></a>使用 OkHttp 请求 WebService</h1><p>引入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.squareup.okhttp3<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>okhttp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.14.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">String url = <span class="string">"http://www.webxml.com.cn/WebServices/WeatherWebService.asmx"</span>;</span><br><span class="line">String requestBody = <span class="string">"&lt;soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://WebXml.com.cn/\"&gt;\n"</span> +</span><br><span class="line">                <span class="string">"   &lt;soapenv:Header/&gt;\n"</span> +</span><br><span class="line">                <span class="string">"   &lt;soapenv:Body&gt;\n"</span> +</span><br><span class="line">                <span class="string">"      &lt;web:getSupportCity&gt;\n"</span> +</span><br><span class="line">                <span class="string">"         &lt;!--Optional:--&gt;\n"</span> +</span><br><span class="line">                <span class="string">"         &lt;web:byProvinceName&gt;福建&lt;/web:byProvinceName&gt;\n"</span> +</span><br><span class="line">                <span class="string">"      &lt;/web:getSupportCity&gt;\n"</span> +</span><br><span class="line">                <span class="string">"   &lt;/soapenv:Body&gt;\n"</span> +</span><br><span class="line">                <span class="string">"&lt;/soapenv:Envelope&gt;"</span>;;</span><br><span class="line"></span><br><span class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient();</span><br><span class="line">MediaType mediaType = MediaType.parse(<span class="string">"text/xml"</span>);</span><br><span class="line">RequestBody body = RequestBody.create(mediaType, requestBody);</span><br><span class="line">Request request = <span class="keyword">new</span> Request.Builder()</span><br><span class="line">        .url(url)</span><br><span class="line">        .post(body)</span><br><span class="line">        .addHeader(<span class="string">"SOAPAction"</span>, <span class="string">"http://WebXml.com.cn/getSupportCity"</span>)</span><br><span class="line">        .addHeader(<span class="string">"Content-Type"</span>, <span class="string">"text/xml; charset=utf-8"</span>)</span><br><span class="line">        .build();</span><br><span class="line">Response response = client.newCall(request).execute();</span><br><span class="line"><span class="keyword">if</span> (response.isSuccessful()) &#123;</span><br><span class="line">    String xmlResult = response.body().string();</span><br><span class="line">    log.info(<span class="string">"SOAP请求成功，返回内容为: &#123;&#125;"</span>, xmlResult);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    log.error(<span class="string">"SOAP请求失败，HTTP状态码为：&#123;&#125;"</span>, response.code());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>格式就是这样，剩下的就是根据项目进行封装了</p>
+<h1 id="利用-PostMan-生成代码"><a href="#利用-PostMan-生成代码" class="headerlink" title="利用 PostMan 生成代码"></a>利用 PostMan 生成代码</h1><p>如果连代码都懒得写的话，可以用 PostMan 生成代码。点击 “Code”</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-22-09.png">
+<p>选择 “Java - OK HTTP” 就可以生成 OkHTTP 的 Java 代码了</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-22-34.png">
+<p>只不过这部分的代码可以酌情删除</p>
+<img src="/2019/06/04/使用OkHttp调用Webservice服务/Snipaste_2019-06-11_11-24-01.png">
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上就是如何利用 SoapUI 分析报文，利用 PostMan 组装报文，使用 OkHttp 请求 WebService 的全部内容了</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OkHttp/" rel="tag"># OkHttp</a>
+          
+            <a href="/tags/Webservice/" rel="tag"># Webservice</a>
+          
+            <a href="/tags/SOAP/" rel="tag"># SOAP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/03/前端开发知识点总结/" rel="next" title="前端开发知识点总结">
+                <i class="fa fa-chevron-left"></i> 前端开发知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/10/利用Vue实现一个简单的购物车/" rel="prev" title="利用Vue实现一个简单的购物车">
+                利用Vue实现一个简单的购物车 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#报文格式是什么样的？"><span class="nav-number">1.</span> <span class="nav-text">报文格式是什么样的？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-PostMan-组装报文请求-WebService"><span class="nav-number">2.</span> <span class="nav-text">使用 PostMan 组装报文请求 WebService</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-OkHttp-请求-WebService"><span class="nav-number">3.</span> <span class="nav-text">使用 OkHttp 请求 WebService</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用-PostMan-生成代码"><span class="nav-number">4.</span> <span class="nav-text">利用 PostMan 生成代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

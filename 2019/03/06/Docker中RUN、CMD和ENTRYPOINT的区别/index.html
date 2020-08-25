@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Docker 中 RUN、CMD 和 ENTRYPOINT 的区别算是一个比较难理解的知识点，总结一下">
+<meta name="keywords" content="Docker,Dockerfile,RUN,CMD,ENTRYPOINT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker中RUN、CMD和ENTRYPOINT的区别">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="Docker 中 RUN、CMD 和 ENTRYPOINT 的区别算是一个比较难理解的知识点，总结一下">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.699Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker中RUN、CMD和ENTRYPOINT的区别">
+<meta name="twitter:description" content="Docker 中 RUN、CMD 和 ENTRYPOINT 的区别算是一个比较难理解的知识点，总结一下">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Docker中RUN、CMD和ENTRYPOINT的区别 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker中RUN、CMD和ENTRYPOINT的区别
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-06 10:13:17" itemprop="dateCreated datePublished" datetime="2019-03-06T10:13:17+08:00">2019-03-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Docker 中 RUN、CMD 和 ENTRYPOINT 的区别算是一个比较难理解的知识点，总结一下</p>
+<a id="more"></a>
+<h1 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h1><p>RUN</p>
+<blockquote>
+<p>执行命令并创建新的 image layer</p>
+</blockquote>
+<p>CMD</p>
+<blockquote>
+<ol>
+<li>容器启动后默认执行的命令</li>
+<li>如果使用 <code>docker run</code> 命令启动容器时指定了其他命令，CMD 指令将被忽略</li>
+</ol>
+</blockquote>
+<p>ENTRYPOINT</p>
+<blockquote>
+<ol>
+<li>配置容器启动时运行的命令</li>
+<li>不会被忽略，一定会执行</li>
+</ol>
+</blockquote>
+<h1 id="命令的格式"><a href="#命令的格式" class="headerlink" title="命令的格式"></a>命令的格式</h1><p>RUN、CMD 和 ENTRYPOINT 都支持两种格式的命令：Shell 和 Exec</p>
+<h2 id="Shell-格式"><a href="#Shell-格式" class="headerlink" title="Shell 格式"></a>Shell 格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;instruction&gt; &lt;command&gt;</span><br></pre></td></tr></table></figure>
+<p>比如</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span> apt-get install python3</span><br><span class="line">CMD echo "Hello world"</span><br><span class="line">ENTRYPOINT echo "Hello world"</span><br></pre></td></tr></table></figure>
+<p>Shell 格式的底层实现是调用 <code>/bin/sh -c [command]</code> 来实现的</p>
+<h2 id="Exec-格式："><a href="#Exec-格式：" class="headerlink" title="Exec 格式："></a>Exec 格式：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;instruction&gt; [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;, ...]</span><br></pre></td></tr></table></figure>
+<p>例如</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">RUN</span> ["apt-get", "install", "python3"]</span><br><span class="line">CMD ["/bin/echo", "Hello world]</span><br><span class="line">ENTRYPOINT ["/bin/echo", "Hello world"]</span><br></pre></td></tr></table></figure>
+<p>Exec 格式底层实现是把命令用空格分隔拼接起来，得到一个新的命令 <code>[command]</code>，然后直接调用 <code>[command]</code></p>
+<h2 id="当使用环境变量时"><a href="#当使用环境变量时" class="headerlink" title="当使用环境变量时"></a>当使用环境变量时</h2><p>比较一下 <code>CMD echo $PATH</code> 和 <code>CMD [&quot;echo&quot;, &quot;$PATH&quot;]</code> 的区别</p>
+<p>执行 <code>CMD echo $PATH</code> 时，输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br></pre></td></tr></table></figure>
+<p>使用 <code>docker ps -l --no-trunc</code> 观察 <code>COMMAND</code> 部分的内容，可以看到 <code>CMD echo $PATH</code> 变成了 <code>/bin/sh -c &#39;echo $PATH&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[node1] (local) root@192.168.0.13 ~/env</span><br><span class="line">$ docker ps -l --no-trunc</span><br><span class="line">CONTAINER ID                                                       IMAGE                 COMMAND CREATED             STATUS                      PORTS               NAMES</span><br><span class="line">e12085bd0f2c0aff932da620d70d82a42b4c097e2dd8ae51b5a6d1f396d5ea90   ikutarian/env-shell   &quot;/bin/sh -c &apos;echo $PATH&apos;&quot; 18 seconds ago      Exited (0) 17 seconds ago                       modest_swanson</span><br></pre></td></tr></table></figure>
+<p>执行 <code>CMD [&quot;echo&quot;, &quot;$PATH&quot;]</code> 时，输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PATH</span><br></pre></td></tr></table></figure>
+<p>使用 <code>docker ps -l --no-trunc</code> 观察 <code>COMMAND</code> 部分的内容，可以看到 <code>CMD [&quot;echo&quot;, &quot;$PATH&quot;]</code> 还是保持原样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps -l --no-trunc</span><br><span class="line">CONTAINER ID                                                       IMAGE                COMMAND             CREATED            STATUS                     PORTS               NAMES</span><br><span class="line">e448a81c9bed9b8e9a6b5bc4317fcad97ef3c795e139dcdfdac6419e8d3a3ab3   ikutarian/env-exec   &quot;echo $PATH&quot;        4 seconds ago       Exited (0) 2 seconds ago                       musing_ritchie</span><br></pre></td></tr></table></figure>
+<p>所以得出结论：</p>
+<ol>
+<li>Shell 格式的命令，会被包装为 <code>sh -c</code> 的参数的形式进行执行</li>
+<li>Exec 格式的命令则是原样执行。因此如果需要使用环境变量的话，应该写成这样：<code>CMD [&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;echo $PATH&quot;]</code></li>
+</ol>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><ol>
+<li>RUN 指令使用 Shell 格式的命令即可</li>
+<li>CMD 和 ENTRYPOINT 指令推荐使用 Exec 格式的命令</li>
+</ol>
+<h1 id="ENTRYPOINT-和-CMD-组合使用"><a href="#ENTRYPOINT-和-CMD-组合使用" class="headerlink" title="ENTRYPOINT 和 CMD 组合使用"></a>ENTRYPOINT 和 CMD 组合使用</h1><p>记住几点：</p>
+<ol>
+<li>CMD 设置容器启动时执行的命令，可以被 <code>docker run</code> 覆盖</li>
+<li>ENTRYPOINT 也是设置容器启动时执行的命令，无法被 <code>docker run</code> 覆盖，一定会执行</li>
+</ol>
+<p>所以，可以将 ENTRYPOINT 和 CMD 组合使用：</p>
+<blockquote>
+<p>ENTRYPOINT 指定默认的运行命令，CMD指定默认的运行参数</p>
+</blockquote>
+<p>比如这个 Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> busybox</span><br><span class="line"><span class="keyword">ENTRYPOINT</span> ["/bin/ping", "-c", "3"]</span><br><span class="line">CMD ["localhost"]</span><br></pre></td></tr></table></figure>
+<p>构建镜像，然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ikutarian/ping .</span><br><span class="line">docker run ikutarian/ping</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PING localhost (127.0.0.1): 56 data bytes</span><br><span class="line">64 bytes from 127.0.0.1: seq=0 ttl=64 time=0.254 ms</span><br><span class="line">64 bytes from 127.0.0.1: seq=1 ttl=64 time=0.069 ms</span><br><span class="line">64 bytes from 127.0.0.1: seq=2 ttl=64 time=0.048 ms</span><br><span class="line"></span><br><span class="line">--- localhost ping statistics ---</span><br><span class="line">3 packets transmitted, 3 packets received, 0% packet loss</span><br><span class="line">round-trip min/avg/max = 0.048/0.123/0.25</span><br></pre></td></tr></table></figure>
+<p>使用 <code>docker ps -a --no-trunc</code>，查看一下 <code>COMMAND</code> 部分的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps -l --no-trunc</span><br><span class="line">CONTAINER ID  IMAGE            COMMAND                      CREATED             STATUS                         PORTS  NAMES</span><br><span class="line">41b4661a0     ikutarian/ping   &quot;/bin/ping -c 3 localhost&quot;   2 minutes ago       Exited (0) About a minute ago         zen_ptolemy</span><br></pre></td></tr></table></figure>
+<p>可以看到容器启动时，执行的命令是 <code>/bin/ping -c 3 localhost</code></p>
+<p>上面的命令是用 <code>ENTRYPOINT [&quot;/bin/ping&quot;, &quot;-c&quot;, &quot;3&quot;]</code> 和 <code>CMD [&quot;localhost&quot;]</code> 组成而成的。CMD 指令的内容可以被 <code>docker run</code> 覆盖，如果希望容器启动之后 ping 的不是 localhost 而是其他的，可以这么做</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run ikutarian/ping www.google.com</span><br></pre></td></tr></table></figure>
+<p>现在的输出结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PING www.google.com (172.217.7.196): 56 data bytes</span><br><span class="line">64 bytes from 172.217.7.196: seq=0 ttl=49 time=1.057 ms</span><br><span class="line">64 bytes from 172.217.7.196: seq=1 ttl=49 time=9.893 ms</span><br><span class="line">64 bytes from 172.217.7.196: seq=2 ttl=49 time=1.232 ms</span><br><span class="line"></span><br><span class="line">--- www.google.com ping statistics ---</span><br><span class="line">3 packets transmitted, 3 packets received, 0% packet loss</span><br><span class="line">round-trip min/avg/max = 1.057/4.060/9.893 ms</span><br></pre></td></tr></table></figure>
+<p>用 <code>docker ps -l --no-trunc</code> 查看一下 <code>COMMAND</code> 的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps -l --no-trunc</span><br><span class="line">CONTAINER ID   IMAGE            COMMAND                           CREATED              STATUS                          PORTS   NAMES</span><br><span class="line">d01d1ebd4      ikutarian/ping   &quot;/bin/ping -c 3 www.google.com&quot;   About a minute ago   Exited (0) About a minute ago           quirky_hofstadter</span><br></pre></td></tr></table></figure>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
+<li>Shell 格式的底层实现是调用 <code>/bin/sh -c [command]</code> 来实现的</li>
+<li>Exec 格式底层实现是把命令用空格分隔拼接起来，得到一个新的命令 <code>[command]</code>，然后直接调用 <code>[command]</code></li>
+</ol>
+<p>所以 ENTRYPOINT 和 CMD 组合使用时，应该使用 Exec 格式的命令，否则的话就得不到正确的结果</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ENTRYPOINT</span> /bin/ping -c 3</span><br><span class="line">CMD localhost               </span><br><span class="line"># 得到 /bin/sh -c '/bin/ping -c 3' /bin/sh -c localhost</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ENTRYPOINT ["/bin/ping","-c","3"]</span><br><span class="line">CMD localhost               </span><br><span class="line"># 得到 /bin/ping -c 3 /bin/sh -c localhost</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ENTRYPOINT /bin/ping -c 3</span><br><span class="line">CMD ["localhost"]      </span><br><span class="line"># 得到 /bin/sh -c '/bin/ping -c 3' localhost</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ENTRYPOINT ["/bin/ping","-c","3"]</span><br><span class="line">CMD ["localhost"]           </span><br><span class="line"># 得到 /bin/ping -c 3 localhost</span><br></pre></td></tr></table></figure>
+<p>从上面看出, 只有 ENTRYPOINT 和 CMD 都用 Exec 格式的命令, 才能得到预期的效果</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>如果你想让你的 docker image 做真正的工作, 一定会在 Dockerfile 里用到 ENTRYPOINT 或是 CMD。这2个命令不是互斥的. 在很多情况下, 可以组合 ENTRYPOINT 和 CMD 命令, 提升最终用户的体验</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/Dockerfile/" rel="tag"># Dockerfile</a>
+          
+            <a href="/tags/RUN/" rel="tag"># RUN</a>
+          
+            <a href="/tags/CMD/" rel="tag"># CMD</a>
+          
+            <a href="/tags/ENTRYPOINT/" rel="tag"># ENTRYPOINT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/《系统学习Docker，践行DevOps理念》学习笔记/" rel="next" title="《系统学习Docker，践行DevOps理念》学习笔记">
+                <i class="fa fa-chevron-left"></i> 《系统学习Docker，践行DevOps理念》学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/11/Spring知识总结/" rel="prev" title="Spring知识总结">
+                Spring知识总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#作用"><span class="nav-number">1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令的格式"><span class="nav-number">2.</span> <span class="nav-text">命令的格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shell-格式"><span class="nav-number">2.1.</span> <span class="nav-text">Shell 格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exec-格式："><span class="nav-number">2.2.</span> <span class="nav-text">Exec 格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当使用环境变量时"><span class="nav-number">2.3.</span> <span class="nav-text">当使用环境变量时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建议"><span class="nav-number">2.4.</span> <span class="nav-text">建议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ENTRYPOINT-和-CMD-组合使用"><span class="nav-number">3.</span> <span class="nav-text">ENTRYPOINT 和 CMD 组合使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">3.1.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

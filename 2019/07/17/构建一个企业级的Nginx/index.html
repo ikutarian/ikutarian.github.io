@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="自己使用 nginx 的时候，都是用最简配置。如果是企业应用场景，应该怎么做？">
+<meta name="keywords" content="安全,nginx,企业级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建一个企业级的nginx">
+<meta property="og:url" content="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="自己使用 nginx 的时候，都是用最简配置。如果是企业应用场景，应该怎么做？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_10-38-50.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_10-44-05.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_11-20-55.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建一个企业级的nginx">
+<meta name="twitter:description" content="自己使用 nginx 的时候，都是用最简配置。如果是企业应用场景，应该怎么做？">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_10-38-50.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>构建一个企业级的nginx | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/构建一个企业级的Nginx/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">构建一个企业级的nginx
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-17 09:25:07" itemprop="dateCreated datePublished" datetime="2019-07-17T09:25:07+08:00">2019-07-17</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/nginx/" itemprop="url" rel="index"><span itemprop="name">nginx</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自己使用 nginx 的时候，都是用最简配置。如果是企业应用场景，应该怎么做？</p>
+<a id="more"></a>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>可以从一下几个方面入手</p>
+<h2 id="一、安全方面"><a href="#一、安全方面" class="headerlink" title="一、安全方面"></a>一、安全方面</h2><ol>
+<li>隐藏 nginx header 版本号</li>
+<li>更改源码，隐藏 nginx 软件名称</li>
+<li>更改 nginx 默认用户及用户组</li>
+<li>nginx 站点目录及文件 URL 访问控制（防止恶意解析）</li>
+<li>防止恶意解析访问企业网站</li>
+<li>配置 nginx 图片及目录防盗链</li>
+<li>配置 nginx 防爬虫</li>
+<li>限制 HTTP 请求方法</li>
+<li>防 DDOS 攻击</li>
+</ol>
+<h2 id="二、性能方面"><a href="#二、性能方面" class="headerlink" title="二、性能方面"></a>二、性能方面</h2><ol>
+<li>根据 CPU 逻辑核心数，配置 nginx worker 进程个数</li>
+<li>配置 nginx worker 进程的 CPU 亲和力参数</li>
+<li>配置 ngixn worker 单个进程允许的客户端最大连接数</li>
+<li>配置 nginx worker 进程的最大打开文件数</li>
+<li>配置 nginx 事件处理模型为 epoll</li>
+</ol>
+<h2 id="三、HTTP-协议方面"><a href="#三、HTTP-协议方面" class="headerlink" title="三、HTTP 协议方面"></a>三、HTTP 协议方面</h2><ol>
+<li>开启高效的文件传输模式（sendfile/tcp_nopush/tcp_nodelay）</li>
+<li>设置连接超时时间</li>
+<li>设置客户端上传文件大小</li>
+<li>fastcgi 调优</li>
+</ol>
+<h2 id="四、功能方面"><a href="#四、功能方面" class="headerlink" title="四、功能方面"></a>四、功能方面</h2><ol>
+<li>配置 nginx gzip 压缩功能</li>
+<li>配置 nginx expires 缓存功能</li>
+<li>配置 nginx 错误页面的优雅显示</li>
+</ol>
+<h2 id="五、日志方面"><a href="#五、日志方面" class="headerlink" title="五、日志方面"></a>五、日志方面</h2><ol>
+<li>每天进行日志切割、备份/不记录不需要的访问日志/访问日志的权限设置</li>
+</ol>
+<h2 id="六、架构方面"><a href="#六、架构方面" class="headerlink" title="六、架构方面"></a>六、架构方面</h2><ol>
+<li>nginx 程序架构优化(服务解耦)</li>
+<li>使用 CDN 为网站内容加速</li>
+</ol>
+<p>接下来进行具体说明</p>
+<h1 id="一、安全方面-1"><a href="#一、安全方面-1" class="headerlink" title="一、安全方面"></a>一、安全方面</h1><h2 id="1-隐藏-nginx-header-版本号"><a href="#1-隐藏-nginx-header-版本号" class="headerlink" title="1. 隐藏 nginx header 版本号"></a>1. 隐藏 nginx header 版本号</h2><p>没有隐藏版本号时，使用 Chrome 浏览器访问 nginx，可以在开发者工具中看到 <code>Header</code> 的 <code>Server</code> 的内容为</p>
+<img src="/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_10-38-50.png">
+<p>不同版本的 nginx 有不同的漏洞，如果知道了版本号，容易让别人根据版本对 nginx 进行攻击，因此应该隐藏 nginx 的版本号</p>
+<p>打开 <code>nginx.conf</code>，在 <code>http</code> 部分添加以下内容</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 省略...</span></span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="comment"># 省略...</span></span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_tokens</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 省略...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 省略...</span></span><br></pre></td></tr></table></figure>
+<p>然后重启 nginx，再次使用 Chrome 浏览器访问 nginx。可以看到 nginx 的版本号已经没有了</p>
+<img src="/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_10-44-05.png">
+<h2 id="2-更改源码，隐藏-nginx-软件名称"><a href="#2-更改源码，隐藏-nginx-软件名称" class="headerlink" title="2. 更改源码，隐藏 nginx 软件名称"></a>2. 更改源码，隐藏 nginx 软件名称</h2><p>隐藏 nginx 的版本号还是不够彻底，如果把 nginx 的名称改成其他的，可以更加迷惑黑客。把软件名改成 Apache 或者 IIS 都行，不过 IIS 更好。因为 IIS 只能安装在 Windows 平台。那么入侵者看到了 IIS 就以为服务器是 Windows 系统，那么它使用的漏洞工具就只针对 Windows，但实际上服务器是 Linux，这样黑客就更迷惑了</p>
+<p>打开 <code>src/core/nginx.h</code>，修改 nginx 的版本号和版本名称，假装是 <code>Microsoft-IIS/8.5</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> nginx_VERSION      <span class="meta-string">"8.5"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> nginx_VER          <span class="meta-string">"Microsoft-IIS/"</span> nginx_VERSION</span></span><br></pre></td></tr></table></figure>
+<p>然后再重新编译安装 nginx。现在访问 nginx 之后，<code>Header</code> 中的 <code>Server</code> 内容变了</p>
+<img src="/2019/07/17/构建一个企业级的Nginx/Snipaste_2019-07-17_11-20-55.png">
+<h2 id="3-更改-nginx-默认用户及用户组"><a href="#3-更改-nginx-默认用户及用户组" class="headerlink" title="3. 更改 nginx 默认用户及用户组"></a>3. 更改 nginx 默认用户及用户组</h2><p>不要用 root 权限来运行 nginx，否则黑客拿到的 WebShell 权限很可能是 root 权限</p>
+<p>创建用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd nginx</span><br></pre></td></tr></table></figure>
+<p>创建一个用户，禁止ssh登录，且不创建 home 目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -s /sbin/nologin -M nginx</span><br></pre></td></tr></table></figure>
+<p>然后修改 <code>nginx.conf</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span> nginx nginx; <span class="comment"># 前面是用户，后面是用户组</span></span><br></pre></td></tr></table></figure>
+<p>在编译安装的时候也可以指定用户与用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --prefix=/usr/local/nginx-1.12.2 --user=nginx --group=nginx</span><br></pre></td></tr></table></figure>
+<p>现在运行 <code>ps aux | grep nginx</code> 查看 nginx 的进程信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@ikutarian:~# ps aux | grep nginx</span><br><span class="line">root       8873  0.0  0.0  24928   412 ?        Ss   13:38   0:00 nginx: master process ./nginx</span><br><span class="line">nginx      8874  0.0  0.1  25384  2520 ?        S    13:38   0:00 nginx: worker process</span><br></pre></td></tr></table></figure>
+<p>可以看到 Nnginx 的 <code>worker</code> 进程的用户是 <code>nginx</code></p>
+<ol start="4">
+<li>nginx 站点目录及文件 URL 访问控制（防止恶意解析）</li>
+<li>防止恶意解析访问企业网站</li>
+<li>配置 nginx 图片及目录防盗链</li>
+<li>配置 nginx 防爬虫<h2 id="8-限制-HTTP-请求方法"><a href="#8-限制-HTTP-请求方法" class="headerlink" title="8. 限制 HTTP 请求方法"></a>8. 限制 HTTP 请求方法</h2></li>
+</ol>
+<p>使用 <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#limit_except" target="_blank" rel="noopener">limit_except</a> 指令来实现</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    // 省略</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">location</span> /api &#123;</span><br><span class="line">        <span class="comment"># 只允许 GET 和 POST 请求，其他的请求直接返回 403 状态码</span></span><br><span class="line">        <span class="attribute">limit_except</span> GET POST &#123;</span><br><span class="line">            <span class="attribute">deny</span>  all;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="attribute">proxy_pass</span> http://127.0.0.1:8090/api;</span><br><span class="line">    &#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：允许了 <code>GET</code> 请求，意味着也允许了 <code>HEAD</code> 请求</p>
+<ol start="9">
+<li>防 DDOS 攻击</li>
+</ol>
+<p>nginx</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安全/" rel="tag"># 安全</a>
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+            <a href="/tags/企业级/" rel="tag"># 企业级</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/10/使用Nginx部署前后端分离项目/" rel="next" title="使用Nginx部署前后端分离项目">
+                <i class="fa fa-chevron-left"></i> 使用Nginx部署前后端分离项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/19/Jackson对Long类型的处理导致精度丢失的问题/" rel="prev" title="Jackson对Long类型的处理导致精度丢失的问题">
+                Jackson对Long类型的处理导致精度丢失的问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、安全方面"><span class="nav-number">1.1.</span> <span class="nav-text">一、安全方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、性能方面"><span class="nav-number">1.2.</span> <span class="nav-text">二、性能方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、HTTP-协议方面"><span class="nav-number">1.3.</span> <span class="nav-text">三、HTTP 协议方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、功能方面"><span class="nav-number">1.4.</span> <span class="nav-text">四、功能方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、日志方面"><span class="nav-number">1.5.</span> <span class="nav-text">五、日志方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、架构方面"><span class="nav-number">1.6.</span> <span class="nav-text">六、架构方面</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、安全方面-1"><span class="nav-number">2.</span> <span class="nav-text">一、安全方面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-隐藏-nginx-header-版本号"><span class="nav-number">2.1.</span> <span class="nav-text">1. 隐藏 nginx header 版本号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-更改源码，隐藏-nginx-软件名称"><span class="nav-number">2.2.</span> <span class="nav-text">2. 更改源码，隐藏 nginx 软件名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-更改-nginx-默认用户及用户组"><span class="nav-number">2.3.</span> <span class="nav-text">3. 更改 nginx 默认用户及用户组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-限制-HTTP-请求方法"><span class="nav-number">2.4.</span> <span class="nav-text">8. 限制 HTTP 请求方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

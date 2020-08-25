@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="学习《Java工程师》的视频时，对目前掌握的 Spring 的知识做一个总结">
+<meta name="keywords" content="总结,Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring知识总结">
+<meta property="og:url" content="http://yoursite.com/2019/03/11/Spring知识总结/index.html">
+<meta property="og:site_name" content="红烧排骨饭">
+<meta property="og:description" content="学习《Java工程师》的视频时，对目前掌握的 Spring 的知识做一个总结">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/03/11/Spring知识总结/spring-overview.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/11/Spring知识总结/bean_lifecycle.png">
+<meta property="og:updated_time" content="2020-03-13T09:23:17.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring知识总结">
+<meta name="twitter:description" content="学习《Java工程师》的视频时，对目前掌握的 Spring 的知识做一个总结">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/11/Spring知识总结/spring-overview.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/11/Spring知识总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring知识总结 | 红烧排骨饭</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">红烧排骨饭</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">快乐获得的越容易，空虚也来得越快</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/Spring知识总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ikutarian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/nakamoto_himeka.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="红烧排骨饭">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring知识总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-11 09:55:26" itemprop="dateCreated datePublished" datetime="2019-03-11T09:55:26+08:00">2019-03-11</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>学习《Java工程师》的视频时，对目前掌握的 Spring 的知识做一个总结</p>
+<a id="more"></a>
+<h1 id="Spring-入门"><a href="#Spring-入门" class="headerlink" title="Spring 入门"></a>Spring 入门</h1><h2 id="什么是-Spring"><a href="#什么是-Spring" class="headerlink" title="什么是 Spring"></a>什么是 Spring</h2><p>Spring 是一个开源框架</p>
+<p>Spring 为简化企业级应用开发而生。使用 Spring 可以用简单的 JavaBean 实现以前只有 EJB 才能实现的功能</p>
+<p>百度百科的介绍：</p>
+<blockquote>
+<p>Spring 是一个开放源代码的设计层面框架，它解决的是业务逻辑层和其他各层的松耦合问题，因此它将面向接口的编程思想贯穿整个应用</p>
+</blockquote>
+<p>Spring 是 JavaSE/EE 的一站式框架</p>
+<h2 id="Spring-的优点"><a href="#Spring-的优点" class="headerlink" title="Spring 的优点"></a>Spring 的优点</h2><ol>
+<li>方便解耦，简化开发</li>
+</ol>
+<p>Spring 就是一个大工厂，可以将所有的对象创建和依赖关系维护交给 Spring 管理</p>
+<ol start="2">
+<li>AOP 编程的支持</li>
+</ol>
+<p>Spring 提供面向切面编程，可以方便地实现对程序进行权限拦截、运行监控等功能</p>
+<ol start="3">
+<li>声明式事务的支持</li>
+</ol>
+<p>只需要通过配置就可以完成对事务的管理，而无需手动编程</p>
+<ol start="4">
+<li>方便程序的测试</li>
+</ol>
+<p>Spring 对 JUnit4 支持，可以通过注解方便地测试 Spring 程序</p>
+<ol start="5">
+<li>方便集成各种优秀框架</li>
+</ol>
+<p>Spring 不排斥各种优秀的开源框架，其内部提供了对各种优秀框架的直接支持</p>
+<h2 id="Spring-的模块"><a href="#Spring-的模块" class="headerlink" title="Spring 的模块"></a>Spring 的模块</h2><img src="/2019/03/11/Spring知识总结/spring-overview.png">
+<h2 id="源码下载地址"><a href="#源码下载地址" class="headerlink" title="源码下载地址"></a>源码下载地址</h2><p><a href="https://repo.spring.io/libs-release-local/org/springframework/spring/" target="_blank" rel="noopener">https://repo.spring.io/libs-release-local/org/springframework/spring/</a></p>
+<h2 id="Spring-的-IoC-的底层实现原理"><a href="#Spring-的-IoC-的底层实现原理" class="headerlink" title="Spring 的 IoC 的底层实现原理"></a>Spring 的 IoC 的底层实现原理</h2><h3 id="传统方式的开发"><a href="#传统方式的开发" class="headerlink" title="传统方式的开发"></a>传统方式的开发</h3><p>在 Java Web 项目里，需要在 Controller 里创建 Serviec 层的类的实例</p>
+<p>在很早以前，可能连个接口都没有，直接就在 Controller 层创建了一个 Service 层的类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserService();</span><br></pre></td></tr></table></figure>
+<p>这种方式并不好，因为它没有面向接口编程</p>
+<h3 id="面向接口编程"><a href="#面向接口编程" class="headerlink" title="面向接口编程"></a>面向接口编程</h3><p>面向接口编程就需要一个接口和实现类，代码就变成了这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = <span class="keyword">new</span> UserServiceImpl();</span><br></pre></td></tr></table></figure>
+<p>但是这种方式也不是特别的好，因为我们在 Controller 层直接创建了接口的实现类。这样 Controller 就与 Service 层产生了耦合</p>
+<p>一个好的程序设计，应该满足 OCP 原则。所谓 OCP 原则：</p>
+<blockquote>
+<p>即 open-close 原则。对程序的扩展是 open，对修改程序的代码是 close。尽量做到不修改程序的源码，然后实现对程序的扩展</p>
+</blockquote>
+<p>上面的代码，如果要换一个 <code>UserService</code> 的实现类，就需要手动地去修改代码，这样就是产生了耦合。如果要让它不产生耦合，可以使用“工厂模式”</p>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>让工厂去创建 <code>UserService</code> 的实现类，改代码也只需要改动工厂的代码</p>
+<p>工厂类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserService <span class="title">getUserService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserServiceImpl();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Controller 层的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UserService us = BeanFactory.getUserService();</span><br></pre></td></tr></table></figure>
+<p>现在接口和实现类就没有了耦合性了，但是接口现在依赖工厂类，接口和工厂类产生了耦合。如果要切换实现类的话，就需要修改工厂类的代码</p>
+<p>有没有一种办法，使我们不需要去修改任何的源代码呢？这时候就可以使用“工厂 + 反射 + 配置文件”的方式</p>
+<h3 id="工厂-反射-配置文件"><a href="#工厂-反射-配置文件" class="headerlink" title="工厂 + 反射 + 配置文件"></a>工厂 + 反射 + 配置文件</h3><p>一个配置文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.UserServiceImpl"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>工厂类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">getBean</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 读取配置文件</span></span><br><span class="line">        <span class="comment">// 根据 id 找到类</span></span><br><span class="line">        <span class="comment">// 利用反射实例化这个类</span></span><br><span class="line">        <span class="comment">// 返回</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>“工厂 + 反射 + 配置文件” 就是 Spring 实现 IoC 的底层原理</p>
+<h2 id="理解-IoC-控制反转和-DI-依赖注入"><a href="#理解-IoC-控制反转和-DI-依赖注入" class="headerlink" title="理解 IoC 控制反转和 DI 依赖注入"></a>理解 IoC 控制反转和 DI 依赖注入</h2><h3 id="IoC"><a href="#IoC" class="headerlink" title="IoC"></a>IoC</h3><p>Inverse of Control 的缩写</p>
+<p>控制反转的概念，就是将原本在程序中手动创建 <code>UserService</code> 对象的工作，交由 Spring 框架来完成。简单说就是将 <code>UserService</code> 对象的控制权被反转到了 Spring 框架</p>
+<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3><p>Dependency Injection 的缩写</p>
+<p>DI 是依赖 IoC 的，先有了 IoC 才有 DI</p>
+<p>依赖注入的概念，就是在 Spring 创建这个对象的过程中，将这个对象所依赖的属性注入进去。比如</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"us"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.UserServiceImpl"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"张三"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>不需要去改动 Java 的代码，只需要改配置文件就行</p>
+<h1 id="Bean-的管理"><a href="#Bean-的管理" class="headerlink" title="Bean 的管理"></a>Bean 的管理</h1><h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>在基于 Spring 的应用中，Bean 生存于 Spring 容器（container）中。容器负责创建、装配，配置并管理 Bean 的整个生命周期，从生存到死亡</p>
+<p>容器有很多个，可以归为两种类型：</p>
+<ol>
+<li>BeanFactory</li>
+<li>ApplicationContext</li>
+</ol>
+<p><code>BeanFactory</code> 是最简单的容器，<code>ApplicationContext</code> 的功能更加强大</p>
+<h2 id="Bean-的实例化方式"><a href="#Bean-的实例化方式" class="headerlink" title="Bean 的实例化方式"></a>Bean 的实例化方式</h2><p>我们把 Bean 交给 Spring 容器管理。Spring 容器有三种方式来实例化 Bean</p>
+<ol>
+<li>类的构造器（默认使用无参构造器）</li>
+<li>静态工厂方法（简单工厂模式）</li>
+<li>实例工厂方法（工厂方法模式）</li>
+</ol>
+<p>默认情况下用第一种，如果类的构造特别复杂，就会用第二种或者第三种</p>
+<h3 id="类的构造器（默认使用无参构造器）"><a href="#类的构造器（默认使用无参构造器）" class="headerlink" title="类的构造器（默认使用无参构造器）"></a>类的构造器（默认使用无参构造器）</h3><p>一个 Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean被实例化了"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件 applicationContext.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bean"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.Bean"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行测试类之后可以看到控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bean被实例化了</span><br></pre></td></tr></table></figure>
+<h3 id="静态工厂方法（简单工厂模式）"><a href="#静态工厂方法（简单工厂模式）" class="headerlink" title="静态工厂方法（简单工厂模式）"></a>静态工厂方法（简单工厂模式）</h3><p>一个 Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean被实例化了"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个工厂，工厂里有一个静态方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">createBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件 applicationContext.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bean"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.BeanFactory"</span> <span class="attr">factory-method</span>=<span class="string">"createBean"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行测试类之后可以看到控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bean被实例化了</span><br></pre></td></tr></table></figure>
+<h3 id="实例工厂方法（工厂方法模式）"><a href="#实例工厂方法（工厂方法模式）" class="headerlink" title="实例工厂方法（工厂方法模式）"></a>实例工厂方法（工厂方法模式）</h3><p>一个 Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean被实例化了"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个工厂，工厂里有一个方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Bean <span class="title">createBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件 applicationContext.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"factory"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.BeanFactory"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bean"</span> <span class="attr">factory-bean</span>=<span class="string">"factory"</span> <span class="attr">factory-method</span>=<span class="string">"createBean"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行测试类之后可以看到控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bean被实例化了</span><br></pre></td></tr></table></figure>
+<h2 id="Bean-的配置"><a href="#Bean-的配置" class="headerlink" title="Bean 的配置"></a>Bean 的配置</h2><p>常用的配置有：</p>
+<ul>
+<li>id、name</li>
+<li>class</li>
+<li>scope</li>
+</ul>
+<h3 id="id、name"><a href="#id、name" class="headerlink" title="id、name"></a>id、name</h3><p>id 不能有特殊字符，name 可以有特殊字符</p>
+<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><p>指定 Bean 的类全名</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope"></a>scope</h3><p>scope 有 4 种，默认是 singleton</p>
+<ul>
+<li>singleton：在 Spring 容器中，Bean 以单例的形式存在</li>
+<li>prototype：每次调用 <code>getBean()</code> 时都会返回一个新的实例</li>
+<li>request：每次 HTTP 请求都会创建一个新的 Bean。该作用域仅存在于 <code>WebApplicationContext</code> 环境</li>
+<li>session：同一个 HTTP Session 共享一个 Bean，不同的 HTTP Session 使用不同的 Bean。该作用域仅存在于 <code>WebApplicationContext</code> 环境</li>
+</ul>
+<h2 id="Bean-的生命周期"><a href="#Bean-的生命周期" class="headerlink" title="Bean 的生命周期"></a>Bean 的生命周期</h2><h3 id="两个方法"><a href="#两个方法" class="headerlink" title="两个方法"></a>两个方法</h3><p>Spring 初始化 Bean 或者销毁 Bean 时，有时候需要做一些处理工作，因此 Spring 可以在创建和销毁 Bean 时调用两个生命周期方法：</p>
+<ul>
+<li>init-method：当 Bean 被载入到容器时调用</li>
+<li>destroy-method：当 Bean 从容器中删除的时候调用（<strong>仅当 scope 为 singleton 有效</strong>）</li>
+</ul>
+<p>一个 Bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean 被实例化"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean 被初始化"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">teardown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Bean 被销毁"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置文件 applicationContext.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.Bean"</span> <span class="attr">init-method</span>=<span class="string">"setUp"</span> <span class="attr">destroy-method</span>=<span class="string">"teardown"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行之后可以看到控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bean 被实例化</span><br><span class="line">Bean 被初始化</span><br><span class="line">Bean 被销毁</span><br></pre></td></tr></table></figure>
+<p>如果把 <code>scope</code> 改为 <code>prototype</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"bean"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.Bean"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">init-method</span>=<span class="string">"setUp"</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">destroy-method</span>=<span class="string">"teardown"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">scope</span>=<span class="string">"prototype"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        applicationContext.getBean(<span class="string">"bean"</span>);</span><br><span class="line">        applicationContext.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行之后可以看到控制台输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bean 被实例化</span><br><span class="line">Bean 被初始化</span><br></pre></td></tr></table></figure>
+<p>这说明 <code>scope</code> 改为 <code>prototype</code> 时，<code>destroy-method</code> 指定的方法无法被调用</p>
+<h3 id="完整的生命周期"><a href="#完整的生命周期" class="headerlink" title="完整的生命周期"></a>完整的生命周期</h3><p>在传统的 Java 应用中，bean 的生命周期很简单。使用 Java 关键字 new 进行 bean 实例化，然后该 bean 就可以使用了。一旦该 bean 不再被使用，则由 Java 自动进行垃圾回收</p>
+<p>Spring 容器中的 bean 的生命周期就显得相对复杂多了。正确理解 Spring bean 的生命周期非常重要，因为你或许要利用 Spring 提供的扩展点来自定义 bean 的创建过程</p>
+<img src="/2019/03/11/Spring知识总结/bean_lifecycle.png">
+<ol>
+<li>instantiate bean 对象实例化</li>
+<li>populate properties 设置属性</li>
+<li>如果 Bean 实现 BeanNameAware，会执行 setBeanName 方法（目的是让 Bean 了解它在工厂中的名称是什么）</li>
+<li>如果 Bean 实现 BeanFactoryAware 或者 ApplicationContextAware，会调用 setBeanFactory 或者 setApplicationContext（目的是让 Bean 了解工厂的信息）</li>
+<li>如果存在类实现 BeanPostProcessor（后处理 Bean），执行 postProcessBeforeInitializatoin 方法</li>
+<li>如果 Bean 实现 InitializingBean，执行 afterPropertiesSet 方法（属性设置之后）</li>
+<li>调用 <bean init-method="init"> 指定的初始化方法 init</bean></li>
+<li>如果存在类实现 BeanPostProcessor（后处理 Bean），执行 postProcessAfterInitialization 方法</li>
+<li>执行 Bean 本身的方法，完成业务处理</li>
+<li>如果 Bean 实现 DisposableBean，执行 destroy 方法</li>
+<li>调用 <bean destroy-method="customDestroy"> 指定的销毁方法 customDestroy</bean></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.BeanNameAware;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.DisposableBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.InitializingBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContextAware;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">BeanNameAware</span>, <span class="title">ApplicationContextAware</span>, <span class="title">InitializingBean</span>, <span class="title">DisposableBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"1. instantiate bean 对象实例化"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"2. populate properties 设置属性"</span>);</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"3. 如果 Bean 实现 BeanNameAware，会执行 setBeanName 方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplicationContext</span><span class="params">(ApplicationContext applicationContext)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"4. 如果 Bean 实现 BeanFactoryAware 或者 ApplicationContextAware，会调用 setBeanFactory 或者 setApplicationContext"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"6. 如果 Bean 实现 InitializingBean，执行 afterPropertiesSet 方法（属性设置之后）"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"7. 调用 &lt;bean init-method=\"init\"&gt; 指定的初始化方法 init"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"9. 执行 Bean 本身的方法，完成业务处理"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"11. 调用 &lt;bean destroy-method=\"customDestroy\"&gt; 指定的销毁方法 customDestroy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"10. 如果 Bean 实现 DisposableBean，执行 destroy 方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.config.BeanPostProcessor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBeanPostProcessor</span> <span class="keyword">implements</span> <span class="title">BeanPostProcessor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">postProcessBeforeInitialization</span><span class="params">(Object bean, String beanName)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"5. 如果存在类实现 BeanPostProcessor（后处理 Bean），执行 postProcessBeforeInitialization 方法"</span>);</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">postProcessAfterInitialization</span><span class="params">(Object bean, String beanName)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"8. 如果存在类实现 BeanPostProcessor（后处理 Bean），执行 postProcessAfterInitialization 方法"</span>);</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"user"</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.User"</span> <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"customDestroy"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"张三"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.ikutarian.demo.MyBeanPostProcessor"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassPathXmlApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        User user = (User) applicationContext.getBean(<span class="string">"user"</span>);</span><br><span class="line">        user.run();</span><br><span class="line">        applicationContext.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/总结/" rel="tag"># 总结</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/Docker中RUN、CMD和ENTRYPOINT的区别/" rel="next" title="Docker中RUN、CMD和ENTRYPOINT的区别">
+                <i class="fa fa-chevron-left"></i> Docker中RUN、CMD和ENTRYPOINT的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/27/使用Squid实现http-https正向代理/" rel="prev" title="使用Squid实现http/https正向代理">
+                使用Squid实现http/https正向代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/nakamoto_himeka.jpg" alt="Ikutarian">
+            
+              <p class="site-author-name" itemprop="name">Ikutarian</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">107</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">202</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-入门"><span class="nav-number">1.</span> <span class="nav-text">Spring 入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Spring"><span class="nav-number">1.1.</span> <span class="nav-text">什么是 Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的优点"><span class="nav-number">1.2.</span> <span class="nav-text">Spring 的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的模块"><span class="nav-number">1.3.</span> <span class="nav-text">Spring 的模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码下载地址"><span class="nav-number">1.4.</span> <span class="nav-text">源码下载地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的-IoC-的底层实现原理"><span class="nav-number">1.5.</span> <span class="nav-text">Spring 的 IoC 的底层实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传统方式的开发"><span class="nav-number">1.5.1.</span> <span class="nav-text">传统方式的开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向接口编程"><span class="nav-number">1.5.2.</span> <span class="nav-text">面向接口编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.5.3.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂-反射-配置文件"><span class="nav-number">1.5.4.</span> <span class="nav-text">工厂 + 反射 + 配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解-IoC-控制反转和-DI-依赖注入"><span class="nav-number">1.6.</span> <span class="nav-text">理解 IoC 控制反转和 DI 依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IoC"><span class="nav-number">1.6.1.</span> <span class="nav-text">IoC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DI"><span class="nav-number">1.6.2.</span> <span class="nav-text">DI</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bean-的管理"><span class="nav-number">2.</span> <span class="nav-text">Bean 的管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">2.1.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean-的实例化方式"><span class="nav-number">2.2.</span> <span class="nav-text">Bean 的实例化方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的构造器（默认使用无参构造器）"><span class="nav-number">2.2.1.</span> <span class="nav-text">类的构造器（默认使用无参构造器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态工厂方法（简单工厂模式）"><span class="nav-number">2.2.2.</span> <span class="nav-text">静态工厂方法（简单工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例工厂方法（工厂方法模式）"><span class="nav-number">2.2.3.</span> <span class="nav-text">实例工厂方法（工厂方法模式）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean-的配置"><span class="nav-number">2.3.</span> <span class="nav-text">Bean 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#id、name"><span class="nav-number">2.3.1.</span> <span class="nav-text">id、name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class"><span class="nav-number">2.3.2.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scope"><span class="nav-number">2.3.3.</span> <span class="nav-text">scope</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean-的生命周期"><span class="nav-number">2.4.</span> <span class="nav-text">Bean 的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个方法"><span class="nav-number">2.4.1.</span> <span class="nav-text">两个方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整的生命周期"><span class="nav-number">2.4.2.</span> <span class="nav-text">完整的生命周期</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ikutarian</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
